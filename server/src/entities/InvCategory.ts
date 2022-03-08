@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
   BaseEntity,
 } from 'typeorm';
 
@@ -11,6 +12,7 @@ import {
  * This allows us to use the entity in GraphQL
  */
 import { Field, ObjectType, Int } from 'type-graphql';
+import { InvGroup } from './InvGroup';
 
 @ObjectType()
 @Entity({ name: 'InvCategory' })
@@ -27,18 +29,13 @@ export class InvCategory extends BaseEntity {
   @Column()
   categoryName: string;
 
+  @Field(() => [InvGroup])
+  @OneToMany(() => InvGroup, (group) => group.category)
+  groups: InvGroup[];
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
-
-  // User
-  // @OneToMany(() => Post, (post) => post.creator)
-  // posts: Post[];
-
-  // Posts
-  // @Field()
-  // @ManyToOne(() => User, (user) => user.posts)
-  // creator: User;
 
   @Field(() => String)
   @UpdateDateColumn()

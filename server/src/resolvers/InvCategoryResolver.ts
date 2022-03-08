@@ -5,7 +5,7 @@ import { InvCategory } from '../entities/InvCategory';
 export class InvCategoryResolver {
   @Query(() => [InvCategory])
   categories(): Promise<InvCategory[]> {
-    return InvCategory.find();
+    return InvCategory.find({ relations: ['groups'] });
   }
 
   @Query(() => InvCategory, { nullable: true })
@@ -21,9 +21,9 @@ export class InvCategoryResolver {
    *   }
    * }
    *
-   * @param id
+   * @param categoryId
    */
-  category(@Arg('id') id: number): Promise<InvCategory | undefined> {
-    return InvCategory.findOne(id);
+  category(@Arg('categoryId') categoryId: number): Promise<InvCategory | undefined> {
+    return InvCategory.findOne({ categoryId }, { relations: ['groups'] });
   }
 }

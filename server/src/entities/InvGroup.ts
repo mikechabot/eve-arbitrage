@@ -4,9 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
+  OneToMany,
   ManyToOne,
   JoinColumn,
+  BaseEntity,
 } from 'typeorm';
 
 /**
@@ -15,6 +16,7 @@ import {
 import { Field, ObjectType, Int } from 'type-graphql';
 
 import { InvCategory } from './InvCategory';
+import { InvType } from './InvType';
 
 @ObjectType()
 @Entity({ name: 'InvGroup' })
@@ -42,6 +44,10 @@ export class InvGroup extends BaseEntity {
     referencedColumnName: 'categoryId',
   })
   category: InvCategory;
+
+  @Field(() => [InvType])
+  @OneToMany(() => InvType, (type) => type.group)
+  types: InvType[];
 
   @Field(() => String)
   @CreateDateColumn()

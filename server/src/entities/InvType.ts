@@ -4,8 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
   BaseEntity,
-  OneToOne,
 } from 'typeorm';
 
 /**
@@ -35,7 +36,11 @@ export class InvType extends BaseEntity {
   typeName: string;
 
   @Field()
-  @OneToOne(() => InvGroup, (group) => group.groupId)
+  @ManyToOne(() => InvGroup)
+  @JoinColumn({
+    name: 'groupId',
+    referencedColumnName: 'groupId',
+  })
   group: InvGroup;
 
   @Field(() => String)

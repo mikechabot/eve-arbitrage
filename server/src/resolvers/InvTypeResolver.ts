@@ -5,7 +5,7 @@ import { InvType } from '../entities/InvType';
 export class InvTypeResolver {
   @Query(() => [InvType])
   types(): Promise<InvType[]> {
-    return InvType.find({});
+    return InvType.find({ relations: ['group', 'group.category'] });
   }
 
   @Query(() => InvType, { nullable: true })
@@ -21,9 +21,9 @@ export class InvTypeResolver {
    *   }
    * }
    *
-   * @param id
+   * @param typeId
    */
-  type(@Arg('id') id: number): Promise<InvType | undefined> {
-    return InvType.findOne(id);
+  type(@Arg('typeId') typeId: number): Promise<InvType | undefined> {
+    return InvType.findOne({ typeId }, { relations: ['group', 'group.category'] });
   }
 }
