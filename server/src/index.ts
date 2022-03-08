@@ -1,19 +1,23 @@
 import 'reflect-metadata';
 
+import fs from 'fs';
+import https from 'https';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 
 import { ormConfig } from './orm-config';
+import { AuthRouter } from './routers/AuthRouter';
 
 import { InvTypeResolver } from './resolvers/InvTypeResolver';
 import { InvGroupResolver } from './resolvers/InvGroupResolver';
 import { InvCategoryResolver } from './resolvers/InvCategoryResolver';
 
 import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from './util/data';
+import { EveAuthBaseUrl } from './constants';
 
-const main = async () => {
+const startServer = async () => {
   /**
    * Initiate connection to Postgres
    */
@@ -37,7 +41,6 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [InvTypeResolver, InvGroupResolver, InvCategoryResolver],
-      // Uses something like class validator package, and not very useful
       validate: false,
     }),
     context: ({ req, res }) => ({ req, res }),
@@ -53,12 +56,27 @@ const main = async () => {
    */
   apolloServer.applyMiddleware({ app });
 
+  app.use('/auth', AuthRouter);
+  app.use('/', (_, res) => {
+    res.send('Welcome to eve-arbitrage');
+  });
+
   /**
    * Open the Express port for connections
    */
   return new Promise((resolve, reject) => {
-    app
-      .listen(3000, () => {
+    const apiServer = https.createServer(
+      {
+        key: fs.readFileSync('src/cert/key.pem'),
+        cert: fs.readFileSync('src/cert/cert.pem'),
+        passphrase: 'Hax0r123!',
+      },
+      app,
+    );
+
+    apiServer
+      .listen(4000, () => {
+        console.log('URL', EveAuthBaseUrl);
         resolve('Listening on port 3000');
       })
       .on('error', (error: Error) => {
@@ -67,7 +85,7 @@ const main = async () => {
   });
 };
 
-main()
+startServer()
   .then((msg) => {
     console.log(msg);
   })
