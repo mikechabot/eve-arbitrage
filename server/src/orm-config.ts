@@ -8,16 +8,15 @@ import { InvCategory } from './entities/InvCategory';
 
 export const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  database: 'eve2',
+  database: 'eve3',
   username: 'postgres',
   password: 'Hax0r123!',
   logging: !__prod__,
   entities: [InvGroup, InvType, InvCategory],
-  migrations: ['dist/migrations/*'],
   /**
    * Don't use this in production as it recreates the schema
    * on every application launch, meaning in prod we would
    * lose data.
    */
-   synchronize: true,
+  // synchronize: true,
 };

@@ -22,11 +22,10 @@ const startServer = async () => {
   /**
    * Initiate connection to Postgres
    */
-  const conn = await createConnection(ormConfig);
-  await conn.runMigrations();
+  await createConnection(ormConfig);
 
   /**
-   * Migrate EVE data
+   * Migrate static EVE data
    */
   await migrateInvTypes();
   await migrateInvGroups();
@@ -74,6 +73,7 @@ const startServer = async () => {
       },
     }),
   );
+
   app.use('/auth', AuthRouter);
   app.use('/assets', AssetsRouter);
 

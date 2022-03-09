@@ -5,7 +5,8 @@ import { InvGroup } from '../entities/InvGroup';
 export class InvGroupResolver {
   @Query(() => [InvGroup])
   groups(): Promise<InvGroup[]> {
-    return InvGroup.find({ relations: ['category', 'types'] });
+    // return InvGroup.find({ relations: ['category', 'types'] });
+    return InvGroup.find();
   }
 
   @Query(() => InvGroup, { nullable: true })
@@ -24,6 +25,7 @@ export class InvGroupResolver {
    * @param groupId
    */
   group(@Arg('groupId') groupId: number): Promise<InvGroup | undefined> {
-    return InvGroup.findOne({ groupId }, { relations: ['category', 'types'] });
+    // return InvGroup.findOne({ groupId }, { relations: ['category', 'types'] });
+    return InvGroup.findOne({ groupId });;
   }
 }
