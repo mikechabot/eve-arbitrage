@@ -5,14 +5,15 @@ import { EveClientId, EveClientSecret, EveTokenUrl } from '../constants';
 
 export const AuthRouter = Router();
 
-AuthRouter.get('/token', async (req, res) => {
+AuthRouter.post('/token', async (req, res) => {
   const { code } = req.body;
 
   /**
    * If EVE SSO didn't give us a code, just return.
    */
   if (!code) {
-    res.send('Unable to get auth code from EVE SSO.');
+    res.status(401);
+    res.send('You have not authorized against EVE SSO');
     return;
   }
 
@@ -56,8 +57,4 @@ AuthRouter.get('/token', async (req, res) => {
     res.status(500);
     res.send(`Error fetching auth token from ${EveTokenUrl}`);
   }
-});
-
-AuthRouter.get('/success', (_, res) => {
-  res.send('Success');
 });

@@ -34,6 +34,7 @@ export const AuthContextProvider = ({ children }) => {
     postCodeForToken();
   }, [code, mutateOauthToken]);
 
+  console.log('code', code);
   console.log('oauthTokenData', oauthTokenData);
 
   return (

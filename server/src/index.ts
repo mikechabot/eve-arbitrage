@@ -4,6 +4,7 @@ import fs from 'fs';
 import https from 'https';
 import express from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
@@ -73,6 +74,9 @@ const startServer = async () => {
       },
     }),
   );
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   app.use('/auth', AuthRouter);
   app.use('/assets', AssetsRouter);

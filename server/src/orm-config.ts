@@ -8,7 +8,7 @@ import { InvCategory } from './entities/InvCategory';
 
 export const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  database: 'eve3',
+  database: 'eve',
   username: 'postgres',
   password: 'Hax0r123!',
   logging: !__prod__,

@@ -8,7 +8,7 @@ export const postCodeForOauthToken = (code: string): Promise<any> => {
   return processServiceCall(async () => {
     const apiResponse = await fetchClient
       .post(Endpoints.OauthToken, {
-        json: code,
+        json: { code },
       })
       .json<any>();
     return deepCloneMapper<any, any>(apiResponse, (from) => from);
