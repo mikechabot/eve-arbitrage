@@ -4,8 +4,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
+  // ManyToOne,
+  // JoinColumn,
   BaseEntity,
 } from 'typeorm';
 
@@ -14,7 +14,7 @@ import {
  */
 import { Field, ObjectType, Int } from 'type-graphql';
 
-import { InvGroup } from './InvGroup';
+// import { InvGroup } from './InvGroup';
 
 @ObjectType()
 @Entity({ name: 'InvType' })
@@ -35,13 +35,13 @@ export class InvType extends BaseEntity {
   @Column()
   typeName: string;
 
-  @Field()
-  @ManyToOne(() => InvGroup)
-  @JoinColumn({
-    name: 'groupId',
-    referencedColumnName: 'groupId',
-  })
-  group: InvGroup;
+  // @Field(() => InvGroup)
+  // @ManyToOne(() => InvGroup)
+  // @JoinColumn({
+  //   name: 'groupId',
+  //   referencedColumnName: 'groupId',
+  // })
+  // group: InvGroup;
 
   @Field(() => String)
   @CreateDateColumn()

@@ -1,5 +1,7 @@
 import { v4 as guid } from 'uuid';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import { usePostCodeForOauthToken } from 'services/hooks/useMutations';
 
 interface AuthContextValue {
   stateKey: string;
@@ -16,6 +18,23 @@ const AuthContext = createContext<AuthContextValue>({
 export const AuthContextProvider = ({ children }) => {
   const [stateKey] = useState<string>(encodeURIComponent(guid()));
   const [code, setCode] = useState<string | undefined>(undefined);
+
+  const {
+    data: oauthTokenData,
+    isError: isOauthTokenError,
+    mutateAsync: mutateOauthToken,
+  } = usePostCodeForOauthToken();
+
+  useEffect(() => {
+    const postCodeForToken = async () => {
+      if (code) {
+        await mutateOauthToken(code);
+      }
+    };
+    postCodeForToken();
+  }, [code, mutateOauthToken]);
+
+  console.log('oauthTokenData', oauthTokenData);
 
   return (
     <AuthContext.Provider

@@ -3,6 +3,7 @@ import { generatePath as internalGeneratePath, ExtractRouteParams } from 'react-
 export const AppRoutes = {
   Home: '/',
   AuthSso: '/auth/sso/',
+  Assets: '/assets',
 } as const;
 
 export type AppRoute = typeof AppRoutes[keyof typeof AppRoutes];

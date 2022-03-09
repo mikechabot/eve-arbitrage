@@ -4,9 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
-  ManyToOne,
-  JoinColumn,
+  // OneToMany,
+  // ManyToOne,
+  // JoinColumn,
   BaseEntity,
 } from 'typeorm';
 
@@ -15,8 +15,8 @@ import {
  */
 import { Field, ObjectType, Int } from 'type-graphql';
 
-import { InvCategory } from './InvCategory';
-import { InvType } from './InvType';
+// import { InvCategory } from './InvCategory';
+// import { InvType } from './InvType';
 
 @ObjectType()
 @Entity({ name: 'InvGroup' })
@@ -37,17 +37,17 @@ export class InvGroup extends BaseEntity {
   @Column()
   groupName: string;
 
-  @Field()
-  @ManyToOne(() => InvCategory)
-  @JoinColumn({
-    name: 'categoryId',
-    referencedColumnName: 'categoryId',
-  })
-  category: InvCategory;
-
-  @Field(() => [InvType])
-  @OneToMany(() => InvType, (type) => type.group)
-  types: InvType[];
+  // @Field(() => InvCategory)
+  // @ManyToOne(() => InvCategory)
+  // @JoinColumn({
+  //   name: 'categoryId',
+  //   referencedColumnName: 'categoryId',
+  // })
+  // category: InvCategory;
+  //
+  // @Field(() => [InvType])
+  // @OneToMany(() => InvType, (type) => type.group)
+  // types: InvType[];
 
   @Field(() => String)
   @CreateDateColumn()

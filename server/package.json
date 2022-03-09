@@ -4,7 +4,7 @@
   "description": "Get that ISK",
   "main": "index.js",
   "scripts": {
-    "prebuild": "rm -rf dist && mkdir dist && cp -r src/csv dist/csv",
+    "prebuild": "rm -rf dist && mkdir dist\\util\\csv && cp -r src\\util\\csv dist\\util",
     "prestart": "yarn run build",
     "build": "tsc",
     "watch": "tsc -w",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@fast-csv/parse": "^4.3.6",
     "apollo-server-express": "^3.6.3",
+    "cors": "^2.8.5",
     "cross-fetch": "^3.1.5",
     "express": "^4.17.3",
     "graphql": "^15.3.0",

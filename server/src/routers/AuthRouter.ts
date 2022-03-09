@@ -1,27 +1,18 @@
 import { Router } from 'express';
 import fetch from 'cross-fetch';
 
-import { EveClientId, EveClientSecret, EveTokenUrl, localStateKey } from '../constants';
+import { EveClientId, EveClientSecret, EveTokenUrl } from '../constants';
 
 export const AuthRouter = Router();
 
-AuthRouter.get('/sso', async (req, res) => {
-  const { code, state } = req.query;
+AuthRouter.get('/token', async (req, res) => {
+  const { code } = req.body;
 
   /**
    * If EVE SSO didn't give us a code, just return.
    */
   if (!code) {
     res.send('Unable to get auth code from EVE SSO.');
-    return;
-  }
-
-  /**
-   * Added security check. Ensure EVE SSO responds with the
-   * same state key we provided it.
-   */
-  if (state !== localStateKey) {
-    res.send('State key from EVE SSO does not match our key');
     return;
   }
 
@@ -68,6 +59,5 @@ AuthRouter.get('/sso', async (req, res) => {
 });
 
 AuthRouter.get('/success', (_, res) => {
-  console.log(_);
   res.send('Success');
 });

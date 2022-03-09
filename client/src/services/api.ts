@@ -3,7 +3,6 @@ import { AppEnv } from 'utils/appEnv';
 
 export const fetchClient = ky.extend({
   retry: 0,
-  prefixUrl: AppEnv.BaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

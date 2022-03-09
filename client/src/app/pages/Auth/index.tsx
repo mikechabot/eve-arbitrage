@@ -10,13 +10,13 @@ const EveCodeQueryParam = 'code';
 
 export const Auth = () => {
   const query = useQuery();
-  const { code, setCode } = useAuthContext();
+  const { setCode } = useAuthContext();
   const [doRedirect, setDoRedirect] = useState(false);
 
   useEffect(() => {
-    const queryCode = query.get(EveCodeQueryParam);
-    if (queryCode) {
-      setCode(queryCode);
+    const code = query.get(EveCodeQueryParam);
+    if (code) {
+      setCode(code);
     } else {
       setDoRedirect(true);
     }
@@ -26,5 +26,5 @@ export const Auth = () => {
     return <Redirect to={AppRoutes.Home} />;
   }
 
-  return <div>Code: {code}</div>;
+  return <Redirect to={AppRoutes.Assets} />;
 };
