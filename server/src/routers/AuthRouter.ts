@@ -1,7 +1,16 @@
 import { Router } from 'express';
-import fetch from 'cross-fetch';
 
-import { EveClientId, EveClientSecret, EveTokenUrl } from '../constants';
+import { Endpoints } from 'src/services/endpoints';
+
+import {
+  fetchEveJwt,
+  validateJwt,
+  verifyOauthAccessTokenAndGetCharacter,
+  // fetchJsonWebKey,
+  // verifyOauthAccessTokenAndGetCharacter,
+} from 'src/services/lib/auth';
+
+// import { EveBasicAuthKey } from 'src/constants';
 
 export const AuthRouter = Router();
 
@@ -17,44 +26,26 @@ AuthRouter.post('/token', async (req, res) => {
     return;
   }
 
-  const authKey = `${EveClientId}:${EveClientSecret}`;
-
   try {
     /**
-     * Follow the token flow as defined in https://docs.esi.evetech.net/docs/sso/web_based_sso_flow.html
+     * Get the OAuth token
      */
-    const tokenResponse = await fetch(EveTokenUrl, {
-      method: 'POST',
-      /**
-       * EVE wants form encoded values
-       */
-      body: new URLSearchParams(`grant_type=authorization_code&code=${code}`),
-      headers: {
-        /**
-         * Base64 encode our credentials: clientId + clientSecret
-         */
-        Authorization: `Basic ${Buffer.from(authKey).toString('base64')}`,
-        /**
-         * Tell the server we're sending form encoded data
-         */
-        'Content-Type': 'application/x-www-form-urlencoded',
-        /**
-         * Required by EVE
-         */
-        Host: 'login.eveonline.com',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
-      },
-    });
+    const jwt = await fetchEveJwt(code);
 
-    // Parse the JSON response
-    const content = await tokenResponse.json();
-    res.json(content);
+    /**
+     * Validate the OAuth token
+     */
+    await validateJwt(jwt);
+
+    /**
+     * Get character information
+     */
+    const character = await verifyOauthAccessTokenAndGetCharacter(jwt.access_token);
+
+    res.json(character);
   } catch (e) {
     console.error(e);
-    res.status(500);
-    res.send(`Error fetching auth token from ${EveTokenUrl}`);
+    res.status(401);
+    res.send(`Error fetching auth token from ${Endpoints.OauthToken}`);
   }
 });
