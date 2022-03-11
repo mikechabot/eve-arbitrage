@@ -3,11 +3,11 @@ import path from 'path';
 import { parse } from '@fast-csv/parse';
 import { getRepository } from 'typeorm';
 
-import { CsvFilename, StreamEvent } from '../constants';
+import { CsvFilename, StreamEvent } from 'src/constants';
 
-import { InvType } from '../entities/InvType';
-import { InvGroup } from '../entities/InvGroup';
-import { InvCategory } from '../entities/InvCategory';
+import { InvType } from 'src/entities/InvType';
+import { InvGroup } from 'src/entities/InvGroup';
+import { InvCategory } from 'src/entities/InvCategory';
 
 /**
  * Load a CSV given a filepath, and invoke a callback when the row is parsed

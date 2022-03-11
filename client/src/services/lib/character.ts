@@ -1,9 +1,10 @@
 import { fetchClient } from 'services/api';
 
 import { deepCloneMapper } from 'services/utils/deepCloneMapper';
-
-import { buildEndpoint, Endpoints } from 'services/lib/endpoints';
 import { processServiceCall } from 'services/utils/processServiceCall';
+
+import { Endpoints } from 'services/lib/endpoints';
+import { CharacterResponse } from 'services/types/character-api';
 
 /**
  * API contracts
@@ -15,10 +16,10 @@ import { processServiceCall } from 'services/utils/processServiceCall';
  */
 // import { Statistics } from 'services/types/statistics';
 
-export const fetchUserAssets = (code: string): Promise<any> => {
+export const fetchCharacter = (): Promise<CharacterResponse> => {
   return processServiceCall(async () => {
-    const apiResponse = await fetchClient.get(Endpoints.User).json<any>();
+    const apiResponse = await fetchClient.get(Endpoints.Character).json<any>();
 
-    return deepCloneMapper<any, any>(apiResponse, (from) => from);
+    return deepCloneMapper<CharacterResponse, CharacterResponse>(apiResponse, (from) => from);
   });
 };

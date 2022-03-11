@@ -1,5 +1,6 @@
 import { Arg, Query, Resolver } from 'type-graphql';
-import { InvCategory } from '../entities/InvCategory';
+
+import { InvCategory } from 'src/entities/InvCategory';
 
 @Resolver()
 export class InvCategoryResolver {

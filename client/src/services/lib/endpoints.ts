@@ -4,9 +4,10 @@ import { generatePath as internalGeneratePath, ExtractRouteParams } from 'react-
 import { AppEnv } from 'utils/appEnv';
 
 export const Endpoints = {
-  User: urlJoin(AppEnv.BaseApiUrl, '/assets/user'),
+  Character: urlJoin(AppEnv.BaseApiUrl, '/assets/character'),
   Corporation: urlJoin(AppEnv.BaseApiUrl, '/assets/corporation'),
   OauthToken: urlJoin(AppEnv.BaseApiUrl, '/auth/token'),
+  OauthVerify: urlJoin(AppEnv.BaseApiUrl, '/auth/verify'),
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

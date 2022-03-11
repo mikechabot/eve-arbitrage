@@ -1,5 +1,6 @@
 import { Arg, Query, Resolver } from 'type-graphql';
-import { InvGroup } from '../entities/InvGroup';
+
+import { InvGroup } from 'src/entities/InvGroup';
 
 @Resolver()
 export class InvGroupResolver {
@@ -26,6 +27,6 @@ export class InvGroupResolver {
    */
   group(@Arg('groupId') groupId: number): Promise<InvGroup | undefined> {
     // return InvGroup.findOne({ groupId }, { relations: ['category', 'types'] });
-    return InvGroup.findOne({ groupId });;
+    return InvGroup.findOne({ groupId });
   }
 }

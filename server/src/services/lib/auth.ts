@@ -5,10 +5,9 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { EveBasicAuthKey } from 'src/constants';
 import { Endpoints } from 'src/services/endpoints';
 
-import { Character } from 'src/services/types/character';
 import { JsonWebKeyRS256, OauthToken, SsoMetadata } from 'src/services/types/auth';
 
-export const fetchEveJwt = async (code: string): Promise<OauthToken> => {
+export const fetchOauthToken = async (code: string): Promise<OauthToken> => {
   try {
     /**
      * Follow the token flow as defined in https://docs.esi.evetech.net/docs/sso/web_based_sso_flow.html
@@ -121,36 +120,4 @@ export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | 
       },
     );
   });
-};
-
-/**
- * This goes straight to EVE's verification endpoint to pull
- * the character info
- *
- * https://login.eveonline.com/oauth/verify
- * @param accessToken
- */
-export const verifyOauthAccessTokenAndGetCharacter = async (
-  accessToken: string,
-): Promise<Character> => {
-  try {
-    const character = await fetch(Endpoints.OauthVerify, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        /**
-         * Required by EVE
-         */
-        Host: 'login.eveonline.com',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
-      },
-    });
-
-    return await character.json();
-  } catch (e) {
-    console.error('Unable to validate OAuth access token');
-    return e;
-  }
 };

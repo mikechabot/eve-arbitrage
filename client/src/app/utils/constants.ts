@@ -26,9 +26,5 @@ const redirectUrl = `${AppEnv.BaseUrl}${AppRoutes.AuthSso}`;
  */
 const encodedScope = encodeURIComponent(scopes.join(' '));
 
-/**
- * Sent to EVE as an added safety net
- */
-const stateKey = encodeURIComponent(guid());
-
-export const EveAuthBaseUrl = `${AppEnv.EveAuthUrl}?response_type=code&redirect_uri=${redirectUrl}&client_id=${AppEnv.EveClientId}&scope=${encodedScope}&state=${stateKey}`;
+export const buildEveAuthBaseUrl = (stateKey: string) =>
+  `${AppEnv.EveAuthUrl}?response_type=code&redirect_uri=${redirectUrl}&client_id=${AppEnv.EveClientId}&scope=${encodedScope}&state=${stateKey}`;

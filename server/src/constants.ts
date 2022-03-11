@@ -1,5 +1,5 @@
 import { v4 as guid } from 'uuid';
-import { Endpoints } from './services/endpoints';
+import { Endpoints } from 'src/services/endpoints';
 
 export const __prod__ = process.env.NODE_ENV === 'production';
 

@@ -1,48 +1,143 @@
 import { v4 as guid } from 'uuid';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useLocalStorage } from 'react-use';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
+import { useOauthVerifyQuery } from 'services/hooks/useQueries';
 import { usePostCodeForOauthToken } from 'services/hooks/useMutations';
+import { AuthVerifyResponse, ChallengeType } from '../services/types/auth-api';
+
+const LocalStorageKey = 'stateKey';
+const LocalStateKeyValue = encodeURIComponent(guid());
 
 interface AuthContextValue {
-  stateKey: string;
-  code: string | undefined;
-  setCode: (code: string) => void;
+  remoteCode: string | undefined;
+  localStateKey: string | undefined;
+  verifyData: AuthVerifyResponse | undefined;
+  isVerified: boolean;
+  isErrorVerify: boolean;
+  isLoadingVerify: boolean;
+  isErrorMutateOauthToken: boolean;
+  isLoadingMutateOAuthToken: boolean;
+  // isInvalidAuthResponse: boolean;
+  // isErrorMutateOauthToken: boolean;
+
+  setAuthResponse: (remoteCode: string, remoteStateKey: string) => void;
 }
 
 const AuthContext = createContext<AuthContextValue>({
-  stateKey: '',
-  code: undefined,
-  setCode: () => ({}),
+  verifyData: undefined,
+  remoteCode: undefined,
+  localStateKey: undefined,
+  isVerified: false,
+  isErrorVerify: false,
+  isErrorMutateOauthToken: false,
+  isLoadingVerify: false,
+  isLoadingMutateOAuthToken: false,
+  // isInvalidAuthResponse: false,
+  // isErrorMutateOauthToken: false,
+
+  setAuthResponse: () => ({}),
 });
 
-export const AuthContextProvider = ({ children }) => {
-  const [stateKey] = useState<string>(encodeURIComponent(guid()));
-  const [code, setCode] = useState<string | undefined>(undefined);
+const isVerified = (verifyData: AuthVerifyResponse | undefined): boolean => {
+  if (!verifyData) {
+    return false;
+  }
+  return verifyData.verified;
+};
 
+const requireSsoChallenge = (
+  verifyData: AuthVerifyResponse | undefined,
+  isFetchingVerify: boolean,
+  isLoadingMutateAuthToken: boolean,
+): boolean => {
+  if (!verifyData || isLoadingMutateAuthToken || isFetchingVerify) {
+    return false;
+  }
+  return verifyData.challenge === ChallengeType.SSO;
+};
+
+export const AuthContextProvider = ({ children }) => {
+  /**
+   * Obtain the JWT from the auth response
+   */
   const {
-    data: oauthTokenData,
-    isError: isOauthTokenError,
     mutateAsync: mutateOauthToken,
+    isLoading: isLoadingMutateOAuthToken,
+    isError: isErrorMutateOauthToken,
   } = usePostCodeForOauthToken();
 
+  const {
+    data: verifyData,
+    isLoading: isLoadingVerify,
+    isError: isErrorVerify,
+    refetch: refetchVerify,
+  } = useOauthVerifyQuery();
+
+  /**
+   * This local state key is passed to the EVE's OAuth authorize URL,
+   * and is compared to the AuthResponse, which sends back the state key.
+   */
+  const [localStorageStateKey, setLocalStorageStateKey] = useLocalStorage<string>(LocalStorageKey);
+
+  /**
+   * This tracks whether the EVE's OAuth authorize URL returned an empty
+   * resposne, or whether the return state key does not match the "localStateKey"
+   */
+  // const [isInvalidAuthResponse, setIsInvalidAuthResponse] = useState(false);
+
+  /**
+   * Holds the auth response from EVE's OAuth authorize URL
+   */
+  const [authResponse, setAuthResponse] =
+    useState<{ remoteCode: string; remoteStateKey: string }>();
+
+  const hasValidAuthCodeResponse =
+    authResponse?.remoteCode && authResponse.remoteStateKey === localStorageStateKey;
+
+  const performChallenge =
+    hasValidAuthCodeResponse &&
+    requireSsoChallenge(verifyData, isLoadingMutateOAuthToken, isLoadingVerify);
+
+  /**
+   * Store the state key in LocalStorage if we haven't already
+   */
   useEffect(() => {
-    const postCodeForToken = async () => {
-      if (code) {
-        await mutateOauthToken(code);
+    if (!localStorageStateKey) {
+      setLocalStorageStateKey(LocalStateKeyValue);
+    }
+  });
+
+  useEffect(() => {
+    const postCodeForOauthToken = async () => {
+      if (performChallenge) {
+        setAuthResponse(undefined);
+        await mutateOauthToken(authResponse.remoteCode);
+        await refetchVerify();
       }
     };
-    postCodeForToken();
-  }, [code, mutateOauthToken]);
+    postCodeForOauthToken();
+  }, [authResponse, mutateOauthToken, performChallenge, refetchVerify]);
 
-  console.log('code', code);
-  console.log('oauthTokenData', oauthTokenData);
+  const onSetAuthResponse = useCallback(
+    (remoteCode, remoteStateKey) => {
+      setAuthResponse({ remoteCode, remoteStateKey });
+    },
+    [setAuthResponse],
+  );
 
   return (
     <AuthContext.Provider
       value={{
-        code,
-        stateKey,
-        setCode: (authCode) => setCode(authCode),
+        verifyData,
+        isErrorVerify,
+        isErrorMutateOauthToken,
+        isLoadingVerify,
+        isLoadingMutateOAuthToken,
+        localStateKey: localStorageStateKey,
+        isVerified: isVerified(verifyData),
+        remoteCode: authResponse?.remoteCode,
+        setAuthResponse: onSetAuthResponse,
       }}
     >
       {children}

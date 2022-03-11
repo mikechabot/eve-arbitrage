@@ -2,17 +2,35 @@ import { useQuery, UseQueryOptions } from 'react-query';
 
 import { QueryKey } from 'services/query-key';
 
-import { ServiceError } from 'services/utils/ServiceError';
-import { fetchUserAssets } from 'services/lib/assets';
-import { useAuthContext } from 'hooks/useAuthContext';
+import { fetchCharacter } from 'services/lib/character';
+import { fetchVerifyOrRefreshOauth } from 'services/lib/auth';
 
-export const useUserAssetsQuery = <ReturnData extends any = any>(
+import { ServiceError } from 'services/utils/ServiceError';
+import { AuthVerifyResponse } from 'services/types/auth-api';
+import { CharacterResponse } from 'services/types/character-api';
+
+/**
+ * Fetch information about the logged in character
+ * @param options
+ */
+export const useCharacterQuery = <ReturnData extends any = CharacterResponse>(
   options?: UseQueryOptions<any, ServiceError, ReturnData>,
 ) => {
-  const { code } = useAuthContext();
-  return useQuery<any, ServiceError, ReturnData>(
-    [QueryKey.User, code],
-    () => fetchUserAssets(code!),
+  return useQuery<CharacterResponse, ServiceError, ReturnData>(
+    QueryKey.User,
+    () => fetchCharacter(),
     options,
   );
 };
+
+/**
+ * Verify and/or refresh the JWT cookie
+ * @param options
+ */
+export const useOauthVerifyQuery = <ReturnData extends any = AuthVerifyResponse>(
+  options?: UseQueryOptions<any, ServiceError, ReturnData>,
+) =>
+  useQuery<any, ServiceError, ReturnData>(QueryKey.Verify, () => fetchVerifyOrRefreshOauth(), {
+    ...options,
+    refetchOnWindowFocus: false,
+  });

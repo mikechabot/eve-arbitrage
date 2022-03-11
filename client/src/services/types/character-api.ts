@@ -1,5 +1,3 @@
-import {AuthResponse} from "src/routers/types/shared-api";
-
 export interface Character {
   CharacterID: number;
   CharacterName: string;
@@ -34,8 +32,9 @@ export interface CharacterPortrait {
   px64x64: string;
 }
 
-export interface CharacterResponse extends AuthResponse {
-  character?: Character;
-  characterDetails?: CharacterDetails;
-  characterPortrait?: CharacterPortrait;
+export interface CharacterResponse {
+  verified: boolean;
+  character: Character;
+  characterDetails: CharacterDetails;
+  characterPortrait: CharacterPortrait;
 }

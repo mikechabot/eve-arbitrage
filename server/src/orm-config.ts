@@ -1,10 +1,11 @@
 import { ConnectionOptions } from 'typeorm';
 
-import { __prod__ } from './constants';
+import { __prod__ } from 'src/constants';
 
-import { InvType } from './entities/InvType';
-import { InvGroup } from './entities/InvGroup';
-import { InvCategory } from './entities/InvCategory';
+import { InvType } from 'src/entities/InvType';
+import { InvGroup } from 'src/entities/InvGroup';
+import { InvCategory } from 'src/entities/InvCategory';
+import { AuthToken } from 'src/entities/AuthToken';
 
 export const ormConfig: ConnectionOptions = {
   type: 'postgres',
@@ -12,11 +13,11 @@ export const ormConfig: ConnectionOptions = {
   username: 'postgres',
   password: 'Hax0r123!',
   logging: !__prod__,
-  entities: [InvGroup, InvType, InvCategory],
+  entities: [AuthToken, InvGroup, InvType, InvCategory],
   /**
    * Don't use this in production as it recreates the schema
    * on every application launch, meaning in prod we would
    * lose data.
    */
-  // synchronize: true,
+  synchronize: true,
 };

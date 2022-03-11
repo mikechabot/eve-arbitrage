@@ -4,5 +4,6 @@ export const Endpoints = {
   OauthAuthorize: 'https://login.eveonline.com/v2/oauth/authorize',
   OauthJwks: 'https://login.eveonline.com/oauth/jwks',
   OauthVerify: 'https://login.eveonline.com/oauth/verify',
-  OauthIssuer: 'login.eveonline.com'
+  OauthIssuer: 'login.eveonline.com',
+  EveTech: 'https://esi.evetech.net'
 } as const;

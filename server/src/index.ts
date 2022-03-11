@@ -2,22 +2,26 @@ import 'reflect-metadata';
 
 import fs from 'fs';
 import https from 'https';
-import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express, { NextFunction, Request, Response } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 
-import { ormConfig } from './orm-config';
-import { AuthRouter } from './routers/AuthRouter';
+import { ormConfig } from 'src/orm-config';
 
-import { InvTypeResolver } from './resolvers/InvTypeResolver';
-import { InvGroupResolver } from './resolvers/InvGroupResolver';
-import { InvCategoryResolver } from './resolvers/InvCategoryResolver';
+import { InvTypeResolver } from 'src/resolvers/InvTypeResolver';
+import { InvGroupResolver } from 'src/resolvers/InvGroupResolver';
+import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
 
-import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from './util/data';
-import { AssetsRouter } from './routers/AssetsRouter';
+import { AuthRouter } from 'src/routers/AuthRouter';
+import { AssetsRouter } from 'src/routers/AssetsRouter';
+
+import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+
+import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from 'src/util/data';
 
 const startServer = async () => {
   /**
@@ -65,6 +69,11 @@ const startServer = async () => {
    */
   app.use(
     cors({
+      /**
+       * Required for the client to make "credentials: include" requests.
+       * This also tells the browser to store cookies from the response.
+       */
+      credentials: true,
       origin: (origin, callback) => {
         if (!origin || whitelist.includes(origin)) {
           callback(null, true);
@@ -75,14 +84,34 @@ const startServer = async () => {
     }),
   );
 
+  /**
+   * Don't reveal server information
+   */
+  app.disable('X-Powered-By');
+  /**
+   * Disable caching
+   */
+  app.set('etag', false);
+
+  /**
+   * Allow JSON to be sent in POST request bodies
+   */
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use('/auth', AuthRouter);
-  app.use('/assets', AssetsRouter);
+  app.use(cookieParser());
 
-  app.use('/', (_, res) => {
-    res.send('Welcome to eve-arbitrage');
+  const repository = new AuthTokenRepository();
+
+  app.use('/auth', new AuthRouter({ repository }).router);
+  app.use('/assets', new AssetsRouter({ repository }).router);
+
+  /**
+   * Handle 404s
+   */
+  app.use((request: Request, response: Response, next: NextFunction) => {
+    response.status(404);
+    return next(new Error(`'Not Found: ${request.originalUrl}`));
   });
 
   /**
