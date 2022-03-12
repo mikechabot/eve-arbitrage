@@ -9,15 +9,15 @@ import { AuthToken } from 'src/entities/AuthToken';
 import { fetchEveCharacter } from 'src/services/lib/assets';
 
 interface AuthRouterProps extends BaseRouterOpts {
-  repository: AuthTokenRepository;
+  authRepository: AuthTokenRepository;
 }
 
 export class AuthRouter extends BaseRouter {
-  private readonly repository: AuthTokenRepository;
+  private readonly authRepository: AuthTokenRepository;
 
   constructor(opts: AuthRouterProps) {
     super(opts);
-    this.repository = opts.repository;
+    this.authRepository = opts.authRepository;
   }
 
   initializeRoutes(): void {
@@ -49,7 +49,7 @@ export class AuthRouter extends BaseRouter {
      * If the JWT cookie on the cookie is not in the database, this is
      * probably a bad actor, so send back the SSO challenge.
      */
-    oauthToken = await this.repository.getTokenByJwt(cookies.jwt);
+    oauthToken = await this.authRepository.getTokenByJwt(cookies.jwt);
     if (!oauthToken) {
       console.log('No oauthtoken in db');
       res.json({ verified: false, challenge: ChallengeType.SSO });
@@ -66,13 +66,13 @@ export class AuthRouter extends BaseRouter {
     } catch (e) {
       try {
         console.log(`Invalidating token..."${oauthToken}"`);
-        await this.repository.invalidateToken(oauthToken);
+        await this.authRepository.invalidateToken(oauthToken);
         console.log(`Refreshing token..."${oauthToken.refresh_token}`);
         const newOauthToken = await refreshOauthToken(oauthToken.refresh_token);
         console.log(`Got refreshed token "${newOauthToken}"`);
         await validateJwtAccessToken(newOauthToken);
         const character = await fetchEveCharacter(newOauthToken.access_token);
-        await this.repository.insertToken(newOauthToken, character.CharacterID);
+        await this.authRepository.insertToken(newOauthToken, character.CharacterID);
 
         res.cookie('jwt', newOauthToken.access_token, {
           secure: true,
@@ -136,7 +136,7 @@ export class AuthRouter extends BaseRouter {
        */
       await validateJwtAccessToken(oauthToken);
       const character = await fetchEveCharacter(oauthToken.access_token);
-      await this.repository.insertToken(oauthToken, character.CharacterID);
+      await this.authRepository.insertToken(oauthToken, character.CharacterID);
 
       /**
        * Set a secure HTTP-only cookie on the response

@@ -17,7 +17,9 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
         <AutoResizer>
           {({ width }) => (
             <BaseTable data={inventory} width={width} height={400}>
-              <Column sortable key="item_id" dataKey="item_id" width={100} title="Item Id" />
+              <Column sortable key="typeName" dataKey="typeName" width={250} title="Type Name" />
+              <Column sortable key="quantity" dataKey="quantity" width={100} title="Quantity" />
+
               <Column
                 sortable
                 key="location_flag"
@@ -39,8 +41,6 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
                 width={100}
                 title="Location Type"
               />
-              <Column sortable key="quantity" dataKey="quantity" width={100} title="Quantity" />
-              <Column sortable key="type_id" dataKey="type_id" width={100} title="Type Id" />
             </BaseTable>
           )}
         </AutoResizer>

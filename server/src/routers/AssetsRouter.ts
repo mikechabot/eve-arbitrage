@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { Repository } from 'typeorm';
+
+import { InvType } from 'src/entities/InvType';
 
 import {
   fetchEveCharacterDetails,
@@ -14,15 +17,18 @@ import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
 import { CharacterResponse, PaginatedCharacterAssets } from 'src/services/types/character-api';
 
 interface AssetsRouterOpts extends BaseRouterOpts {
-  repository: AuthTokenRepository;
+  authRepository: AuthTokenRepository;
+  itemsRepository: Repository<InvType>;
 }
 
 export class AssetsRouter extends BaseRouter {
-  private readonly repository: AuthTokenRepository;
+  private readonly authRepository: AuthTokenRepository;
+  private readonly itemsRepository: Repository<InvType>;
 
   constructor(opts: AssetsRouterOpts) {
     super(opts);
-    this.repository = opts.repository;
+    this.authRepository = opts.authRepository;
+    this.itemsRepository = opts.itemsRepository;
   }
 
   initializeRoutes(): void {
@@ -48,7 +54,7 @@ export class AssetsRouter extends BaseRouter {
       return;
     }
 
-    jwt = await this.repository.getTokenByJwt(cookies.jwt);
+    jwt = await this.authRepository.getTokenByJwt(cookies.jwt);
     if (!jwt) {
       res.status(401);
       res.json({ verified: false });
@@ -95,11 +101,23 @@ export class AssetsRouter extends BaseRouter {
     page: number,
   ): Promise<PaginatedCharacterAssets> {
     const inventory = await fetchEvePaginatedCharacterAssets(accessToken, characterId, page);
+    const itemTypes = await this.itemsRepository.find({});
+
+    const itemTypeMap = {} as Record<number, InvType>;
+    itemTypes.forEach((itemType) => {
+      itemTypeMap[itemType.typeId] = itemType;
+    });
 
     let nextPage = -1;
     if (inventory.length >= 1000) {
       nextPage = page + 1;
     }
+
+    inventory.forEach((asset) => {
+      if (itemTypeMap[asset.type_id]) {
+        asset.typeName = itemTypeMap[asset.type_id].typeName;
+      }
+    });
 
     return {
       nextPage,

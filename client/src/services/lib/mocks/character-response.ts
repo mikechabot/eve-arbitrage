@@ -33,6 +33,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 601,
+          typeName: 'Ibis',
         },
         {
           is_singleton: false,
@@ -42,6 +43,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 3838,
+          typeName: 'Clearance Documents',
         },
         {
           is_singleton: true,
@@ -51,6 +53,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 562,
+          typeName: 'Light Electron Blaster I',
         },
         {
           is_singleton: true,
@@ -60,6 +63,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 399,
+          typeName: 'Small Shield Booster I',
         },
         {
           is_blueprint_copy: true,
@@ -70,6 +74,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 683,
+          typeName: 'Bantam Blueprint',
         },
         {
           is_singleton: true,
@@ -79,6 +84,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 648,
+          typeName: 'Badger',
         },
         {
           is_singleton: true,
@@ -88,6 +94,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1244,
+          typeName: 'Overdrive Injector System I',
         },
         {
           is_singleton: true,
@@ -97,6 +104,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 1317,
+          typeName: 'Expanded Cargohold I',
         },
         {
           is_blueprint_copy: true,
@@ -107,6 +115,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 1220,
+          typeName: 'Scourge Rocket Blueprint',
         },
         {
           is_singleton: true,
@@ -116,6 +125,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 582,
+          typeName: 'Bantam',
         },
         {
           is_singleton: false,
@@ -125,6 +135,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 370,
           type_id: 37,
+          typeName: 'Isogen',
         },
         {
           is_singleton: true,
@@ -134,6 +145,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 17938,
+          typeName: 'Core Probe Launcher I',
         },
         {
           is_singleton: true,
@@ -143,6 +155,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 605,
+          typeName: 'Heron',
         },
         {
           is_singleton: false,
@@ -152,6 +165,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 12,
           type_id: 40,
+          typeName: 'Megacyte',
         },
         {
           is_singleton: true,
@@ -161,6 +175,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 25861,
+          typeName: 'Salvager I',
         },
         {
           is_singleton: true,
@@ -170,6 +185,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 603,
+          typeName: 'Merlin',
         },
         {
           is_singleton: true,
@@ -179,6 +195,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 30424,
+          typeName: 'Civilian Kinetic Shield Hardener',
         },
         {
           is_singleton: true,
@@ -188,6 +205,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 523,
+          typeName: 'Small Armor Repairer I',
         },
         {
           is_singleton: true,
@@ -197,6 +215,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 526,
+          typeName: 'Stasis Webifier I',
         },
         {
           is_singleton: true,
@@ -206,6 +225,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 22175,
+          typeName: 'Data Analyzer I',
         },
         {
           is_singleton: true,
@@ -215,6 +235,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 22177,
+          typeName: 'Relic Analyzer I',
         },
         {
           is_singleton: false,
@@ -224,6 +245,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 2,
           type_id: 17460,
+          typeName: 'Viscous Pyroxeres',
         },
         {
           is_singleton: true,
@@ -233,6 +255,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1244,
+          typeName: 'Overdrive Injector System I',
         },
         {
           is_singleton: true,
@@ -242,6 +265,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 6001,
+          typeName: '1MN Y-S8 Compact Afterburner',
         },
         {
           is_singleton: true,
@@ -251,6 +275,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 32459,
+          typeName: 'Civilian Warp Disruptor',
         },
         {
           is_singleton: true,
@@ -260,6 +285,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 32467,
+          typeName: 'Civilian Small Remote Shield Booster',
         },
         {
           is_singleton: true,
@@ -269,6 +295,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 16238,
+          typeName: 'Cormorant',
         },
         {
           is_singleton: true,
@@ -278,6 +305,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 499,
+          typeName: 'Light Missile Launcher I',
         },
         {
           is_singleton: false,
@@ -287,6 +315,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 2739,
           type_id: 210,
+          typeName: 'Scourge Light Missile',
         },
         {
           is_singleton: true,
@@ -296,6 +325,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10692,
+          typeName: '125mm Compressed Coil Gun I',
         },
         {
           is_singleton: true,
@@ -305,6 +335,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10692,
+          typeName: '125mm Compressed Coil Gun I',
         },
         {
           is_singleton: false,
@@ -314,6 +345,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1382,
           type_id: 219,
+          typeName: 'Thorium Charge S',
         },
         {
           is_singleton: false,
@@ -323,6 +355,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 18,
           type_id: 30013,
+          typeName: 'Core Scanner Probe I',
         },
         {
           is_singleton: true,
@@ -332,6 +365,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 32880,
+          typeName: 'Venture',
         },
         {
           is_singleton: true,
@@ -341,6 +375,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 1244,
+          typeName: 'Overdrive Injector System I',
         },
         {
           is_singleton: false,
@@ -350,6 +385,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 85,
           type_id: 17459,
+          typeName: 'Solid Pyroxeres',
         },
         {
           is_singleton: true,
@@ -359,6 +395,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 7493,
+          typeName: 'Anode Light Electron Particle Cannon I',
         },
         {
           is_singleton: true,
@@ -368,6 +405,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 400,
+          typeName: 'Small Shield Booster II',
         },
         {
           is_singleton: false,
@@ -377,6 +415,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 920,
           type_id: 219,
+          typeName: 'Thorium Charge S',
         },
         {
           is_singleton: false,
@@ -386,6 +425,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1000,
           type_id: 27331,
+          typeName: 'Guristas Scourge Rocket',
         },
         {
           is_singleton: false,
@@ -395,6 +435,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 4471,
+          typeName: 'Small Infectious Scoped Energy Neutralizer',
         },
         {
           is_singleton: false,
@@ -404,6 +445,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 8485,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: true,
@@ -413,6 +455,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 6003,
+          typeName: '1MN Monopropellant Enduring Afterburner',
         },
         {
           is_singleton: true,
@@ -422,6 +465,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 10692,
+          typeName: '125mm Compressed Coil Gun I',
         },
         {
           is_singleton: true,
@@ -431,6 +475,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 22542,
+          typeName: 'Mining Laser Upgrade I',
         },
         {
           is_singleton: true,
@@ -440,6 +485,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 482,
+          typeName: 'Miner II',
         },
         {
           is_singleton: true,
@@ -449,6 +495,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 482,
+          typeName: 'Miner II',
         },
         {
           is_singleton: true,
@@ -458,6 +505,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 439,
+          typeName: '1MN Afterburner I',
         },
         {
           is_singleton: false,
@@ -467,6 +515,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 7,
           type_id: 17463,
+          typeName: 'Condensed Scordite',
         },
         {
           is_singleton: true,
@@ -476,6 +525,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 439,
+          typeName: '1MN Afterburner I',
         },
         {
           is_singleton: true,
@@ -485,6 +535,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10692,
+          typeName: '125mm Compressed Coil Gun I',
         },
         {
           is_singleton: true,
@@ -494,6 +545,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10692,
+          typeName: '125mm Compressed Coil Gun I',
         },
         {
           is_singleton: true,
@@ -503,6 +555,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 499,
+          typeName: 'Light Missile Launcher I',
         },
         {
           is_singleton: true,
@@ -512,6 +565,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10838,
+          typeName: 'Large Shield Booster I',
         },
         {
           is_singleton: false,
@@ -521,6 +575,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 49,
           type_id: 17471,
+          typeName: 'Dense Veldspar',
         },
         {
           is_singleton: true,
@@ -530,6 +585,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1319,
+          typeName: 'Expanded Cargohold II',
         },
         {
           is_singleton: true,
@@ -539,6 +595,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1319,
+          typeName: 'Expanded Cargohold II',
         },
         {
           is_singleton: true,
@@ -548,6 +605,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1319,
+          typeName: 'Expanded Cargohold II',
         },
         {
           is_singleton: true,
@@ -557,6 +615,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1319,
+          typeName: 'Expanded Cargohold II',
         },
         {
           is_singleton: true,
@@ -566,6 +625,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 33517,
+          typeName: 'Mobile Depot Blueprint',
         },
         {
           is_singleton: true,
@@ -575,6 +635,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 33474,
+          typeName: 'Mobile Depot',
         },
         {
           is_singleton: true,
@@ -584,6 +645,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 1319,
+          typeName: 'Expanded Cargohold II',
         },
         {
           is_singleton: false,
@@ -593,6 +655,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 778,
           type_id: 221,
+          typeName: 'Plutonium Charge S',
         },
         {
           is_singleton: true,
@@ -602,6 +665,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2333,
+          typeName: 'Survey Scanner II',
         },
         {
           is_singleton: true,
@@ -611,6 +675,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 17478,
+          typeName: 'Retriever',
         },
         {
           is_singleton: true,
@@ -620,6 +685,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10246,
+          typeName: 'Mining Drone I',
         },
         {
           is_singleton: true,
@@ -629,6 +695,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 22542,
+          typeName: 'Mining Laser Upgrade I',
         },
         {
           is_singleton: true,
@@ -638,6 +705,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 10246,
+          typeName: 'Mining Drone I',
         },
         {
           is_singleton: true,
@@ -647,6 +715,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 10246,
+          typeName: 'Mining Drone I',
         },
         {
           is_singleton: true,
@@ -656,6 +725,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 22542,
+          typeName: 'Mining Laser Upgrade I',
         },
         {
           is_singleton: true,
@@ -665,6 +735,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 10246,
+          typeName: 'Mining Drone I',
         },
         {
           is_singleton: false,
@@ -674,6 +745,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 4,
           type_id: 25600,
+          typeName: 'Burned Logic Circuit',
         },
         {
           is_singleton: false,
@@ -683,6 +755,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 25598,
+          typeName: 'Tripped Power Circuit',
         },
         {
           is_singleton: false,
@@ -692,6 +765,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 2,
           type_id: 25591,
+          typeName: 'Contaminated Lorentz Fluid',
         },
         {
           is_singleton: true,
@@ -701,6 +775,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 60276,
+          typeName: 'Simple Asteroid Mining Crystal Type A I',
         },
         {
           is_singleton: true,
@@ -710,6 +785,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 17912,
+          typeName: 'Modulated Strip Miner II',
         },
         {
           is_singleton: false,
@@ -719,6 +795,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 2,
           type_id: 17482,
+          typeName: 'Strip Miner I',
         },
         {
           is_singleton: true,
@@ -728,6 +805,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 17912,
+          typeName: 'Modulated Strip Miner II',
         },
         {
           is_singleton: true,
@@ -737,6 +815,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 60276,
+          typeName: 'Simple Asteroid Mining Crystal Type A I',
         },
         {
           is_singleton: false,
@@ -746,6 +825,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 33073,
           type_id: 17463,
+          typeName: 'Condensed Scordite',
         },
         {
           is_singleton: true,
@@ -755,6 +835,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 60281,
+          typeName: 'Simple Asteroid Mining Crystal Type A II',
         },
         {
           is_singleton: true,
@@ -764,6 +845,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 60281,
+          typeName: 'Simple Asteroid Mining Crystal Type A II',
         },
         {
           is_singleton: true,
@@ -773,6 +855,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 2048,
+          typeName: 'Damage Control II',
         },
         {
           is_singleton: true,
@@ -782,6 +865,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1335,
+          typeName: 'Reinforced Bulkheads II',
         },
         {
           is_singleton: false,
@@ -791,6 +875,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 100,
           type_id: 215,
+          typeName: 'Iron Charge S',
         },
         {
           is_singleton: false,
@@ -800,6 +885,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 100,
           type_id: 220,
+          typeName: 'Uranium Charge S',
         },
         {
           is_singleton: false,
@@ -809,6 +895,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 19923,
+          typeName: 'Morpheus Enduring Magnetometric ECM',
         },
         {
           is_singleton: false,
@@ -818,6 +905,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 864,
           type_id: 34,
+          typeName: 'Tritanium',
         },
         {
           is_singleton: false,
@@ -827,6 +915,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 248,
           type_id: 35,
+          typeName: 'Pyerite',
         },
         {
           is_singleton: false,
@@ -836,6 +925,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 61,
           type_id: 36,
+          typeName: 'Mexallon',
         },
         {
           is_singleton: false,
@@ -845,6 +935,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 5,
           type_id: 38,
+          typeName: 'Nocxium',
         },
         {
           is_singleton: true,
@@ -854,6 +945,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 623,
+          typeName: 'Moa',
         },
         {
           is_singleton: false,
@@ -863,6 +955,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 30,
           type_id: 210,
+          typeName: 'Scourge Light Missile',
         },
         {
           is_singleton: false,
@@ -872,6 +965,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 26,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: false,
@@ -881,6 +975,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 33,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: false,
@@ -890,6 +985,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 30,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: false,
@@ -899,6 +995,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 200,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: true,
@@ -908,6 +1005,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 578,
+          typeName: 'Multispectrum Shield Hardener I',
         },
         {
           is_singleton: true,
@@ -917,6 +1015,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2048,
+          typeName: 'Damage Control II',
         },
         {
           is_singleton: true,
@@ -926,6 +1025,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1998,
+          typeName: 'Tracking Enhancer I',
         },
         {
           is_singleton: false,
@@ -935,6 +1035,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 3,
           type_id: 2454,
+          typeName: 'Hobgoblin I',
         },
         {
           is_singleton: true,
@@ -944,6 +1045,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 623,
+          typeName: 'Moa',
         },
         {
           is_singleton: true,
@@ -953,6 +1055,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 7287,
+          typeName: '150mm Prototype Gauss Gun',
         },
         {
           is_singleton: true,
@@ -962,6 +1065,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 25861,
+          typeName: 'Salvager I',
         },
         {
           is_singleton: true,
@@ -971,6 +1075,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 526,
+          typeName: 'Stasis Webifier I',
         },
         {
           is_singleton: false,
@@ -980,6 +1085,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2454,
+          typeName: 'Hobgoblin I',
         },
         {
           is_singleton: true,
@@ -989,6 +1095,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2048,
+          typeName: 'Damage Control II',
         },
         {
           is_singleton: true,
@@ -998,6 +1105,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 578,
+          typeName: 'Multispectrum Shield Hardener I',
         },
         {
           is_singleton: true,
@@ -1007,6 +1115,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 1998,
+          typeName: 'Tracking Enhancer I',
         },
         {
           is_singleton: true,
@@ -1016,6 +1125,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 7287,
+          typeName: '150mm Prototype Gauss Gun',
         },
         {
           is_singleton: true,
@@ -1025,6 +1135,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 7287,
+          typeName: '150mm Prototype Gauss Gun',
         },
         {
           is_singleton: true,
@@ -1034,6 +1145,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 7287,
+          typeName: '150mm Prototype Gauss Gun',
         },
         {
           is_singleton: false,
@@ -1043,6 +1155,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 242,
           type_id: 34,
+          typeName: 'Tritanium',
         },
         {
           is_singleton: false,
@@ -1052,6 +1165,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 203,
           type_id: 35,
+          typeName: 'Pyerite',
         },
         {
           is_singleton: false,
@@ -1061,6 +1175,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 14840,
           type_id: 217,
+          typeName: 'Iridium Charge S',
         },
         {
           is_singleton: true,
@@ -1070,6 +1185,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 400,
+          typeName: 'Small Shield Booster II',
         },
         {
           is_singleton: true,
@@ -1079,6 +1195,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2454,
+          typeName: 'Hobgoblin I',
         },
         {
           is_singleton: true,
@@ -1088,6 +1205,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 2454,
+          typeName: 'Hobgoblin I',
         },
         {
           is_singleton: false,
@@ -1097,6 +1215,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 17597,
           type_id: 20,
+          typeName: 'Kernite',
         },
         {
           is_singleton: false,
@@ -1106,6 +1225,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 25594,
+          typeName: 'Tangled Power Conduit',
         },
         {
           is_singleton: false,
@@ -1115,6 +1235,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 25590,
+          typeName: 'Contaminated Nanite Compound',
         },
         {
           is_singleton: false,
@@ -1124,6 +1245,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 5141,
+          typeName: 'Small Ghoul Compact Energy Nosferatu',
         },
         {
           is_singleton: false,
@@ -1133,6 +1255,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'item',
           quantity: 1,
           type_id: 15331,
+          typeName: 'Metal Scraps',
         },
         {
           is_blueprint_copy: true,
@@ -1143,6 +1266,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 838,
+          typeName: 'Small Focused Beam Laser I Blueprint',
         },
         {
           is_singleton: false,
@@ -1152,6 +1276,7 @@ export const mockCharacterResponse: CharacterResponse = {
           location_type: 'station',
           quantity: 1,
           type_id: 34732,
+          typeName: 'Heron Sukuuvestaa SKIN',
         },
       ],
     },

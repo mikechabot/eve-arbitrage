@@ -70,6 +70,7 @@ export interface EveInventoryAssetV5 {
   location_type: string;
   quantity: number;
   type_id: number;
+  typeName?: string;
 }
 
 /**

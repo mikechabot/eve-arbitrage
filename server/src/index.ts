@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
 
 import { ormConfig } from 'src/orm-config';
 
@@ -23,6 +23,7 @@ import { AssetsRouter } from 'src/routers/AssetsRouter';
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
 
 import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from 'src/utils/data';
+import { InvType } from 'src/entities/InvType';
 
 const startServer = async () => {
   /**
@@ -102,10 +103,11 @@ const startServer = async () => {
 
   app.use(cookieParser());
 
-  const repository = new AuthTokenRepository();
+  const authRepository = new AuthTokenRepository();
+  const itemsRepository = getRepository(InvType);
 
-  app.use('/auth', new AuthRouter({ repository }).router);
-  app.use('/assets', new AssetsRouter({ repository }).router);
+  app.use('/auth', new AuthRouter({ authRepository }).router);
+  app.use('/assets', new AssetsRouter({ authRepository, itemsRepository }).router);
 
   app.get('/favico.ico', (_, res) => {
     res.sendFile(path.resolve(__dirname, 'assets', 'myfavico.ico'));
