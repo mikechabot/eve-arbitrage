@@ -4,7 +4,7 @@
   "description": "Get that ISK",
   "main": "index.js",
   "scripts": {
-    "prebuild": "rm -rf dist && mkdir dist\\util\\csv && cp -r src\\util\\csv dist\\util",
+    "prebuild": "rm -rf dist && mkdir dist\\utils\\csv && cp -r src\\utils\\csv dist\\utils",
     "prestart": "yarn run build",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "watch": "tsc -w",
