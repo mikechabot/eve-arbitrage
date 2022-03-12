@@ -1,8 +1,13 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 
+import { Heading, Avatar, VStack } from '@chakra-ui/react';
+
 import { useAuthContext } from 'hooks/useAuthContext';
 import { buildEveAuthBaseUrl } from 'app/utils/constants';
+
+import { Spinner } from 'app/components/Spinner';
+import { Fullscreen } from 'app/layout/Fullscreen';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -22,11 +27,19 @@ export const Home = () => {
   }
 
   if (isErrorVerify) {
-    return <span>Error during verification</span>;
+    return (
+      <Fullscreen>
+        <span>Error during verification</span>
+      </Fullscreen>
+    );
   }
 
   if (isLoadingVerify) {
-    return <span>Loading...</span>;
+    return (
+      <Fullscreen>
+        <Spinner label="Authorizing..." />
+      </Fullscreen>
+    );
   }
 
   if (isVerified) {
@@ -34,12 +47,16 @@ export const Home = () => {
   }
 
   return (
-    <div>
-      <header>
+    <Fullscreen>
+      <VStack justifyContent="center" alignItems="center" spacing={5}>
+        <Avatar bg="gray.800" />
+        <Heading as="h3" color="gray.700" size="lg">
+          Welcome to Eve Arbitrage
+        </Heading>
         <a className="App-link" href={buildEveAuthBaseUrl(localStateKey)} rel="noopener noreferrer">
           <img src={logo} className="App-logo" alt="logo" />
         </a>
-      </header>
-    </div>
+      </VStack>
+    </Fullscreen>
   );
 };

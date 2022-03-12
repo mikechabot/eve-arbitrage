@@ -6,6 +6,9 @@ import { AppRoutes } from 'app/pages/appRoutes';
 import { useQuery } from 'app/hooks/useQuery';
 import { useAuthContext } from 'hooks/useAuthContext';
 
+import { Spinner } from 'app/components/Spinner';
+import { Fullscreen } from 'app/layout/Fullscreen';
+
 const EveCodeQueryParam = 'code';
 const EveStateQueryParam = 'state';
 
@@ -49,15 +52,23 @@ export const Auth = () => {
    * display an error.
    */
   if (isErrorMutateOauthToken || isErrorVerify) {
-    return <span>Error</span>;
+    return (
+      <Fullscreen>
+        <span>Error</span>
+      </Fullscreen>
+    );
   }
 
   /**
-   * If we're mutating the OAuth obtainOauthToken, or verifying,
+   * If we're mutating the OAuth token, or verifying,
    * show a loading indicator.
    */
   if (isLoadingMutateOAuthToken || isLoadingVerify) {
-    return <span>Loading OAuth token...</span>;
+    return (
+      <Fullscreen>
+        <Spinner label="Authorizing..." />
+      </Fullscreen>
+    );
   }
 
   return null;

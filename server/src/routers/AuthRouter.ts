@@ -6,6 +6,7 @@ import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
 import { AuthTokenResponse, AuthVerifyResponse, ChallengeType } from 'src/routers/types/auth-api';
 import { AuthToken } from 'src/entities/AuthToken';
+import { fetchEveCharacter } from 'src/services/lib/assets';
 
 interface AuthRouterProps extends BaseRouterOpts {
   repository: AuthTokenRepository;
@@ -37,6 +38,7 @@ export class AuthRouter extends BaseRouter {
      * send back the SSO challenge
      */
     if (!cookies?.jwt) {
+      console.log('No Cookie');
       res.json({ verified: false, challenge: ChallengeType.SSO });
       return;
     }
@@ -49,26 +51,28 @@ export class AuthRouter extends BaseRouter {
      */
     oauthToken = await this.repository.getTokenByJwt(cookies.jwt);
     if (!oauthToken) {
+      console.log('No oauthtoken in db');
       res.json({ verified: false, challenge: ChallengeType.SSO });
       return;
     }
 
     try {
       /**
-       * Validate the existing obtainOauthToken we found
+       * Validate the existing token we found
        */
       await validateJwtAccessToken(oauthToken);
       res.json({ verified: true });
       return;
     } catch (e) {
       try {
-        console.log('Invalidate token...');
+        console.log(`Invalidating token..."${oauthToken}"`);
         await this.repository.invalidateToken(oauthToken);
-        console.log('Refreshing obtainOauthToken...');
+        console.log(`Refreshing token..."${oauthToken.refresh_token}`);
         const newOauthToken = await refreshOauthToken(oauthToken.refresh_token);
-        console.log('Got refreshed obtainOauthToken');
+        console.log(`Got refreshed token "${newOauthToken}"`);
         await validateJwtAccessToken(newOauthToken);
-        await this.repository.insertToken(newOauthToken);
+        const character = await fetchEveCharacter(newOauthToken.access_token);
+        await this.repository.insertToken(newOauthToken, character.CharacterID);
 
         res.cookie('jwt', newOauthToken.access_token, {
           secure: true,
@@ -80,29 +84,32 @@ export class AuthRouter extends BaseRouter {
         res.json({ verified: true });
         return;
       } catch (e) {
-        console.log('Unable to refresh OAuth obtainOauthToken');
+        console.log('Unable to refresh OAuth token');
         console.error(e);
       }
     }
 
     // Kill the cookie
-    res.cookie('jwt', {
-      secure: true,
-      httpOnly: true,
-      domain: 'localhost',
-      maxAge: 0,
-      expires: new Date(0),
-    });
+    // res.cookie('jwt', {
+    //   secure: true,
+    //   httpOnly: true,
+    //   domain: 'localhost',
+    //   maxAge: 0,
+    //   expires: new Date(0),
+    // });
+
+    // TODO: REMOVE THIS, BUT USED TO DEBUG
+    // res.json({ verified: true });
 
     /**
-     * If we get here, we could validate and/or refresh the obtainOauthToken.
+     * If we get here, we could validate and/or refresh the token.
      */
     res.json({ verified: false, challenge: ChallengeType.SSO });
   }
 
   /**
    * After an SSO login, the client sends up the code sent on the redirect URI,
-   * which we use to fetch an OAuth2 obtainOauthToken.
+   * which we use to fetch an OAuth2 token.
    * @param req
    * @param res
    */
@@ -120,15 +127,16 @@ export class AuthRouter extends BaseRouter {
 
     try {
       /**
-       * Get the OAuth obtainOauthToken
+       * Get the OAuth token
        */
       const oauthToken = await fetchOauthToken(code);
 
       /**
-       * Validate the OAuth obtainOauthToken
+       * Validate the OAuth token
        */
       await validateJwtAccessToken(oauthToken);
-      await this.repository.insertToken(oauthToken);
+      const character = await fetchEveCharacter(oauthToken.access_token);
+      await this.repository.insertToken(oauthToken, character.CharacterID);
 
       /**
        * Set a secure HTTP-only cookie on the response

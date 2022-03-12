@@ -1,5 +1,3 @@
-import { v4 as guid } from 'uuid';
-
 import { AppEnv } from 'utils/appEnv';
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -8,13 +6,14 @@ import { AppRoutes } from 'app/pages/appRoutes';
  */
 const Scope = {
   ReadCharacterAssets: 'esi-assets.read_assets.v1',
+  ReadCharacterWallet: 'esi-wallet.read_character_wallet.v1',
   ReadCorporationAssets: 'esi-assets.read_corporation_assets.v1',
 } as const;
 
 /**
  * Arrayify the scoped permissions
  */
-const scopes = [Scope.ReadCharacterAssets, Scope.ReadCorporationAssets];
+const scopes = [Scope.ReadCharacterAssets, Scope.ReadCorporationAssets, Scope.ReadCharacterWallet];
 
 /**
  * Tell EVE to send us to this URI

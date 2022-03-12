@@ -13,6 +13,9 @@ export class AuthToken extends BaseEntity {
   id: number;
 
   @Column()
+  characterId: number;
+
+  @Column()
   access_token: string;
 
   @Column()

@@ -1,15 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
-import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
-import { CharacterResponse } from 'src/services/types/character-api';
-
 import {
   fetchEveCharacterDetails,
   fetchEveCharacterPortrait,
-  fetchEveCharacter,
+  fetchEveCharacterCorporation,
+  fetchEveCharacterWallet,
+  fetchEvePaginatedCharacterAssets,
 } from 'src/services/lib/assets';
-import { OauthTokenApi } from 'src/services/types/auth-api';
+
+import { AuthToken } from 'src/entities/AuthToken';
+import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
+import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+import { CharacterResponse, PaginatedCharacterAssets } from 'src/services/types/character-api';
 
 interface AssetsRouterOpts extends BaseRouterOpts {
   repository: AuthTokenRepository;
@@ -27,8 +29,19 @@ export class AssetsRouter extends BaseRouter {
     this.registerGetHandler('/character', this.getCharacter.bind(this));
   }
 
-  async getCharacter({ cookies }: Request, res: Response<CharacterResponse>, next: NextFunction) {
-    let jwt: OauthTokenApi | undefined;
+  /**
+   * Get various character information
+   * @param cookies
+   * @param body
+   * @param res
+   * @param next
+   */
+  async getCharacter(
+    { cookies, body }: Request,
+    res: Response<CharacterResponse>,
+    next: NextFunction,
+  ) {
+    let jwt: AuthToken | undefined;
 
     if (!cookies?.jwt) {
       next(new Error('Unable to authorize character request'));
@@ -42,12 +55,55 @@ export class AssetsRouter extends BaseRouter {
       return;
     }
 
-    const { access_token } = jwt;
+    const { page = 1 } = body;
+    const { access_token, characterId } = jwt;
 
-    const character = await fetchEveCharacter(access_token);
-    const characterDetails = await fetchEveCharacterDetails(access_token, character.CharacterID);
-    const characterPortrait = await fetchEveCharacterPortrait(access_token, character.CharacterID);
+    const details = await fetchEveCharacterDetails(access_token, characterId);
+    const portrait = await fetchEveCharacterPortrait(access_token, characterId);
+    const wallet = await fetchEveCharacterWallet(access_token, characterId);
+    const characterAssets = await this.getCharacterInventory(access_token, characterId, page);
+    const corporationDetails = await fetchEveCharacterCorporation(
+      access_token,
+      details.corporation_id,
+    );
 
-    res.json({ verified: true, character, characterDetails, characterPortrait });
+    const response: CharacterResponse = {
+      character: {
+        details,
+        portrait,
+        wallet,
+        assets: characterAssets,
+      },
+      corporation: {
+        details: corporationDetails,
+      },
+      verified: true,
+    };
+
+    res.json(response);
+  }
+
+  /**
+   * Get character inventory
+   * @param accessToken
+   * @param characterId
+   * @param page
+   */
+  async getCharacterInventory(
+    accessToken: string,
+    characterId: number,
+    page: number,
+  ): Promise<PaginatedCharacterAssets> {
+    const inventory = await fetchEvePaginatedCharacterAssets(accessToken, characterId, page);
+
+    let nextPage = -1;
+    if (inventory.length >= 1000) {
+      nextPage = page + 1;
+    }
+
+    return {
+      nextPage,
+      inventory,
+    };
   }
 }

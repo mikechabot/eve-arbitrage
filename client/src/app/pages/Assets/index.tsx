@@ -1,10 +1,19 @@
+import { useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { Container, Flex } from '@chakra-ui/react';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
 import { useAuthContext } from 'hooks/useAuthContext';
 import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
-import { useEffect } from 'react';
+
+import { Fullscreen } from 'app/layout/Fullscreen';
+import { Page } from 'app/layout/Page';
+
+import { Spinner } from 'app/components/Spinner';
+
+import { Character } from './components/Character';
+import { CharacterAssets } from './components/CharacterAssets';
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
@@ -21,36 +30,35 @@ export const Assets = () => {
   }
 
   if (isError) {
-    return <span>Error!</span>;
+    return (
+      <Fullscreen>
+        <span>Error!</span>
+      </Fullscreen>
+    );
   }
 
   if (isFetching) {
-    return <span>Loading assets...</span>;
+    return (
+      <Fullscreen>
+        <Spinner label="Loading Assets..." />
+      </Fullscreen>
+    );
   }
 
   if (!data) {
     return null;
   }
 
-  const { character, characterDetails, characterPortrait } = data;
+  const { character, corporation } = data;
 
   return (
-    <div>
-      <img alt="character portrait" src={characterPortrait.px256x256} height={256} width={256} />
-      <table>
-        {Object.keys(characterDetails).map((key) => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{characterDetails[key]}</td>
-          </tr>
-        ))}
-      </table>
-      <button type="button" onClick={() => ({})}>
-        Fetch User assets
-      </button>
-      <button type="button" onClick={() => ({})}>
-        Fetch Corporation assets
-      </button>
-    </div>
+    <Page>
+      <Container maxW="container.lg">
+        <Flex>
+          <Character character={character!} corporation={corporation!} />
+          <CharacterAssets assets={character!.assets} />
+        </Flex>
+      </Container>
+    </Page>
   );
 };

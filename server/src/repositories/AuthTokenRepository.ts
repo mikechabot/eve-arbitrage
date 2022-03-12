@@ -11,8 +11,8 @@ export class AuthTokenRepository extends Repository<AuthToken> {
     this.repository = getRepository(AuthToken);
   }
 
-  insertToken(token: OauthTokenApi) {
-    return this.repository.insert({ ...token, isValid: true });
+  insertToken(token: OauthTokenApi, characterId: number) {
+    return this.repository.insert({ ...token, isValid: true, characterId });
   }
 
   invalidateToken(token: AuthToken) {
