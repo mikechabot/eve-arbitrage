@@ -1,6 +1,6 @@
-import {AuthResponse} from "src/routers/types/shared-api";
+import { AuthResponse } from 'src/routers/types/shared-api';
 
-export interface Character {
+export interface CharacterApi {
   CharacterID: number;
   CharacterName: string;
   ExpiresOn: string;
@@ -13,7 +13,7 @@ export interface Character {
 /**
  * https://esi.evetech.net/ui
  */
-export interface CharacterDetails {
+export interface EveCharacterDetailsApiV5 {
   birthday: string;
   bloodline_id: number;
   corporation_id: number;
@@ -27,7 +27,7 @@ export interface CharacterDetails {
 /**
  * https://esi.evetech.net/ui
  */
-export interface CharacterPortrait {
+export interface EveCharacterPortraitApiV3 {
   px128x128: string;
   px256x256: string;
   px512x512: string;
@@ -35,7 +35,7 @@ export interface CharacterPortrait {
 }
 
 export interface CharacterResponse extends AuthResponse {
-  character?: Character;
-  characterDetails?: CharacterDetails;
-  characterPortrait?: CharacterPortrait;
+  character?: CharacterApi;
+  characterDetails?: EveCharacterDetailsApiV5;
+  characterPortrait?: EveCharacterPortraitApiV3;
 }

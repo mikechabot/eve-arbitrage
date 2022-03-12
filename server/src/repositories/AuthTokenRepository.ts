@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
 import { AuthToken } from 'src/entities/AuthToken';
-import { OauthToken } from 'src/services/types/auth';
+import { OauthTokenApi } from 'src/services/types/auth-api';
 
 export class AuthTokenRepository extends Repository<AuthToken> {
   private readonly repository: Repository<AuthToken>;
@@ -11,11 +11,15 @@ export class AuthTokenRepository extends Repository<AuthToken> {
     this.repository = getRepository(AuthToken);
   }
 
-  insertToken(token: OauthToken) {
-    return this.repository.insert(token);
+  insertToken(token: OauthTokenApi) {
+    return this.repository.insert({ ...token, isValid: true });
   }
 
-  getTokenByJwt(jwt: string): Promise<OauthToken | undefined> {
+  invalidateToken(token: AuthToken) {
+    return this.repository.update(token.id, { ...token, isValid: false });
+  }
+
+  getTokenByJwt(jwt: string): Promise<AuthToken | undefined> {
     return this.repository.findOne({ access_token: jwt });
   }
 }

@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import fs from 'fs';
 import https from 'https';
+import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -21,7 +22,7 @@ import { AssetsRouter } from 'src/routers/AssetsRouter';
 
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
 
-import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from 'src/util/data';
+import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from 'src/utils/data';
 
 const startServer = async () => {
   /**
@@ -105,6 +106,10 @@ const startServer = async () => {
 
   app.use('/auth', new AuthRouter({ repository }).router);
   app.use('/assets', new AssetsRouter({ repository }).router);
+
+  app.get('/favico.ico', (_, res) => {
+    res.sendFile(path.resolve(__dirname, 'assets', 'myfavico.ico'));
+  });
 
   /**
    * Handle 404s

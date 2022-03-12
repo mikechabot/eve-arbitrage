@@ -1,4 +1,4 @@
-export interface SsoMetadata {
+export interface EveSsoMetadataApi {
   issuer: string;
   authorization_endpoint: string;
   token_endpoint: string;
@@ -11,7 +11,7 @@ export interface SsoMetadata {
   code_challenge_methods_supported: string[];
 }
 
-export interface OauthToken {
+export interface OauthTokenApi {
   access_token: string;
   expires_in: number;
   token_type: string;

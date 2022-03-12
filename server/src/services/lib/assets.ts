@@ -1,86 +1,78 @@
 import fetch from 'cross-fetch';
 
 import { Endpoints } from 'src/services/endpoints';
-import {Character, CharacterDetails, CharacterPortrait} from 'src/services/types/character';
+
+import {
+  CharacterApi,
+  EveCharacterDetailsApiV5,
+  EveCharacterPortraitApiV3,
+} from 'src/services/types/character-api';
+
+import { buildDefaultEveTechHeaders } from 'src/services/utils';
 
 /**
  * This goes straight to EVE's verification endpoint to pull
- * the character info
+ * the base character info
  *
  * https://login.eveonline.com/oauth/verify
  * @param accessToken
  */
-export const verifyJwtAndGetCharacter = async (accessToken: string): Promise<Character> => {
+export const fetchEveCharacter = async (accessToken: string): Promise<CharacterApi> => {
   try {
     const character = await fetch(Endpoints.OauthVerify, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        /**
-         * Required by EVE
-         */
-        Host: 'login.eveonline.com',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
-      },
+      headers: buildDefaultEveTechHeaders(accessToken),
     });
 
     return await character.json();
   } catch (e) {
-    console.error('Unable to validate OAuth access token for base character');
+    console.error('Unable to validate OAuth access obtainOauthToken for base character');
     return e;
   }
 };
 
-export const fetchCharacterDetails = async (
+/**
+ * https://esi.evetech.net/ui/#/Character/get_characters_character_id
+ * /characters/{character_id}/
+ * @param accessToken
+ * @param characterId
+ */
+export const fetchEveCharacterDetails = async (
   accessToken: string,
   characterId: number,
-): Promise<CharacterDetails> => {
+): Promise<EveCharacterDetailsApiV5> => {
   try {
     const characterDetails = await fetch(`${Endpoints.EveTech}/v5/characters/${characterId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        /**
-         * Required by EVE
-         */
-        Host: 'esi.evetech.net',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
-      },
+      headers: buildDefaultEveTechHeaders(accessToken),
     });
 
     return await characterDetails.json();
   } catch (e) {
-    console.error('Unable to validate OAuth access token for base character');
+    console.error('Error fetching character details');
     return e;
   }
 };
 
-export const fetchCharacterPortrait = async (
+/**
+ * https://esi.evetech.net/ui/#/Character/get_characters_character_id_portrait
+ * /characters/{character_id}/portrait/
+ * @param accessToken
+ * @param characterId
+ */
+export const fetchEveCharacterPortrait = async (
   accessToken: string,
   characterId: number,
-): Promise<CharacterPortrait> => {
+): Promise<EveCharacterPortraitApiV3> => {
   try {
-    const characterPortrait = await fetch(`${Endpoints.EveTech}/v3/characters/${characterId}/portrait`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        /**
-         * Required by EVE
-         */
-        Host: 'esi.evetech.net',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
+    const characterPortrait = await fetch(
+      `${Endpoints.EveTech}/v3/characters/${characterId}/portrait`,
+      {
+        headers: buildDefaultEveTechHeaders(accessToken),
       },
-    });
+    );
 
     return await characterPortrait.json();
   } catch (e) {
-    console.error('Unable to validate OAuth access token for base character');
+    console.error('Error fetching character portrait');
     return e;
   }
 };

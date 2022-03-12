@@ -1,6 +1,6 @@
 groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNonSingleton,published
 0,0,#System,None,0,0,0,0,0
-1,1,Character,None,0,0,0,0,0
+1,1,CharacterApi,None,0,0,0,0,0
 2,1,Corporation,None,0,0,0,0,0
 3,2,Region,None,0,0,0,0,0
 4,2,Constellation,None,0,0,0,0,0

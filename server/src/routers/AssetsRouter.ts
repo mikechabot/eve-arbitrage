@@ -2,14 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 
 import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
-import { CharacterResponse } from 'src/services/types/character';
+import { CharacterResponse } from 'src/services/types/character-api';
 
 import {
-  fetchCharacterDetails,
-  fetchCharacterPortrait,
-  verifyJwtAndGetCharacter,
+  fetchEveCharacterDetails,
+  fetchEveCharacterPortrait,
+  fetchEveCharacter,
 } from 'src/services/lib/assets';
-import { OauthToken } from 'src/services/types/auth';
+import { OauthTokenApi } from 'src/services/types/auth-api';
 
 interface AssetsRouterOpts extends BaseRouterOpts {
   repository: AuthTokenRepository;
@@ -28,7 +28,7 @@ export class AssetsRouter extends BaseRouter {
   }
 
   async getCharacter({ cookies }: Request, res: Response<CharacterResponse>, next: NextFunction) {
-    let jwt: OauthToken | undefined;
+    let jwt: OauthTokenApi | undefined;
 
     if (!cookies?.jwt) {
       next(new Error('Unable to authorize character request'));
@@ -44,9 +44,9 @@ export class AssetsRouter extends BaseRouter {
 
     const { access_token } = jwt;
 
-    const character = await verifyJwtAndGetCharacter(access_token);
-    const characterDetails = await fetchCharacterDetails(access_token, character.CharacterID);
-    const characterPortrait = await fetchCharacterPortrait(access_token, character.CharacterID);
+    const character = await fetchEveCharacter(access_token);
+    const characterDetails = await fetchEveCharacterDetails(access_token, character.CharacterID);
+    const characterPortrait = await fetchEveCharacterPortrait(access_token, character.CharacterID);
 
     res.json({ verified: true, character, characterDetails, characterPortrait });
   }

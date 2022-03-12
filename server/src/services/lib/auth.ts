@@ -2,15 +2,20 @@ import fetch from 'cross-fetch';
 import jwksClient, { SigningKey } from 'jwks-rsa';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-import { EveBasicAuthKey } from 'src/constants';
 import { Endpoints } from 'src/services/endpoints';
+import { DefaultAuthHeaders } from 'src/services/constants';
 
-import { JsonWebKeyRS256, OauthToken, SsoMetadata } from 'src/services/types/auth';
+import { JsonWebKeyRS256, OauthTokenApi, EveSsoMetadataApi } from 'src/services/types/auth-api';
 
-export const fetchOauthToken = async (code: string): Promise<OauthToken> => {
+/**
+ * After an SSO login, the client sends up the code sent on the redirect URI,
+ * which we use to fetch an OAuth2 obtainOauthToken.
+ * @param code
+ */
+export const fetchOauthToken = async (code: string): Promise<OauthTokenApi> => {
   try {
     /**
-     * Follow the token flow as defined in https://docs.esi.evetech.net/docs/sso/web_based_sso_flow.html
+     * Follow the obtainOauthToken flow as defined in https://docs.esi.evetech.net/docs/sso/web_based_sso_flow.html
      */
     const oauthTokenResponse = await fetch(Endpoints.OauthToken, {
       method: 'POST',
@@ -18,24 +23,7 @@ export const fetchOauthToken = async (code: string): Promise<OauthToken> => {
        * EVE wants form encoded values
        */
       body: new URLSearchParams(`grant_type=authorization_code&code=${code}`),
-      headers: {
-        /**
-         * Base64 encode our credentials: clientId + clientSecret
-         */
-        Authorization: `Basic ${Buffer.from(EveBasicAuthKey).toString('base64')}`,
-        /**
-         * Tell the server we're sending form encoded data
-         */
-        'Content-Type': 'application/x-www-form-urlencoded',
-        /**
-         * Required by EVE
-         */
-        Host: 'login.eveonline.com',
-        /**
-         * Tell fetch we're expecting JSON back
-         */
-        Accept: 'application/json',
-      },
+      headers: DefaultAuthHeaders,
     });
 
     // Parse the JSON response
@@ -46,11 +34,13 @@ export const fetchOauthToken = async (code: string): Promise<OauthToken> => {
 };
 
 /**
- * Validate the JWT based on the instructions from EVE
+ * Once we're given an OAuth2 obtainOauthToken, Validate the JWT based against the EVE issuing server
  * https://docs.esi.evetech.net/docs/sso/validating_eve_jwt.html
  * @param oauthToken
  */
-export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | undefined> => {
+export const validateJwtAccessToken = async ({
+  access_token,
+}: OauthTokenApi): Promise<JwtPayload> => {
   let jwksUri: string;
 
   try {
@@ -63,9 +53,9 @@ export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | 
      * Get SSO metadata from EVE, which contains the "jwks_uri"
      * https://login.eveonline.com/oauth/jwks
      */
-    const metadata: SsoMetadata = await metadataResponse.json();
+    const metadata: EveSsoMetadataApi = await metadataResponse.json();
     if (!metadata.jwks_uri) {
-      return undefined;
+      return Promise.reject(new Error('SSO metadata did not contain "jwks_uri"'));
     }
 
     /**
@@ -83,7 +73,7 @@ export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | 
 
   /**
    * This callback obtains the signing key from "jwksUri", which is used to
-   * verify the OAuth token (issuer and expiry)
+   * verifyAndRefreshOauthToken the OAuth obtainOauthToken (issuer and expiry)
    * https://login.eveonline.com/oauth/jwks
    * @param header
    * @param callback
@@ -109,7 +99,7 @@ export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | 
    */
   return new Promise((resolve, reject) => {
     jwt.verify(
-      oauthToken.access_token,
+      access_token,
       getPublicKeyOrSecret,
       { issuer: Endpoints.OauthIssuer },
       (e, decoded: JwtPayload | string | undefined) => {
@@ -120,4 +110,30 @@ export const validateJwt = async (oauthToken: OauthToken): Promise<JwtPayload | 
       },
     );
   });
+};
+
+/**
+ * Refresh the OAuth2 obtainOauthToken given a refresh obtainOauthToken
+ * https://docs.esi.evetech.net/docs/sso/refreshing_access_tokens.html
+ * @param refreshToken
+ */
+export const refreshOauthToken = async (refreshToken: string): Promise<OauthTokenApi> => {
+  try {
+    /**
+     * Follow the obtainOauthToken flow as defined in https://docs.esi.evetech.net/docs/sso/web_based_sso_flow.html
+     */
+    const oauthTokenResponse = await fetch(Endpoints.OauthToken, {
+      method: 'POST',
+      /**
+       * EVE wants form encoded values
+       */
+      body: new URLSearchParams(`grant_type=refresh_token&refresh_token=${refreshToken}`),
+      headers: DefaultAuthHeaders,
+    });
+
+    // Parse the JSON response
+    return await oauthTokenResponse.json();
+  } catch (e) {
+    return e;
+  }
 };

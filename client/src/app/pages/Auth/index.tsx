@@ -53,7 +53,7 @@ export const Auth = () => {
   }
 
   /**
-   * If we're mutating the OAuth token, or verifying,
+   * If we're mutating the OAuth obtainOauthToken, or verifying,
    * show a loading indicator.
    */
   if (isLoadingMutateOAuthToken || isLoadingVerify) {

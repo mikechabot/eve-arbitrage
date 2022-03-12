@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 
-import { Endpoints } from 'src/services/endpoints';
-
-import { fetchOauthToken, validateJwt } from 'src/services/lib/auth';
+import { fetchOauthToken, refreshOauthToken, validateJwtAccessToken } from 'src/services/lib/auth';
 
 import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
-import { AuthVerifyResponse, ChallengeType } from 'src/routers/types/auth-api';
+import { AuthTokenResponse, AuthVerifyResponse, ChallengeType } from 'src/routers/types/auth-api';
+import { AuthToken } from 'src/entities/AuthToken';
 
 interface AuthRouterProps extends BaseRouterOpts {
   repository: AuthTokenRepository;
@@ -21,25 +20,93 @@ export class AuthRouter extends BaseRouter {
   }
 
   initializeRoutes(): void {
-    this.registerPostHandler('/token', this.postToken.bind(this));
-    this.registerGetHandler('/verify', this.verifyJwtCookie.bind(this));
+    this.registerPostHandler('/token', this.obtainOauthToken.bind(this));
+    this.registerGetHandler('/verify', this.verifyAndRefreshOauthToken.bind(this));
   }
 
-  async verifyJwtCookie({ cookies }: Request, res: Response<AuthVerifyResponse>) {
-    if (cookies?.jwt) {
-      const jwt = await this.repository.getTokenByJwt(cookies.jwt);
-      if (jwt) {
+  /**
+   * Verify the existing OAuth2 token. If it's no longer valid, attempt to refresh it.
+   * Always send back an HTTP 200 OK response. If for whatever reason we cannot obtain
+   * an OAuth token, and back and SSO challenge.
+   * @param cookies
+   * @param res
+   */
+  async verifyAndRefreshOauthToken({ cookies }: Request, res: Response<AuthVerifyResponse>) {
+    /**
+     * If the request doesn't contain the JWT cookie we set, then
+     * send back the SSO challenge
+     */
+    if (!cookies?.jwt) {
+      res.json({ verified: false, challenge: ChallengeType.SSO });
+      return;
+    }
+
+    let oauthToken: AuthToken | undefined;
+
+    /**
+     * If the JWT cookie on the cookie is not in the database, this is
+     * probably a bad actor, so send back the SSO challenge.
+     */
+    oauthToken = await this.repository.getTokenByJwt(cookies.jwt);
+    if (!oauthToken) {
+      res.json({ verified: false, challenge: ChallengeType.SSO });
+      return;
+    }
+
+    try {
+      /**
+       * Validate the existing obtainOauthToken we found
+       */
+      await validateJwtAccessToken(oauthToken);
+      res.json({ verified: true });
+      return;
+    } catch (e) {
+      try {
+        console.log('Invalidate token...');
+        await this.repository.invalidateToken(oauthToken);
+        console.log('Refreshing obtainOauthToken...');
+        const newOauthToken = await refreshOauthToken(oauthToken.refresh_token);
+        console.log('Got refreshed obtainOauthToken');
+        await validateJwtAccessToken(newOauthToken);
+        await this.repository.insertToken(newOauthToken);
+
+        res.cookie('jwt', newOauthToken.access_token, {
+          secure: true,
+          httpOnly: true,
+          domain: 'localhost',
+          maxAge: 365 * 24 * 60 * 60 * 1000, // Keep cookie for a year
+        });
+
         res.json({ verified: true });
         return;
+      } catch (e) {
+        console.log('Unable to refresh OAuth obtainOauthToken');
+        console.error(e);
       }
     }
+
+    // Kill the cookie
+    res.cookie('jwt', {
+      secure: true,
+      httpOnly: true,
+      domain: 'localhost',
+      maxAge: 0,
+      expires: new Date(0),
+    });
+
     /**
-     * This is still an HTTP 200 OK, as we want to send the SSO challenge
+     * If we get here, we could validate and/or refresh the obtainOauthToken.
      */
     res.json({ verified: false, challenge: ChallengeType.SSO });
   }
 
-  async postToken(req: Request, res: Response) {
+  /**
+   * After an SSO login, the client sends up the code sent on the redirect URI,
+   * which we use to fetch an OAuth2 obtainOauthToken.
+   * @param req
+   * @param res
+   */
+  async obtainOauthToken(req: Request, res: Response<AuthTokenResponse>) {
     const { code } = req.body;
 
     /**
@@ -47,25 +114,25 @@ export class AuthRouter extends BaseRouter {
      */
     if (!code) {
       res.status(401);
-      res.send('You have not authorized against EVE SSO');
+      res.json({ verified: false });
       return;
     }
 
     try {
       /**
-       * Get the OAuth token
+       * Get the OAuth obtainOauthToken
        */
       const oauthToken = await fetchOauthToken(code);
 
-      console.log(oauthToken);
-
       /**
-       * Validate the OAuth token
+       * Validate the OAuth obtainOauthToken
        */
-      await validateJwt(oauthToken);
-
+      await validateJwtAccessToken(oauthToken);
       await this.repository.insertToken(oauthToken);
 
+      /**
+       * Set a secure HTTP-only cookie on the response
+       */
       res.cookie('jwt', oauthToken.access_token, {
         secure: true,
         httpOnly: true,
@@ -73,18 +140,11 @@ export class AuthRouter extends BaseRouter {
         maxAge: 365 * 24 * 60 * 60 * 1000, // Keep cookie for a year
       });
 
-      res.json({ success: true });
-
-      /**
-       * Get character information
-       */
-      // const character = await verifyJwtAndGetCharacter(oauthToken.access_token);
-      //
-      // res.json(character);
+      res.json({ verified: true });
     } catch (e) {
       console.error(e);
       res.status(401);
-      res.send(`Error fetching auth token from ${Endpoints.OauthToken}`);
+      res.json({ verified: false });
     }
   }
 }

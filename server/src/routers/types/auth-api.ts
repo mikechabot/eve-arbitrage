@@ -10,3 +10,7 @@ export type ChallengeType = typeof ChallengeType[keyof typeof ChallengeType];
 export interface AuthVerifyResponse extends AuthResponse {
   challenge?: ChallengeType;
 }
+
+export interface AuthTokenResponse extends AuthResponse {
+  challenge?: ChallengeType;
+}
