@@ -13,6 +13,8 @@ import { createConnection, getRepository } from 'typeorm';
 
 import { ormConfig } from 'src/orm-config';
 
+import { InvType } from 'src/entities/InvType';
+
 import { InvTypeResolver } from 'src/resolvers/InvTypeResolver';
 import { InvGroupResolver } from 'src/resolvers/InvGroupResolver';
 import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
@@ -21,9 +23,14 @@ import { AuthRouter } from 'src/routers/AuthRouter';
 import { AssetsRouter } from 'src/routers/AssetsRouter';
 
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+import { StationRepository } from 'src/repositories/StationRepository';
 
-import { migrateInvCategories, migrateInvGroups, migrateInvTypes } from 'src/utils/data';
-import { InvType } from 'src/entities/InvType';
+import {
+  migrateInvCategories,
+  migrateInvGroups,
+  migrateInvTypes,
+  migrateStations,
+} from 'src/utils/data';
 
 const startServer = async () => {
   /**
@@ -37,6 +44,7 @@ const startServer = async () => {
   await migrateInvTypes();
   await migrateInvGroups();
   await migrateInvCategories();
+  await migrateStations();
 
   /**
    * Create the Express server, which exposes a listening port
@@ -104,10 +112,14 @@ const startServer = async () => {
   app.use(cookieParser());
 
   const authRepository = new AuthTokenRepository();
+  const stationRepository = new StationRepository();
   const itemsRepository = getRepository(InvType);
 
   app.use('/auth', new AuthRouter({ authRepository }).router);
-  app.use('/assets', new AssetsRouter({ authRepository, itemsRepository }).router);
+  app.use(
+    '/assets',
+    new AssetsRouter({ authRepository, itemsRepository, stationRepository }).router,
+  );
 
   app.get('/favico.ico', (_, res) => {
     res.sendFile(path.resolve(__dirname, 'assets', 'myfavico.ico'));

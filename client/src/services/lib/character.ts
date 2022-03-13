@@ -18,7 +18,7 @@ import { mockCharacterResponse } from './mocks/character-response';
 // import { Statistics } from 'services/types/statistics';
 
 export const fetchCharacter = (): Promise<CharacterResponse> => {
-  return Promise.resolve(mockCharacterResponse);
+  // return Promise.resolve(mockCharacterResponse);
 
   return processServiceCall(async () => {
     const apiResponse = await fetchClient.get(Endpoints.Character).json<any>();

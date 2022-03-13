@@ -13,22 +13,29 @@ import {
 
 import { AuthToken } from 'src/entities/AuthToken';
 import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
+
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+import { StationRepository } from 'src/repositories/StationRepository';
+
 import { CharacterResponse, PaginatedCharacterAssets } from 'src/services/types/character-api';
+import { Station } from 'src/entities/Station';
 
 interface AssetsRouterOpts extends BaseRouterOpts {
   authRepository: AuthTokenRepository;
   itemsRepository: Repository<InvType>;
+  stationRepository: StationRepository;
 }
 
 export class AssetsRouter extends BaseRouter {
   private readonly authRepository: AuthTokenRepository;
   private readonly itemsRepository: Repository<InvType>;
+  private readonly stationRepository: StationRepository;
 
   constructor(opts: AssetsRouterOpts) {
     super(opts);
     this.authRepository = opts.authRepository;
     this.itemsRepository = opts.itemsRepository;
+    this.stationRepository = opts.stationRepository;
   }
 
   initializeRoutes(): void {
@@ -102,10 +109,16 @@ export class AssetsRouter extends BaseRouter {
   ): Promise<PaginatedCharacterAssets> {
     const inventory = await fetchEvePaginatedCharacterAssets(accessToken, characterId, page);
     const itemTypes = await this.itemsRepository.find({});
+    const stations = await this.stationRepository.findAll();
 
     const itemTypeMap = {} as Record<number, InvType>;
     itemTypes.forEach((itemType) => {
       itemTypeMap[itemType.typeId] = itemType;
+    });
+
+    const stationMap = {} as Record<number, Station>;
+    stations!.forEach((station) => {
+      stationMap[station.stationId] = station;
     });
 
     let nextPage = -1;
@@ -116,6 +129,9 @@ export class AssetsRouter extends BaseRouter {
     inventory.forEach((asset) => {
       if (itemTypeMap[asset.type_id]) {
         asset.typeName = itemTypeMap[asset.type_id].typeName;
+      }
+      if (stationMap[asset.location_id]) {
+        asset.stationName = stationMap[asset.location_id].stationName;
       }
     });
 

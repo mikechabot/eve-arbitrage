@@ -12,6 +12,7 @@ export const CsvFilename = {
   Category: 'invCategories.csv',
   Group: 'invGroups.csv',
   Type: 'invTypes.csv',
+  Station: 'stations.csv',
 };
 
 const RedirectUri = 'https://localhost:3000/auth/sso/';

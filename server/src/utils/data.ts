@@ -8,6 +8,7 @@ import { CsvFilename, StreamEvent } from 'src/constants';
 import { InvType } from 'src/entities/InvType';
 import { InvGroup } from 'src/entities/InvGroup';
 import { InvCategory } from 'src/entities/InvCategory';
+import { Station } from 'src/entities/Station';
 
 /**
  * Load a CSV given a filepath, and invoke a callback when the row is parsed
@@ -62,6 +63,21 @@ export const migrateInvTypes = async () => {
     const typesCsv = path.resolve(__dirname, 'csv', CsvFilename.Type);
     insertFromCsv(typesCsv, ({ typeId, groupId, typeName }) => {
       typesRepository.insert({ typeId, groupId, typeName });
+    });
+  }
+};
+
+/**
+ * Migrate inventory types
+ */
+export const migrateStations = async () => {
+  const stationRepository = getRepository(Station);
+  const stationsCount = await stationRepository.count();
+
+  if (stationsCount === 0) {
+    const stationsCsv = path.resolve(__dirname, 'csv', CsvFilename.Station);
+    insertFromCsv(stationsCsv, ({ stationId, security, stationName }) => {
+      stationRepository.insert({ stationId, security, stationName, isNpc: true });
     });
   }
 };

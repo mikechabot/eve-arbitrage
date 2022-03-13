@@ -70,7 +70,9 @@ export interface EveInventoryAssetV5 {
   location_type: string;
   quantity: number;
   type_id: number;
+  // These are mapped! Move to another interface that's a domain object
   typeName?: string;
+  stationName?: string;
 }
 
 /**

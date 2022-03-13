@@ -204,3 +204,35 @@ export const fetchEveCharacterWallet = async (
     return e;
   }
 };
+
+/**
+ * https://esi.evetech.net/ui/#/Assets/get_corporations_corporation_id_assets
+ * /v5/corporations/{corporation_id}/assets/
+ * @param accessToken
+ * @param corporationId
+ */
+export const fetchEveCorporationAssets = async (
+  accessToken: string,
+  corporationId: number,
+): Promise<EveCharacterWalletApiV1> => {
+  try {
+    const wallet = await fetch(`${Endpoints.EveTech}/v5/corporations/${corporationId}/assets/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        /**
+         * Required by EVE
+         */
+        Host: 'esi.evetech.net',
+        /**
+         * Tell fetch we're expecting JSON back
+         */
+        Accept: 'application/json',
+      },
+    });
+
+    return await wallet.json();
+  } catch (e) {
+    console.error('Error fetching character portrait');
+    return e;
+  }
+};
