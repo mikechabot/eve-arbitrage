@@ -1,28 +1,35 @@
 import { Request, Response } from 'express';
 
-import { fetchOauthToken, refreshOauthToken, validateJwtAccessToken } from 'src/services/lib/auth';
+import { BaseRouter } from 'src/routers/BaseRouter';
 
-import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
-import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+import { EveAuthService } from 'src/services/lib/eve-auth-service';
+import { AuthTokenService } from 'src/services/lib/auth-token-service';
+import { EveCharacterService } from 'src/services/lib/eve-character-service';
+
 import { AuthTokenResponse, AuthVerifyResponse, ChallengeType } from 'src/routers/types/auth-api';
-import { AuthToken } from 'src/entities/AuthToken';
-import { fetchEveCharacter } from 'src/services/lib/assets';
 
-interface AuthRouterProps extends BaseRouterOpts {
-  authRepository: AuthTokenRepository;
+interface AuthRouterProps {
+  authTokenService: AuthTokenService;
+  eveAuthService: EveAuthService;
+  eveCharacterService: EveCharacterService;
 }
 
 export class AuthRouter extends BaseRouter {
-  private readonly authRepository: AuthTokenRepository;
+  private readonly authTokenService: AuthTokenService;
+  private readonly eveAuthService: EveAuthService;
+  private readonly eveCharacterService: EveCharacterService;
 
-  constructor(opts: AuthRouterProps) {
-    super(opts);
-    this.authRepository = opts.authRepository;
+  constructor({ eveAuthService, authTokenService, eveCharacterService }: AuthRouterProps) {
+    super();
+    this.eveAuthService = eveAuthService;
+    this.authTokenService = authTokenService;
+    this.eveCharacterService = eveCharacterService;
   }
 
   initializeRoutes(): void {
-    this.registerPostHandler('/token', this.obtainOauthToken.bind(this));
-    this.registerGetHandler('/verify', this.verifyAndRefreshOauthToken.bind(this));
+    this.registerPostHandler('/login', this.login.bind(this));
+    this.registerPostHandler('/logout', this.logout.bind(this));
+    this.registerGetHandler('/verify', this.getVerifyToken.bind(this));
   }
 
   /**
@@ -32,26 +39,13 @@ export class AuthRouter extends BaseRouter {
    * @param cookies
    * @param res
    */
-  async verifyAndRefreshOauthToken({ cookies }: Request, res: Response<AuthVerifyResponse>) {
-    /**
-     * If the request doesn't contain the JWT cookie we set, then
-     * send back the SSO challenge
-     */
-    if (!cookies?.jwt) {
-      console.log('No Cookie');
-      res.json({ verified: false, challenge: ChallengeType.SSO });
-      return;
-    }
-
-    let oauthToken: AuthToken | undefined;
-
+  async getVerifyToken({ cookies }: Request, res: Response<AuthVerifyResponse>) {
     /**
      * If the JWT cookie on the cookie is not in the database, this is
      * probably a bad actor, so send back the SSO challenge.
      */
-    oauthToken = await this.authRepository.getTokenByJwt(cookies.jwt);
+    const oauthToken = await this.authTokenService.findJwtByCookie(cookies);
     if (!oauthToken) {
-      console.log('No oauthtoken in db');
       res.json({ verified: false, challenge: ChallengeType.SSO });
       return;
     }
@@ -60,19 +54,19 @@ export class AuthRouter extends BaseRouter {
       /**
        * Validate the existing token we found
        */
-      await validateJwtAccessToken(oauthToken);
+      await this.eveAuthService.validateJwtAccessToken(oauthToken);
       res.json({ verified: true });
       return;
     } catch (e) {
       try {
         console.log(`Invalidating token..."${oauthToken}"`);
-        await this.authRepository.invalidateToken(oauthToken);
+        await this.authTokenService.invalidateToken(oauthToken);
         console.log(`Refreshing token..."${oauthToken.refresh_token}`);
-        const newOauthToken = await refreshOauthToken(oauthToken.refresh_token);
+        const newOauthToken = await this.eveAuthService.refreshAuthToken(oauthToken.refresh_token);
         console.log(`Got refreshed token "${newOauthToken}"`);
-        await validateJwtAccessToken(newOauthToken);
-        const character = await fetchEveCharacter(newOauthToken.access_token);
-        await this.authRepository.insertToken(newOauthToken, character.CharacterID);
+        await this.eveAuthService.validateJwtAccessToken(newOauthToken);
+        const character = await this.eveCharacterService.fetchCharacter(newOauthToken.access_token);
+        await this.authTokenService.addToken(newOauthToken, character.CharacterID);
 
         res.cookie('jwt', newOauthToken.access_token, {
           secure: true,
@@ -98,9 +92,6 @@ export class AuthRouter extends BaseRouter {
     //   expires: new Date(0),
     // });
 
-    // TODO: REMOVE THIS, BUT USED TO DEBUG
-    // res.json({ verified: true });
-
     /**
      * If we get here, we could validate and/or refresh the token.
      */
@@ -113,7 +104,7 @@ export class AuthRouter extends BaseRouter {
    * @param req
    * @param res
    */
-  async obtainOauthToken(req: Request, res: Response<AuthTokenResponse>) {
+  async login(req: Request, res: Response<AuthTokenResponse>) {
     const { code } = req.body;
 
     /**
@@ -129,14 +120,14 @@ export class AuthRouter extends BaseRouter {
       /**
        * Get the OAuth token
        */
-      const oauthToken = await fetchOauthToken(code);
+      const oauthToken = await this.eveAuthService.getOauthToken(code);
 
       /**
        * Validate the OAuth token
        */
-      await validateJwtAccessToken(oauthToken);
-      const character = await fetchEveCharacter(oauthToken.access_token);
-      await this.authRepository.insertToken(oauthToken, character.CharacterID);
+      await this.eveAuthService.validateJwtAccessToken(oauthToken);
+      const character = await this.eveCharacterService.fetchCharacter(oauthToken.access_token);
+      await this.authTokenService.addToken(oauthToken, character.CharacterID);
 
       /**
        * Set a secure HTTP-only cookie on the response
@@ -153,6 +144,41 @@ export class AuthRouter extends BaseRouter {
       console.error(e);
       res.status(401);
       res.json({ verified: false });
+    }
+  }
+
+  /**
+   * If the logout button is clicked, have the Eve servers revoke
+   * the refresh token and invalidate the token in our database.
+   * @param cookies
+   * @param res
+   */
+  async logout({ cookies }: Request, res: Response<AuthVerifyResponse>) {
+    const oauthToken = await this.authTokenService.findJwtByCookie(cookies);
+    if (!oauthToken) {
+      res.status(401);
+      res.json({ verified: false, challenge: ChallengeType.SSO });
+      return;
+    }
+
+    try {
+      await this.eveAuthService.revokeAuthToken(oauthToken.refresh_token);
+      await this.authTokenService.invalidateToken(oauthToken);
+
+      res.cookie('jwt', {
+        secure: true,
+        httpOnly: true,
+        domain: 'localhost',
+        maxAge: 0,
+        expires: new Date(0),
+      });
+
+      res.status(200);
+      res.json({ verified: false, challenge: ChallengeType.SSO });
+    } catch (e) {
+      console.error(e);
+      res.status(401);
+      res.json({ verified: false, challenge: ChallengeType.SSO });
     }
   }
 }

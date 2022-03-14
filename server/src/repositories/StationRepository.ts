@@ -1,24 +1,25 @@
-import { getRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 
 import { Station } from 'src/entities/Station';
 
+@EntityRepository(Station)
 export class StationRepository extends Repository<Station> {
-  private readonly repository: Repository<Station>;
-
-  constructor() {
-    super();
-    this.repository = getRepository(Station);
+  insertNpcStation(station: Station) {
+    return this.insert({ ...station, isNpc: true });
   }
 
-  findAll(): Promise<Station[] | undefined> {
-    return this.repository.find({});
+  findByStationId(stationId: number): Promise<Station | undefined> {
+    return this.findOne({ stationId });
   }
 
-  insertStation(station: Station) {
-    return this.repository.insert({ ...station, isNpc: true });
-  }
+  async getStationByStationIdMap(): Promise<Record<number, Station>> {
+    const stations = await this.find({});
 
-  getStationByStationId(stationId: number): Promise<Station | undefined> {
-    return this.repository.findOne({ stationId });
+    const stationByStationId = {} as Record<number, Station>;
+    stations!.forEach((station) => {
+      stationByStationId[station.stationId] = station;
+    });
+
+    return stationByStationId;
   }
 }

@@ -1,15 +1,10 @@
 import isNil from 'lodash.isnil';
 import { NextFunction, Request, Response, Router } from 'express';
 
-export type BaseRouterOpts = Record<string, any>;
-
 export abstract class BaseRouter {
-  protected opts: BaseRouterOpts;
-
   public router = Router();
 
-  constructor(opts: BaseRouterOpts) {
-    this.opts = opts;
+  protected constructor() {
     this.initializeRoutes();
   }
 

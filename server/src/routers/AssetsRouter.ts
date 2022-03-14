@@ -1,41 +1,28 @@
-import { NextFunction, Request, Response } from 'express';
-import { Repository } from 'typeorm';
+import { Request, Response } from 'express';
 
-import { InvType } from 'src/entities/InvType';
+import { BaseRouter } from 'src/routers/BaseRouter';
 
-import {
-  fetchEveCharacterDetails,
-  fetchEveCharacterPortrait,
-  fetchEveCharacterCorporation,
-  fetchEveCharacterWallet,
-  fetchEvePaginatedCharacterAssets,
-} from 'src/services/lib/assets';
+import { AuthTokenService } from 'src/services/lib/auth-token-service';
+import { CharacterResponse } from 'src/services/types/character-api';
+import { EsiCharacterService } from 'src/services/lib/esi-character-service';
+import { EsiCorporationService } from 'src/services/lib/esi-corporation-service';
 
-import { AuthToken } from 'src/entities/AuthToken';
-import { BaseRouter, BaseRouterOpts } from 'src/routers/BaseRouter';
-
-import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
-import { StationRepository } from 'src/repositories/StationRepository';
-
-import { CharacterResponse, PaginatedCharacterAssets } from 'src/services/types/character-api';
-import { Station } from 'src/entities/Station';
-
-interface AssetsRouterOpts extends BaseRouterOpts {
-  authRepository: AuthTokenRepository;
-  itemsRepository: Repository<InvType>;
-  stationRepository: StationRepository;
+interface AssetsRouterOpts {
+  authTokenService: AuthTokenService;
+  esiCharacterService: EsiCharacterService;
+  esiCorporationService: EsiCorporationService;
 }
 
 export class AssetsRouter extends BaseRouter {
-  private readonly authRepository: AuthTokenRepository;
-  private readonly itemsRepository: Repository<InvType>;
-  private readonly stationRepository: StationRepository;
+  private readonly authTokenService: AuthTokenService;
+  private readonly esiCharacterService: EsiCharacterService;
+  private readonly esiCorporationService: EsiCorporationService;
 
-  constructor(opts: AssetsRouterOpts) {
-    super(opts);
-    this.authRepository = opts.authRepository;
-    this.itemsRepository = opts.itemsRepository;
-    this.stationRepository = opts.stationRepository;
+  constructor({ authTokenService, esiCharacterService, esiCorporationService }: AssetsRouterOpts) {
+    super();
+    this.authTokenService = authTokenService;
+    this.esiCharacterService = esiCharacterService;
+    this.esiCorporationService = esiCorporationService;
   }
 
   initializeRoutes(): void {
@@ -49,19 +36,8 @@ export class AssetsRouter extends BaseRouter {
    * @param res
    * @param next
    */
-  async getCharacter(
-    { cookies, body }: Request,
-    res: Response<CharacterResponse>,
-    next: NextFunction,
-  ) {
-    let jwt: AuthToken | undefined;
-
-    if (!cookies?.jwt) {
-      next(new Error('Unable to authorize character request'));
-      return;
-    }
-
-    jwt = await this.authRepository.getTokenByJwt(cookies.jwt);
+  async getCharacter({ cookies, body }: Request, res: Response<CharacterResponse>) {
+    const jwt = await this.authTokenService.findJwtByCookie(cookies);
     if (!jwt) {
       res.status(401);
       res.json({ verified: false });
@@ -71,11 +47,16 @@ export class AssetsRouter extends BaseRouter {
     const { page = 1 } = body;
     const { access_token, characterId } = jwt;
 
-    const details = await fetchEveCharacterDetails(access_token, characterId);
-    const portrait = await fetchEveCharacterPortrait(access_token, characterId);
-    const wallet = await fetchEveCharacterWallet(access_token, characterId);
-    const characterAssets = await this.getCharacterInventory(access_token, characterId, page);
-    const corporationDetails = await fetchEveCharacterCorporation(
+    const details = await this.esiCharacterService.fetchDetails(access_token, characterId);
+    const portrait = await this.esiCharacterService.fetchPortrait(access_token, characterId);
+    const wallet = await this.esiCharacterService.fetchWallet(access_token, characterId);
+    const characterAssets = await this.esiCharacterService.fetchAssets(
+      access_token,
+      characterId,
+      page,
+    );
+
+    const corporationDetails = await this.esiCorporationService.fetchDetails(
       access_token,
       details.corporation_id,
     );
@@ -94,50 +75,5 @@ export class AssetsRouter extends BaseRouter {
     };
 
     res.json(response);
-  }
-
-  /**
-   * Get character inventory
-   * @param accessToken
-   * @param characterId
-   * @param page
-   */
-  async getCharacterInventory(
-    accessToken: string,
-    characterId: number,
-    page: number,
-  ): Promise<PaginatedCharacterAssets> {
-    const inventory = await fetchEvePaginatedCharacterAssets(accessToken, characterId, page);
-    const itemTypes = await this.itemsRepository.find({});
-    const stations = await this.stationRepository.findAll();
-
-    const itemTypeMap = {} as Record<number, InvType>;
-    itemTypes.forEach((itemType) => {
-      itemTypeMap[itemType.typeId] = itemType;
-    });
-
-    const stationMap = {} as Record<number, Station>;
-    stations!.forEach((station) => {
-      stationMap[station.stationId] = station;
-    });
-
-    let nextPage = -1;
-    if (inventory.length >= 1000) {
-      nextPage = page + 1;
-    }
-
-    inventory.forEach((asset) => {
-      if (itemTypeMap[asset.type_id]) {
-        asset.typeName = itemTypeMap[asset.type_id].typeName;
-      }
-      if (stationMap[asset.location_id]) {
-        asset.stationName = stationMap[asset.location_id].stationName;
-      }
-    });
-
-    return {
-      nextPage,
-      inventory,
-    };
   }
 }

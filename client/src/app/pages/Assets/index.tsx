@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Redirect } from 'react-router';
-import { Container, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -37,7 +37,7 @@ export const Assets = () => {
     );
   }
 
-  if (isFetching) {
+  if (!data || isFetching) {
     return (
       <Fullscreen>
         <Spinner label="Loading Assets..." />
@@ -45,20 +45,14 @@ export const Assets = () => {
     );
   }
 
-  if (!data) {
-    return null;
-  }
-
   const { character, corporation } = data;
 
   return (
     <Page>
-      <Container maxW="container.lg">
-        <Flex>
-          <Character character={character!} corporation={corporation!} />
-          <CharacterAssets assets={character!.assets} />
-        </Flex>
-      </Container>
+      <Flex>
+        <Character character={character!} corporation={corporation!} />
+        <CharacterAssets assets={character!.assets} />
+      </Flex>
     </Page>
   );
 };

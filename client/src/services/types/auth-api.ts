@@ -1,4 +1,4 @@
-type SuccessResponse = { success: boolean };
+type SuccessResponse = { verified: boolean };
 
 export const ChallengeType = {
   SSO: 'sso',

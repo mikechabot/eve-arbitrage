@@ -84,6 +84,6 @@ export type EveInventoryAssetsApiV5 = EveInventoryAssetV5[];
  * Domain object
  */
 export interface PaginatedCharacterAssets {
-  inventory?: EveInventoryAssetsApiV5;
+  data?: EveInventoryAssetsApiV5;
   nextPage?: number;
 }

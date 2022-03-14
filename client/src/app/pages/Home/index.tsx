@@ -11,7 +11,7 @@ import { Fullscreen } from 'app/layout/Fullscreen';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
-import logo from 'app/assets/eve-sso-login-black-large.png';
+import buttonImage from 'app/assets/eve-sso-login-white-large.png';
 
 export const Home = () => {
   const { localStateKey, verifyData, isVerified, isErrorVerify, isLoadingVerify } =
@@ -23,7 +23,11 @@ export const Home = () => {
    * we're most likely about to fetch.
    */
   if (!localStateKey || !verifyData) {
-    return null;
+    return (
+      <Fullscreen>
+        <Spinner label="Loading..." />
+      </Fullscreen>
+    );
   }
 
   if (isErrorVerify) {
@@ -49,12 +53,12 @@ export const Home = () => {
   return (
     <Fullscreen>
       <VStack justifyContent="center" alignItems="center" spacing={5}>
-        <Avatar bg="gray.800" />
-        <Heading as="h3" color="gray.700" size="lg">
+        <Avatar bg="black" showBorder />
+        <Heading as="h3" color="gray.200" size="lg">
           Welcome to Eve Arbitrage
         </Heading>
         <a className="App-link" href={buildEveAuthBaseUrl(localStateKey)} rel="noopener noreferrer">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={buttonImage} className="App-logo" alt="logo" />
         </a>
       </VStack>
     </Fullscreen>

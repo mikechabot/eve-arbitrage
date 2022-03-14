@@ -24,7 +24,7 @@ export const mockCharacterResponse: CharacterResponse = {
     wallet: 25052895.79,
     assets: {
       nextPage: -1,
-      inventory: [
+      data: [
         {
           is_singleton: true,
           item_id: 1014825193786,

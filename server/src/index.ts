@@ -9,21 +9,9 @@ import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { createConnection, getRepository } from 'typeorm';
+import { createConnection, getCustomRepository } from 'typeorm';
 
 import { ormConfig } from 'src/orm-config';
-
-import { InvType } from 'src/entities/InvType';
-
-import { InvTypeResolver } from 'src/resolvers/InvTypeResolver';
-import { InvGroupResolver } from 'src/resolvers/InvGroupResolver';
-import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
-
-import { AuthRouter } from 'src/routers/AuthRouter';
-import { AssetsRouter } from 'src/routers/AssetsRouter';
-
-import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
-import { StationRepository } from 'src/repositories/StationRepository';
 
 import {
   migrateInvCategories,
@@ -31,6 +19,25 @@ import {
   migrateInvTypes,
   migrateStations,
 } from 'src/utils/data';
+
+import { InvTypeResolver } from 'src/resolvers/InvTypeResolver';
+import { InvGroupResolver } from 'src/resolvers/InvGroupResolver';
+import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
+
+import { EsiService } from 'src/services/lib/esi-service';
+import { EveLoginService } from 'src/services/lib/eve-login-service';
+import { AuthTokenService } from 'src/services/lib/auth-token-service';
+import { EveAuthService } from 'src/services/lib/eve-auth-service';
+import { EveCharacterService } from 'src/services/lib/eve-character-service';
+import { EsiCharacterService } from 'src/services/lib/esi-character-service';
+import { EsiCorporationService } from 'src/services/lib/esi-corporation-service';
+
+import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
+import { StationRepository } from 'src/repositories/StationRepository';
+import { ItemTypeRepository } from 'src/repositories/ItemTypeRepository';
+
+import { AuthRouter } from 'src/routers/AuthRouter';
+import { AssetsRouter } from 'src/routers/AssetsRouter';
 
 const startServer = async () => {
   /**
@@ -111,14 +118,30 @@ const startServer = async () => {
 
   app.use(cookieParser());
 
-  const authRepository = new AuthTokenRepository();
-  const stationRepository = new StationRepository();
-  const itemsRepository = getRepository(InvType);
+  const authTokenRepository = getCustomRepository(AuthTokenRepository);
+  const stationRepository = getCustomRepository(StationRepository);
+  const itemTypeRepository = getCustomRepository(ItemTypeRepository);
 
-  app.use('/auth', new AuthRouter({ authRepository }).router);
+  const esiService = new EsiService();
+  const eveLoginService = new EveLoginService();
+
+  const authTokenService = new AuthTokenService({ authTokenRepository });
+  const eveAuthService = new EveAuthService({ eveLoginService });
+  const eveCharacterService = new EveCharacterService({ eveLoginService });
+  const esiCorporationService = new EsiCorporationService({ esiService });
+  const esiCharacterService = new EsiCharacterService({
+    esiService,
+    itemTypeRepository,
+    stationRepository,
+  });
+
+  app.use(
+    '/auth',
+    new AuthRouter({ authTokenService, eveAuthService, eveCharacterService }).router,
+  );
   app.use(
     '/assets',
-    new AssetsRouter({ authRepository, itemsRepository, stationRepository }).router,
+    new AssetsRouter({ authTokenService, esiCharacterService, esiCorporationService }).router,
   );
 
   app.get('/favico.ico', (_, res) => {

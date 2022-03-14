@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import { QueryKey } from 'services/query-key';
 
 import { fetchCharacter } from 'services/lib/character';
-import { fetchVerifyOrRefreshOauth } from 'services/lib/auth';
+import { fetchVerifyToken } from 'services/lib/auth';
 
 import { ServiceError } from 'services/utils/ServiceError';
 import { AuthVerifyResponse } from 'services/types/auth-api';
@@ -30,7 +30,7 @@ export const useCharacterQuery = <ReturnData extends any = CharacterResponse>(
 export const useOauthVerifyQuery = <ReturnData extends any = AuthVerifyResponse>(
   options?: UseQueryOptions<any, ServiceError, ReturnData>,
 ) =>
-  useQuery<any, ServiceError, ReturnData>(QueryKey.Verify, () => fetchVerifyOrRefreshOauth(), {
+  useQuery<any, ServiceError, ReturnData>(QueryKey.Verify, () => fetchVerifyToken(), {
     ...options,
     refetchOnWindowFocus: false,
   });

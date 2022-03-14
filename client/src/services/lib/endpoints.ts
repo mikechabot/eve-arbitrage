@@ -6,7 +6,8 @@ import { AppEnv } from 'utils/appEnv';
 export const Endpoints = {
   Character: urlJoin(AppEnv.BaseApiUrl, '/assets/character'),
   Corporation: urlJoin(AppEnv.BaseApiUrl, '/assets/corporation'),
-  OauthToken: urlJoin(AppEnv.BaseApiUrl, '/auth/token'),
+  OauthTokenLogin: urlJoin(AppEnv.BaseApiUrl, '/auth/login'),
+  OauthTokenLogout: urlJoin(AppEnv.BaseApiUrl, '/auth/logout'),
   OauthVerify: urlJoin(AppEnv.BaseApiUrl, '/auth/verify'),
 } as const;
 
