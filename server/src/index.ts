@@ -38,6 +38,8 @@ import { ItemTypeRepository } from 'src/repositories/ItemTypeRepository';
 
 import { AuthRouter } from 'src/routers/AuthRouter';
 import { AssetsRouter } from 'src/routers/AssetsRouter';
+import { StructureRepository } from 'src/repositories/StructureRepository';
+import { EsiStructureService } from 'src/services/lib/esi-structure-api';
 
 const startServer = async () => {
   /**
@@ -121,6 +123,7 @@ const startServer = async () => {
   const authTokenRepository = getCustomRepository(AuthTokenRepository);
   const stationRepository = getCustomRepository(StationRepository);
   const itemTypeRepository = getCustomRepository(ItemTypeRepository);
+  const structureRepository = getCustomRepository(StructureRepository);
 
   const esiService = new EsiService();
   const eveLoginService = new EveLoginService();
@@ -128,11 +131,14 @@ const startServer = async () => {
   const authTokenService = new AuthTokenService({ authTokenRepository });
   const eveAuthService = new EveAuthService({ eveLoginService });
   const eveCharacterService = new EveCharacterService({ eveLoginService });
+  const esiStructureService = new EsiStructureService({ esiService });
   const esiCorporationService = new EsiCorporationService({ esiService });
   const esiCharacterService = new EsiCharacterService({
     esiService,
+    esiStructureService,
     itemTypeRepository,
     stationRepository,
+    structureRepository,
   });
 
   app.use(

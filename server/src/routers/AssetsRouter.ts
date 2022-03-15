@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { BaseRouter } from 'src/routers/BaseRouter';
 
@@ -36,7 +36,11 @@ export class AssetsRouter extends BaseRouter {
    * @param res
    * @param next
    */
-  async getCharacter({ cookies, body }: Request, res: Response<CharacterResponse>) {
+  async getCharacter(
+    { cookies, body }: Request,
+    res: Response<CharacterResponse>,
+    next: NextFunction,
+  ) {
     const jwt = await this.authTokenService.findJwtByCookie(cookies);
     if (!jwt) {
       res.status(401);
@@ -47,33 +51,38 @@ export class AssetsRouter extends BaseRouter {
     const { page = 1 } = body;
     const { access_token, characterId } = jwt;
 
-    const details = await this.esiCharacterService.fetchDetails(access_token, characterId);
-    const portrait = await this.esiCharacterService.fetchPortrait(access_token, characterId);
-    const wallet = await this.esiCharacterService.fetchWallet(access_token, characterId);
-    const characterAssets = await this.esiCharacterService.fetchAssets(
-      access_token,
-      characterId,
-      page,
-    );
+    try {
+      const details = await this.esiCharacterService.fetchDetails(access_token, characterId);
+      const portrait = await this.esiCharacterService.fetchPortrait(access_token, characterId);
+      const wallet = await this.esiCharacterService.fetchWallet(access_token, characterId);
+      const characterAssets = await this.esiCharacterService.fetchAssets(
+        access_token,
+        characterId,
+        page,
+      );
 
-    const corporationDetails = await this.esiCorporationService.fetchDetails(
-      access_token,
-      details.corporation_id,
-    );
+      const corporationDetails = await this.esiCorporationService.fetchDetails(
+        access_token,
+        details.corporation_id,
+      );
 
-    const response: CharacterResponse = {
-      character: {
-        details,
-        portrait,
-        wallet,
-        assets: characterAssets,
-      },
-      corporation: {
-        details: corporationDetails,
-      },
-      verified: true,
-    };
+      const response: CharacterResponse = {
+        character: {
+          details,
+          portrait,
+          wallet,
+          assets: characterAssets,
+        },
+        corporation: {
+          details: corporationDetails,
+        },
+        verified: true,
+      };
 
-    res.json(response);
+      res.json(response);
+    } catch (e) {
+      res.status(500);
+      next(e);
+    }
   }
 }

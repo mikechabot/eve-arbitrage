@@ -2,12 +2,11 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Station } from 'src/entities/Station';
 
+/**
+ * This handle static NPC station structures
+ */
 @EntityRepository(Station)
 export class StationRepository extends Repository<Station> {
-  insertNpcStation(station: Station) {
-    return this.insert({ ...station, isNpc: true });
-  }
-
   findByStationId(stationId: number): Promise<Station | undefined> {
     return this.findOne({ stationId });
   }

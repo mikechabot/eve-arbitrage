@@ -3,9 +3,9 @@ import { Flex } from '@chakra-ui/react';
 export const Fullscreen = ({ children }) => (
   <Flex
     flexDirection="column"
-    width="100wh"
-    height="100vh"
-    backgroundColor="black"
+    width="100%"
+    height="100%"
+    backgroundColor="base"
     justifyContent="center"
     alignItems="center"
   >

@@ -4,9 +4,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // OneToMany,
-  // ManyToOne,
-  // JoinColumn,
   BaseEntity,
 } from 'typeorm';
 
@@ -14,9 +11,6 @@ import {
  * This allows us to use the entity in GraphQL
  */
 import { Field, ObjectType, Int } from 'type-graphql';
-
-// import { InvCategory } from './InvCategory';
-// import { InvType } from './InvType';
 
 @ObjectType()
 @Entity({ name: 'InvGroup' })

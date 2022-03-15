@@ -1,8 +1,14 @@
 $table-font-size: 1.125rem;
 $table-padding-left: 15px;
 $table-padding-right: 15px;
+$background-color: #F6E8EA;
+$header-background-color: #22181C;
 
 @import '~react-base-table/es/_BaseTable.scss';
+
+.BaseTable__header-cell {
+  color: #F45B69;
+}
 
 .#{$table-prefix} {
   &:not(.#{$table-prefix}--show-left-shadow) {
@@ -16,4 +22,19 @@ $table-padding-right: 15px;
       box-shadow: none;
     }
   }
+}
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  //background-color: #F6E8EA;
+  //background-color: #EBF5EE;
+  background-color: #F6E8EA;
 }

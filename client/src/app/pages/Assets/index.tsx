@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Redirect } from 'react-router';
-import { Flex } from '@chakra-ui/react';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -8,11 +7,8 @@ import { useAuthContext } from 'hooks/useAuthContext';
 import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
 
 import { Fullscreen } from 'app/layout/Fullscreen';
-import { Page } from 'app/layout/Page';
-
 import { Spinner } from 'app/components/Spinner';
 
-import { Character } from './components/Character';
 import { CharacterAssets } from './components/CharacterAssets';
 
 export const Assets = () => {
@@ -47,12 +43,5 @@ export const Assets = () => {
 
   const { character, corporation } = data;
 
-  return (
-    <Page>
-      <Flex>
-        <Character character={character!} corporation={corporation!} />
-        <CharacterAssets assets={character!.assets} />
-      </Flex>
-    </Page>
-  );
+  return <CharacterAssets assets={character!.assets} />;
 };

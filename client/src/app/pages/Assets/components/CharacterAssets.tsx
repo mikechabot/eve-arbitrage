@@ -45,21 +45,22 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
   const { sortBy, data } = sortedData;
 
   return (
-    <Flex flex={1} width="100%" pl={6} pt={2}>
-      <Flex flexDirection="column" width="100%">
-        <Heading as="h3" color="gray.200" size="md" pb={2}>
-          Character Assets
-        </Heading>
+    <Flex flexDirection="column" width="100%" height="100%">
+      <Heading as="h3" size="lg" py={2} color="secondary">
+        Character Assets
+      </Heading>
+      <Flex flex={1}>
         <AutoResizer>
-          {({ width }) => (
+          {({ width, height }) => (
             <BaseTable
               fixed
               data={data}
               sortBy={sortBy}
               width={width}
-              height={400}
+              height={height}
               rowKey="item_id"
-              rowHeight={36}
+              rowHeight={32}
+              headerHeight={36}
               onColumnSort={onColumnSort}
             >
               <Column sortable key="typeName" dataKey="typeName" width={250} title="Type Name" />

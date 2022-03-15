@@ -9,7 +9,7 @@ import { CharacterResponse } from 'services/types/character-api';
 import { mockCharacterResponse } from './mocks/character-response';
 
 export const fetchCharacter = (): Promise<CharacterResponse> => {
-  return Promise.resolve(mockCharacterResponse);
+  // return Promise.resolve(mockCharacterResponse);
 
   return processServiceCall(async () => {
     const apiResponse = await fetchClient.get(Endpoints.Character).json<any>();

@@ -1,4 +1,7 @@
 import { EsiService } from 'src/services/lib/esi-service';
+import { EsiStructureService } from 'src/services/lib/esi-structure-api';
+
+import { LocationFlag } from 'src/services/types/location-api';
 
 import {
   EveCharacterDetailsApiV5,
@@ -10,11 +13,14 @@ import {
 
 import { StationRepository } from 'src/repositories/StationRepository';
 import { ItemTypeRepository } from 'src/repositories/ItemTypeRepository';
+import { StructureRepository } from 'src/repositories/StructureRepository';
 
 interface EsiCharacterServiceOpts {
   esiService: EsiService;
+  esiStructureService: EsiStructureService;
   itemTypeRepository: ItemTypeRepository;
   stationRepository: StationRepository;
+  structureRepository: StructureRepository;
 }
 
 const ESI_PAGE_SIZE = 1000;
@@ -23,13 +29,23 @@ const STATION_ID_RANGE_HIGH = 64000000;
 
 export class EsiCharacterService {
   private readonly esiService: EsiService;
+  private readonly esiStructureService: EsiStructureService;
   private readonly itemTypeRepository: ItemTypeRepository;
   private readonly stationRepository: StationRepository;
+  private readonly structureRepository: StructureRepository;
 
-  constructor({ esiService, itemTypeRepository, stationRepository }: EsiCharacterServiceOpts) {
+  constructor({
+    esiService,
+    esiStructureService,
+    itemTypeRepository,
+    stationRepository,
+    structureRepository,
+  }: EsiCharacterServiceOpts) {
     this.esiService = esiService;
+    this.esiStructureService = esiStructureService;
     this.itemTypeRepository = itemTypeRepository;
     this.stationRepository = stationRepository;
+    this.structureRepository = structureRepository;
   }
 
   /**
@@ -71,6 +87,9 @@ export class EsiCharacterService {
     const assets = await this.fetchRawAssets(accessToken, characterId, page);
     const itemTypeByTypeId = await this.itemTypeRepository.getItemTypeByTypeIdMap();
     const stationByStationId = await this.stationRepository.getStationByStationIdMap();
+    const structureByLocationId = await this.structureRepository.getStationByLocationIdMap();
+
+    const structureCacheMisses: number[] = [];
 
     /**
      * The ESI endpoint returns 1,000 assets per page. If we have
@@ -83,6 +102,10 @@ export class EsiCharacterService {
       if (itemTypeByTypeId[asset.type_id]) {
         asset.typeName = itemTypeByTypeId[asset.type_id].typeName;
       }
+
+      /**
+       * Map NPC stations to the location
+       */
       if (
         stationByStationId[asset.location_id] &&
         asset.location_id > STATION_ID_RANGE_LOW &&
@@ -90,7 +113,66 @@ export class EsiCharacterService {
       ) {
         asset.stationName = stationByStationId[asset.location_id].stationName;
       }
+
+      /**
+       * Map player-owned stations
+       */
+      if (asset.location_flag === LocationFlag.Hangar && !asset.stationName) {
+        if (structureByLocationId[asset.location_id]) {
+          asset.stationName = structureByLocationId[asset.location_id].name;
+        } else {
+          structureCacheMisses.push(asset.location_id);
+        }
+      }
     });
+
+    /**
+     * Fetch player-owned structures to be inserted
+     */
+    const structurePromises = structureCacheMisses.map((structureId) =>
+      this.esiStructureService.fetchStructures(accessToken, structureId),
+    );
+
+    if (structurePromises.length > 0) {
+      try {
+        /**
+         * Wait for the ESI to return player-owned structures
+         */
+        const structures = await Promise.all(structurePromises);
+
+        /**
+         * Insert player-owned structures into database
+         */
+        const insertPromises = structures.map((structure, index) =>
+          this.structureRepository.insertStructure(structureCacheMisses[index], structure),
+        );
+
+        /**
+         * Wait for inserts to complete
+         */
+        await Promise.all(insertPromises);
+
+        /**
+         * Refetch the structure map
+         */
+        const updatedStructureByLocationId =
+          await this.structureRepository.getStationByLocationIdMap();
+
+        /**
+         * Map player-owned stations
+         */
+        assets.forEach((asset) => {
+          if (asset.location_flag === LocationFlag.Hangar && !asset.stationName) {
+            if (updatedStructureByLocationId[asset.location_id]) {
+              asset.stationName = updatedStructureByLocationId[asset.location_id].name;
+            }
+          }
+        });
+      } catch (e) {
+        console.error('Unable to fetch or insert ESI structure(s)');
+        throw e;
+      }
+    }
 
     return {
       nextPage,

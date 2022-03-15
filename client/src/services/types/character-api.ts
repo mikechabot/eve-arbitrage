@@ -49,13 +49,13 @@ export type EveCharacterWalletApiV1 = number;
  */
 export interface CharacterResponse {
   verified: boolean;
-  character?: {
+  character: {
     details: EveCharacterDetailsApiV5;
     portrait: EveCharacterPortraitApiV3;
     wallet: EveCharacterWalletApiV1;
     assets: PaginatedCharacterAssets;
   };
-  corporation?: {
+  corporation: {
     details: EveCorporationApiV5;
   };
 }

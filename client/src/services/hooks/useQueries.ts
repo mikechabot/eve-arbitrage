@@ -19,7 +19,7 @@ export const useCharacterQuery = <ReturnData extends any = CharacterResponse>(
   return useQuery<CharacterResponse, ServiceError, ReturnData>(
     QueryKey.User,
     () => fetchCharacter(),
-    options,
+    { ...options, refetchOnWindowFocus: false },
   );
 };
 

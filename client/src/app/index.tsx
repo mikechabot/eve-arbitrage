@@ -7,7 +7,7 @@ import { AppRouter } from 'app/pages/AppRouter';
 import { AuthContextProvider } from 'hooks/useAuthContext';
 
 import { queryClient } from 'utils/queryClient';
-import { Header } from './components/Header';
+import { AppHeader } from './components/AppHeader';
 
 const fonts = {
   body: 'Teko, sans-serif',
@@ -15,23 +15,25 @@ const fonts = {
   mono: `'JetBrains Mono', monospaced`,
 };
 
-const fontSizes = {
-  xs: '1rem',
-  sm: '1.125rem',
-  md: '1.25rem',
-  lg: '1.375rem',
-  xl: '1.5rem',
-  '2xl': '1.75rem',
-  '3xl': '2.125rem',
-  '4xl': '2.50rem',
-  '5xl': '3.50rem',
-  '6xl': '4.25rem',
-  '7xl': '6rem',
-  '8xl': '8rem',
-  '9xl': '10rem',
+const styles = {
+  global: () => ({
+    body: {
+      color: 'primary',
+      bg: 'base',
+    },
+  }),
 };
 
 const colors = {
+  // base: '#EBF5EE',
+  // primary: '#78A1BB',
+  // secondary: '#283044',
+  base: '#F6E8EA',
+  primary: '#22181C',
+  secondary: '#F45B69',
+  // base: '#EBF5EE',
+  // primary: '#1F7A8C',
+  // secondary: '#022B3A',
   red: {
     100: '#D70A53',
   },
@@ -55,7 +57,7 @@ const colors = {
   },
 };
 
-const theme = extendTheme({ colors, fonts, fontSizes });
+const theme = extendTheme({ styles, colors, fonts });
 
 export const App = () => {
   return (
@@ -63,7 +65,7 @@ export const App = () => {
       <AuthContextProvider>
         <ChakraProvider theme={theme}>
           <BrowserRouter>
-            <Header />
+            <AppHeader />
             <AppRouter />
           </BrowserRouter>
         </ChakraProvider>

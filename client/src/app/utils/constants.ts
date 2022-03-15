@@ -8,12 +8,18 @@ const Scope = {
   ReadCharacterAssets: 'esi-assets.read_assets.v1',
   ReadCharacterWallet: 'esi-wallet.read_character_wallet.v1',
   ReadCorporationAssets: 'esi-assets.read_corporation_assets.v1',
+  ReadStructures: 'esi-universe.read_structures.v1',
 } as const;
 
 /**
  * Arrayify the scoped permissions
  */
-const scopes = [Scope.ReadCharacterAssets, Scope.ReadCorporationAssets, Scope.ReadCharacterWallet];
+const scopes = [
+  Scope.ReadCharacterAssets,
+  Scope.ReadCorporationAssets,
+  Scope.ReadCharacterWallet,
+  Scope.ReadStructures,
+];
 
 /**
  * Tell EVE to send us to this URI
