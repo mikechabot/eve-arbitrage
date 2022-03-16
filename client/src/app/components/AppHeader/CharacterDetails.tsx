@@ -1,22 +1,22 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
-import { useCharacterQuery } from 'services/hooks/useQueries';
+import { EveCorporationApiV5 } from 'services/types/corporation-api';
+import { EveCharacterDetailsApiV5, EveCharacterWalletApiV1 } from 'services/types/character-api';
 
-export const CharacterDetails = () => {
-  const { data } = useCharacterQuery();
-  if (!data) {
-    return null;
-  }
+interface CharacterDetailsProps {
+  character: {
+    details: EveCharacterDetailsApiV5;
+    wallet: EveCharacterWalletApiV1;
+  };
+  corporation: EveCorporationApiV5;
+}
 
-  const { character, corporation } = data;
-
-  return (
-    <Box textAlign="right">
-      <Box fontWeight="semibold">{character.details.name}</Box>
-      <Box>{corporation.details.name}</Box>
-      <Box fontWeight="semibold" color="secondary">
-        ${Number(character.wallet).toLocaleString()} ISK
-      </Box>
+export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ character, corporation }) => (
+  <Box textAlign="right">
+    <Box fontWeight="semibold">{character.details.name}</Box>
+    <Box>{corporation.name}</Box>
+    <Box fontWeight="semibold" color="secondary">
+      ${Number(character.wallet).toLocaleString()} ISK
     </Box>
-  );
-};
+  </Box>
+);

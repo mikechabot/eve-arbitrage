@@ -1,14 +1,11 @@
 import { Avatar } from '@chakra-ui/react';
 
-import { useCharacterQuery } from 'services/hooks/useQueries';
+import { EveCharacterPortraitApiV3 } from 'services/types/character-api';
 
-export const CharacterAvatar = () => {
-  const { data } = useCharacterQuery();
-  if (!data) {
-    return null;
-  }
+interface CharacterAvatarProps {
+  portrait: EveCharacterPortraitApiV3;
+}
 
-  const { character } = data;
-
-  return <Avatar src={character.portrait.px64x64} />;
-};
+export const CharacterAvatar: React.FC<CharacterAvatarProps> = ({ portrait }) => (
+  <Avatar src={portrait.px64x64} />
+);

@@ -3,22 +3,43 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import { QueryKey } from 'services/query-key';
 
 import { fetchCharacter } from 'services/lib/character';
+import { fetchCharacterAssets } from 'services/lib/assets';
 import { fetchVerifyToken } from 'services/lib/auth';
 
 import { ServiceError } from 'services/utils/ServiceError';
-import { AuthVerifyResponse } from 'services/types/auth-api';
-import { CharacterResponse } from 'services/types/character-api';
+
+import {
+  AuthChallengeResponse,
+  FetchCharacterDetailsResponse,
+  FetchPaginatedCharacterAssetsResponse,
+} from 'services/types/response-type-api';
 
 /**
- * Fetch information about the logged in character
+ * Fetch details about the logged-in character
  * @param options
  */
-export const useCharacterQuery = <ReturnData extends any = CharacterResponse>(
+export const useCharacterQuery = <ReturnData extends any = FetchCharacterDetailsResponse>(
   options?: UseQueryOptions<any, ServiceError, ReturnData>,
 ) => {
-  return useQuery<CharacterResponse, ServiceError, ReturnData>(
-    QueryKey.User,
+  return useQuery<FetchCharacterDetailsResponse, ServiceError, ReturnData>(
+    QueryKey.Character,
     () => fetchCharacter(),
+    { ...options, refetchOnWindowFocus: false },
+  );
+};
+
+/**
+ * Fetch assets for the logged-in character
+ * @param options
+ */
+export const useCharacterAssetsQuery = <
+  ReturnData extends any = FetchPaginatedCharacterAssetsResponse,
+>(
+  options?: UseQueryOptions<any, ServiceError, ReturnData>,
+) => {
+  return useQuery<FetchPaginatedCharacterAssetsResponse, ServiceError, ReturnData>(
+    QueryKey.AssetsCharacter,
+    () => fetchCharacterAssets(),
     { ...options, refetchOnWindowFocus: false },
   );
 };
@@ -27,10 +48,14 @@ export const useCharacterQuery = <ReturnData extends any = CharacterResponse>(
  * Verify and/or refresh the JWT cookie
  * @param options
  */
-export const useOauthVerifyQuery = <ReturnData extends any = AuthVerifyResponse>(
-  options?: UseQueryOptions<any, ServiceError, ReturnData>,
+export const useOauthVerifyQuery = <ReturnData extends any = AuthChallengeResponse>(
+  options?: UseQueryOptions<AuthChallengeResponse, ServiceError, ReturnData>,
 ) =>
-  useQuery<any, ServiceError, ReturnData>(QueryKey.Verify, () => fetchVerifyToken(), {
-    ...options,
-    refetchOnWindowFocus: false,
-  });
+  useQuery<AuthChallengeResponse, ServiceError, ReturnData>(
+    QueryKey.Verify,
+    () => fetchVerifyToken(),
+    {
+      ...options,
+      refetchOnWindowFocus: false,
+    },
+  );

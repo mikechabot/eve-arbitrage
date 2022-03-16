@@ -7,7 +7,7 @@ import { Endpoints } from 'src/services/endpoints';
 
 import { EveLoginService } from 'src/services/lib/eve-login-service';
 
-import { JsonWebKeyRS256, OauthTokenApi, EveSsoMetadataApi } from 'src/services/types/auth-api';
+import { JsonWebKeyRS256, OauthTokenApi, EveSsoMetadataApi } from 'src/services/types/oauth-api';
 
 interface EveAuthServiceOpts {
   eveLoginService: EveLoginService;

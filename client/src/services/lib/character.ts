@@ -4,16 +4,21 @@ import { deepCloneMapper } from 'services/utils/deepCloneMapper';
 import { processServiceCall } from 'services/utils/processServiceCall';
 
 import { Endpoints } from 'services/lib/endpoints';
-import { CharacterResponse } from 'services/types/character-api';
+import { FetchCharacterDetailsResponse } from 'services/types/response-type-api';
 
 import { mockCharacterResponse } from './mocks/character-response';
 
-export const fetchCharacter = (): Promise<CharacterResponse> => {
-  // return Promise.resolve(mockCharacterResponse);
+export const fetchCharacter = (): Promise<FetchCharacterDetailsResponse> => {
+  return Promise.resolve(mockCharacterResponse);
 
   return processServiceCall(async () => {
-    const apiResponse = await fetchClient.get(Endpoints.Character).json<any>();
+    const apiResponse = await fetchClient
+      .get(Endpoints.Character)
+      .json<FetchCharacterDetailsResponse>();
 
-    return deepCloneMapper<CharacterResponse, CharacterResponse>(apiResponse, (from) => from);
+    return deepCloneMapper<FetchCharacterDetailsResponse, FetchCharacterDetailsResponse>(
+      apiResponse,
+      (from) => from,
+    );
   });
 };

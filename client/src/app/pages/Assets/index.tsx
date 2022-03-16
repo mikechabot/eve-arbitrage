@@ -8,18 +8,19 @@ import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
 
 import { Fullscreen } from 'app/layout/Fullscreen';
 import { Spinner } from 'app/components/Spinner';
+import { ErrorMessage } from 'app/components/ErrorMessage';
 
-import { CharacterAssets } from './components/CharacterAssets';
+import { CharacterAssets } from 'app/pages/Assets/components/CharacterAssets';
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
-  const { data, isFetching, isError, fetchCharacter } = useAssetsPage();
+  const { data, isFetching, isError, refetch } = useAssetsPage();
 
   useEffect(() => {
     if (isVerified) {
-      fetchCharacter();
+      refetch();
     }
-  }, [isVerified, fetchCharacter]);
+  }, [isVerified, refetch]);
 
   if (!isVerified) {
     return <Redirect to={AppRoutes.Home} />;
@@ -28,7 +29,7 @@ export const Assets = () => {
   if (isError) {
     return (
       <Fullscreen>
-        <span>Error!</span>
+        <ErrorMessage>Error fetching assets</ErrorMessage>
       </Fullscreen>
     );
   }
@@ -41,7 +42,7 @@ export const Assets = () => {
     );
   }
 
-  const { character, corporation } = data;
+  const { assets } = data;
 
-  return <CharacterAssets assets={character!.assets} />;
+  return <CharacterAssets assets={assets} />;
 };

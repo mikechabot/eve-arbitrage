@@ -3,26 +3,25 @@ import { Request, Response } from 'express';
 import { BaseRouter } from 'src/routers/BaseRouter';
 
 import { EveAuthService } from 'src/services/lib/eve-auth-service';
-import { AuthTokenService } from 'src/services/lib/auth-token-service';
+import { OauthTokenService } from 'src/services/lib/oauth-token-service';
 import { EveCharacterService } from 'src/services/lib/eve-character-service';
-
-import { AuthTokenResponse, AuthVerifyResponse, ChallengeType } from 'src/routers/types/auth-api';
+import { AuthChallengeResponse, ChallengeType } from 'src/services/types/response-type-api';
 
 interface AuthRouterProps {
-  authTokenService: AuthTokenService;
+  oauthTokenService: OauthTokenService;
   eveAuthService: EveAuthService;
   eveCharacterService: EveCharacterService;
 }
 
 export class AuthRouter extends BaseRouter {
-  private readonly authTokenService: AuthTokenService;
+  private readonly oauthTokenService: OauthTokenService;
   private readonly eveAuthService: EveAuthService;
   private readonly eveCharacterService: EveCharacterService;
 
-  constructor({ eveAuthService, authTokenService, eveCharacterService }: AuthRouterProps) {
+  constructor({ eveAuthService, oauthTokenService, eveCharacterService }: AuthRouterProps) {
     super();
     this.eveAuthService = eveAuthService;
-    this.authTokenService = authTokenService;
+    this.oauthTokenService = oauthTokenService;
     this.eveCharacterService = eveCharacterService;
   }
 
@@ -39,12 +38,12 @@ export class AuthRouter extends BaseRouter {
    * @param cookies
    * @param res
    */
-  async getVerifyToken({ cookies }: Request, res: Response<AuthVerifyResponse>) {
+  async getVerifyToken({ cookies }: Request, res: Response<AuthChallengeResponse>) {
     /**
      * If the JWT cookie on the cookie is not in the database, this is
      * probably a bad actor, so send back the SSO challenge.
      */
-    const oauthToken = await this.authTokenService.findJwtByCookie(cookies);
+    const oauthToken = await this.oauthTokenService.findJwtByCookie(cookies);
     if (!oauthToken) {
       res.json({ verified: false, challenge: ChallengeType.SSO });
       return;
@@ -59,14 +58,14 @@ export class AuthRouter extends BaseRouter {
       return;
     } catch (e) {
       try {
-        console.log(`Invalidating token..."${oauthToken}"`);
-        await this.authTokenService.invalidateToken(oauthToken);
-        console.log(`Refreshing token..."${oauthToken.refresh_token}`);
+        // console.log(`Invalidating token..."${oauthToken}"`);
+        await this.oauthTokenService.invalidateToken(oauthToken);
+        // console.log(`Refreshing token..."${oauthToken.refresh_token}`);
         const newOauthToken = await this.eveAuthService.refreshAuthToken(oauthToken.refresh_token);
-        console.log(`Got refreshed token "${newOauthToken}"`);
+        // console.log(`Got refreshed token "${newOauthToken}"`);
         await this.eveAuthService.validateJwtAccessToken(newOauthToken);
         const character = await this.eveCharacterService.fetchCharacter(newOauthToken.access_token);
-        await this.authTokenService.addToken(newOauthToken, character.CharacterID);
+        await this.oauthTokenService.addToken(newOauthToken, character.CharacterID);
 
         res.cookie('jwt', newOauthToken.access_token, {
           secure: true,
@@ -84,13 +83,13 @@ export class AuthRouter extends BaseRouter {
     }
 
     // Kill the cookie
-    // res.cookie('jwt', {
-    //   secure: true,
-    //   httpOnly: true,
-    //   domain: 'localhost',
-    //   maxAge: 0,
-    //   expires: new Date(0),
-    // });
+    res.cookie('jwt', {
+      secure: true,
+      httpOnly: true,
+      domain: 'localhost',
+      maxAge: 0,
+      expires: new Date(0),
+    });
 
     /**
      * If we get here, we could validate and/or refresh the token.
@@ -104,7 +103,7 @@ export class AuthRouter extends BaseRouter {
    * @param req
    * @param res
    */
-  async login(req: Request, res: Response<AuthTokenResponse>) {
+  async login(req: Request, res: Response<AuthChallengeResponse>) {
     const { code } = req.body;
 
     /**
@@ -127,7 +126,7 @@ export class AuthRouter extends BaseRouter {
        */
       await this.eveAuthService.validateJwtAccessToken(oauthToken);
       const character = await this.eveCharacterService.fetchCharacter(oauthToken.access_token);
-      await this.authTokenService.addToken(oauthToken, character.CharacterID);
+      await this.oauthTokenService.addToken(oauthToken, character.CharacterID);
 
       /**
        * Set a secure HTTP-only cookie on the response
@@ -153,8 +152,8 @@ export class AuthRouter extends BaseRouter {
    * @param cookies
    * @param res
    */
-  async logout({ cookies }: Request, res: Response<AuthVerifyResponse>) {
-    const oauthToken = await this.authTokenService.findJwtByCookie(cookies);
+  async logout({ cookies }: Request, res: Response<AuthChallengeResponse>) {
+    const oauthToken = await this.oauthTokenService.findJwtByCookie(cookies);
     if (!oauthToken) {
       res.status(401);
       res.json({ verified: false, challenge: ChallengeType.SSO });
@@ -163,7 +162,7 @@ export class AuthRouter extends BaseRouter {
 
     try {
       await this.eveAuthService.revokeAuthToken(oauthToken.refresh_token);
-      await this.authTokenService.invalidateToken(oauthToken);
+      await this.oauthTokenService.invalidateToken(oauthToken);
 
       res.cookie('jwt', {
         secure: true,

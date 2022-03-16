@@ -4,8 +4,9 @@ import { generatePath as internalGeneratePath, ExtractRouteParams } from 'react-
 import { AppEnv } from 'utils/appEnv';
 
 export const Endpoints = {
-  Character: urlJoin(AppEnv.BaseApiUrl, '/assets/character'),
-  Corporation: urlJoin(AppEnv.BaseApiUrl, '/assets/corporation'),
+  Character: urlJoin(AppEnv.BaseApiUrl, '/me'),
+  AssetsCharacter: urlJoin(AppEnv.BaseApiUrl, '/assets/character'),
+  AssetsCorporation: urlJoin(AppEnv.BaseApiUrl, '/assets/corporation'),
   OauthTokenLogin: urlJoin(AppEnv.BaseApiUrl, '/auth/login'),
   OauthTokenLogout: urlJoin(AppEnv.BaseApiUrl, '/auth/logout'),
   OauthVerify: urlJoin(AppEnv.BaseApiUrl, '/auth/verify'),

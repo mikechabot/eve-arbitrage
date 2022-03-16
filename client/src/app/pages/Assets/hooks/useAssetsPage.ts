@@ -1,8 +1,8 @@
-import { useCharacterQuery } from 'services/hooks/useQueries';
+import { useCharacterAssetsQuery } from 'services/hooks/useQueries';
 
 export const useAssetsPage = () => {
-  const { data, isFetching, isError, error, refetch } = useCharacterQuery({
+  const { data, isFetching, isError, error, refetch } = useCharacterAssetsQuery({
     enabled: false,
   });
-  return { data, isFetching, isError, error, fetchCharacter: refetch };
+  return { data, isFetching, isError, error, refetch };
 };

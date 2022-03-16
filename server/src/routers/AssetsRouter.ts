@@ -2,31 +2,28 @@ import { NextFunction, Request, Response } from 'express';
 
 import { BaseRouter } from 'src/routers/BaseRouter';
 
-import { AuthTokenService } from 'src/services/lib/auth-token-service';
-import { CharacterResponse } from 'src/services/types/character-api';
+import { OauthTokenService } from 'src/services/lib/oauth-token-service';
 import { EsiCharacterService } from 'src/services/lib/esi-character-service';
-import { EsiCorporationService } from 'src/services/lib/esi-corporation-service';
+
+import { FetchPaginatedCharacterAssetsResponse } from 'src/services/types/response-type-api';
 
 interface AssetsRouterOpts {
-  authTokenService: AuthTokenService;
+  oauthTokenService: OauthTokenService;
   esiCharacterService: EsiCharacterService;
-  esiCorporationService: EsiCorporationService;
 }
 
 export class AssetsRouter extends BaseRouter {
-  private readonly authTokenService: AuthTokenService;
+  private readonly oauthTokenService: OauthTokenService;
   private readonly esiCharacterService: EsiCharacterService;
-  private readonly esiCorporationService: EsiCorporationService;
 
-  constructor({ authTokenService, esiCharacterService, esiCorporationService }: AssetsRouterOpts) {
+  constructor({ oauthTokenService, esiCharacterService }: AssetsRouterOpts) {
     super();
-    this.authTokenService = authTokenService;
+    this.oauthTokenService = oauthTokenService;
     this.esiCharacterService = esiCharacterService;
-    this.esiCorporationService = esiCorporationService;
   }
 
   initializeRoutes(): void {
-    this.registerGetHandler('/character', this.getCharacter.bind(this));
+    this.registerGetHandler('/character', this.fetchPaginatedCharacterAssets.bind(this));
   }
 
   /**
@@ -36,12 +33,12 @@ export class AssetsRouter extends BaseRouter {
    * @param res
    * @param next
    */
-  async getCharacter(
+  async fetchPaginatedCharacterAssets(
     { cookies, body }: Request,
-    res: Response<CharacterResponse>,
+    res: Response<FetchPaginatedCharacterAssetsResponse>,
     next: NextFunction,
   ) {
-    const jwt = await this.authTokenService.findJwtByCookie(cookies);
+    const jwt = await this.oauthTokenService.findJwtByCookie(cookies);
     if (!jwt) {
       res.status(401);
       res.json({ verified: false });
@@ -52,30 +49,10 @@ export class AssetsRouter extends BaseRouter {
     const { access_token, characterId } = jwt;
 
     try {
-      const details = await this.esiCharacterService.fetchDetails(access_token, characterId);
-      const portrait = await this.esiCharacterService.fetchPortrait(access_token, characterId);
-      const wallet = await this.esiCharacterService.fetchWallet(access_token, characterId);
-      const characterAssets = await this.esiCharacterService.fetchAssets(
-        access_token,
-        characterId,
-        page,
-      );
+      const assets = await this.esiCharacterService.fetchAssets(access_token, characterId, page);
 
-      const corporationDetails = await this.esiCorporationService.fetchDetails(
-        access_token,
-        details.corporation_id,
-      );
-
-      const response: CharacterResponse = {
-        character: {
-          details,
-          portrait,
-          wallet,
-          assets: characterAssets,
-        },
-        corporation: {
-          details: corporationDetails,
-        },
+      const response = {
+        ...assets,
         verified: true,
       };
 

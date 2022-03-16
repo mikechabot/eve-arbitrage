@@ -26,7 +26,7 @@ import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
 
 import { EsiService } from 'src/services/lib/esi-service';
 import { EveLoginService } from 'src/services/lib/eve-login-service';
-import { AuthTokenService } from 'src/services/lib/auth-token-service';
+import { OauthTokenService } from 'src/services/lib/oauth-token-service';
 import { EveAuthService } from 'src/services/lib/eve-auth-service';
 import { EveCharacterService } from 'src/services/lib/eve-character-service';
 import { EsiCharacterService } from 'src/services/lib/esi-character-service';
@@ -40,6 +40,7 @@ import { AuthRouter } from 'src/routers/AuthRouter';
 import { AssetsRouter } from 'src/routers/AssetsRouter';
 import { StructureRepository } from 'src/repositories/StructureRepository';
 import { EsiStructureService } from 'src/services/lib/esi-structure-api';
+import { CharacterRouter } from 'src/routers/CharacterRouter';
 
 const startServer = async () => {
   /**
@@ -107,6 +108,7 @@ const startServer = async () => {
    * Don't reveal server information
    */
   app.disable('X-Powered-By');
+
   /**
    * Disable caching
    */
@@ -118,17 +120,29 @@ const startServer = async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
+  /**
+   * Allow cookie parsing
+   */
   app.use(cookieParser());
 
+  /**
+   * Initialize repositories
+   */
   const authTokenRepository = getCustomRepository(AuthTokenRepository);
   const stationRepository = getCustomRepository(StationRepository);
   const itemTypeRepository = getCustomRepository(ItemTypeRepository);
   const structureRepository = getCustomRepository(StructureRepository);
 
+  /**
+   * Initialize Eve services
+   */
   const esiService = new EsiService();
   const eveLoginService = new EveLoginService();
 
-  const authTokenService = new AuthTokenService({ authTokenRepository });
+  /**
+   * Initialize our services
+   */
+  const oauthTokenService = new OauthTokenService({ authTokenRepository });
   const eveAuthService = new EveAuthService({ eveLoginService });
   const eveCharacterService = new EveCharacterService({ eveLoginService });
   const esiStructureService = new EsiStructureService({ esiService });
@@ -141,15 +155,31 @@ const startServer = async () => {
     structureRepository,
   });
 
-  app.use(
-    '/auth',
-    new AuthRouter({ authTokenService, eveAuthService, eveCharacterService }).router,
-  );
-  app.use(
-    '/assets',
-    new AssetsRouter({ authTokenService, esiCharacterService, esiCorporationService }).router,
-  );
+  /**
+   * Initialize express API routers
+   */
+  const { router: assetsRouter } = new AssetsRouter({ oauthTokenService, esiCharacterService });
+  const { router: authRouter } = new AuthRouter({
+    oauthTokenService,
+    eveAuthService,
+    eveCharacterService,
+  });
+  const { router: meRouter } = new CharacterRouter({
+    oauthTokenService,
+    esiCharacterService,
+    esiCorporationService,
+  });
 
+  /**
+   * Attach the router to express
+   */
+  app.use('/me', meRouter);
+  app.use('/auth', authRouter);
+  app.use('/assets', assetsRouter);
+
+  /**
+   * Handle favicon
+   */
   app.get('/favico.ico', (_, res) => {
     res.sendFile(path.resolve(__dirname, 'assets', 'myfavico.ico'));
   });
@@ -157,15 +187,26 @@ const startServer = async () => {
   /**
    * Handle 404s
    */
-  app.use((request: Request, response: Response, next: NextFunction) => {
-    response.status(404);
-    return next(new Error(`'Not Found: ${request.originalUrl}`));
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    res.status(404);
+    return next(new Error(`'Not Found: ${req.originalUrl}`));
+  });
+
+  /**
+   * Handle 500s
+   */
+  app.use((error: Error, _: Request, res: Response) => {
+    res.status(500);
+    res.json(error);
   });
 
   /**
    * Open the Express port for connections
    */
   return new Promise((resolve, reject) => {
+    /**
+     * Create HTTPs server
+     */
     const apiServer = https.createServer(
       {
         key: fs.readFileSync('src/cert/key.pem'),
@@ -175,9 +216,12 @@ const startServer = async () => {
       app,
     );
 
+    /**
+     * Open the port and being listening
+     */
     apiServer
       .listen(4000, () => {
-        resolve('Listening on port 3000');
+        resolve('Listening on port 4000');
       })
       .on('error', (error: Error) => {
         reject(error);
@@ -186,9 +230,7 @@ const startServer = async () => {
 };
 
 startServer()
-  .then((msg) => {
-    console.log(msg);
-  })
+  .then(console.log)
   .catch((e) => {
     console.error('Error starting Express', e);
   });

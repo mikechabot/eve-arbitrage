@@ -1,6 +1,6 @@
 import { EveLoginService } from 'src/services/lib/eve-login-service';
 
-import { CharacterApi } from 'src/services/types/character-api';
+import { EveCharacterVerifyApi } from 'src/services/types/character-api';
 
 interface EveCharacterServiceOpts {
   eveLoginService: EveLoginService;
@@ -13,7 +13,7 @@ export class EveCharacterService {
     this.eveLoginService = opts.eveLoginService;
   }
 
-  fetchCharacter(accessToken: string): Promise<CharacterApi> {
+  fetchCharacter(accessToken: string): Promise<EveCharacterVerifyApi> {
     return this.eveLoginService.fetch('oauth/verify', {
       headers: {
         Authorization: `Bearer ${accessToken}`,

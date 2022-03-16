@@ -3,10 +3,10 @@ import sort from 'lodash.sortby';
 import { Flex, Heading } from '@chakra-ui/react';
 import BaseTable, { AutoResizer, Column, SortOrder } from 'react-base-table';
 
-import { EveInventoryAssetsApiV5, PaginatedCharacterAssets } from 'services/types/character-api';
+import { EveInventoryAssetsApiV5 } from 'services/types/character-api';
 
 interface CharacterAssetsProps {
-  assets: PaginatedCharacterAssets;
+  assets: EveInventoryAssetsApiV5;
 }
 
 interface SortedData {
@@ -23,7 +23,7 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
       key: 'typeName',
       order: 'asc',
     },
-    data: sort(assets.data, ['typeName']),
+    data: sort(assets, ['typeName']),
   });
 
   const onColumnSort = useCallback(

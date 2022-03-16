@@ -7,6 +7,7 @@ import { useAuthContext } from 'hooks/useAuthContext';
 import { buildEveAuthBaseUrl } from 'app/utils/constants';
 
 import { Spinner } from 'app/components/Spinner';
+import { ErrorMessage } from 'app/components/ErrorMessage';
 import { Fullscreen } from 'app/layout/Fullscreen';
 
 import { AppRoutes } from 'app/pages/appRoutes';
@@ -14,8 +15,7 @@ import { AppRoutes } from 'app/pages/appRoutes';
 import buttonImage from 'app/assets/login-black.png';
 
 export const Home = () => {
-  const { localStateKey, verifyData, isVerified, isErrorVerify, isLoadingVerify } =
-    useAuthContext();
+  const { localStateKey, isVerified, isErrorVerify, isLoadingVerify } = useAuthContext();
 
   /**
    * We should always have a "localStateKey", but check it as
@@ -33,7 +33,7 @@ export const Home = () => {
   if (isErrorVerify) {
     return (
       <Fullscreen>
-        <span>Error during verification</span>
+        <ErrorMessage>Error during verification</ErrorMessage>
       </Fullscreen>
     );
   }

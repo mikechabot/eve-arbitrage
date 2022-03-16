@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 
 import { useOauthVerifyQuery } from 'services/hooks/useQueries';
 import { usePostCodeForOauthToken } from 'services/hooks/useMutations';
-import { AuthVerifyResponse, ChallengeType } from '../services/types/auth-api';
+import { AuthChallengeResponse, ChallengeType } from 'services/types/response-type-api';
 
 const LocalStorageKey = 'stateKey';
 const LocalStateKeyValue = encodeURIComponent(guid());
@@ -12,7 +12,7 @@ const LocalStateKeyValue = encodeURIComponent(guid());
 interface AuthContextValue {
   remoteCode: string | undefined;
   localStateKey: string | undefined;
-  verifyData: AuthVerifyResponse | undefined;
+  verifyData: AuthChallengeResponse | undefined;
   isVerified: boolean;
   isErrorVerify: boolean;
   isLoadingVerify: boolean;
@@ -39,7 +39,7 @@ const AuthContext = createContext<AuthContextValue>({
   setAuthResponse: () => ({}),
 });
 
-const isVerified = (verifyData: AuthVerifyResponse | undefined): boolean => {
+const isVerified = (verifyData: AuthChallengeResponse | undefined): boolean => {
   if (!verifyData) {
     return false;
   }
@@ -47,7 +47,7 @@ const isVerified = (verifyData: AuthVerifyResponse | undefined): boolean => {
 };
 
 const requireSsoChallenge = (
-  verifyData: AuthVerifyResponse | undefined,
+  verifyData: AuthChallengeResponse | undefined,
   isFetchingVerify: boolean,
   isLoadingMutateAuthToken: boolean,
 ): boolean => {

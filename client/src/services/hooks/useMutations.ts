@@ -3,14 +3,14 @@ import { useMutation, UseMutationOptions } from 'react-query';
 import { postLogin, postLogout } from 'services/lib/auth';
 
 import { ServiceError } from 'services/utils/ServiceError';
-import { AuthTokenResponse, AuthVerifyResponse } from 'services/types/auth-api';
+import { AuthChallengeResponse } from 'services/types/response-type-api';
 
 export type PostCodeForOauthTokenProps = string;
 
 export const usePostCodeForOauthToken = (
-  options?: UseMutationOptions<AuthTokenResponse, ServiceError, PostCodeForOauthTokenProps>,
+  options?: UseMutationOptions<AuthChallengeResponse, ServiceError, PostCodeForOauthTokenProps>,
 ) => {
-  return useMutation<AuthTokenResponse, ServiceError, PostCodeForOauthTokenProps>(
+  return useMutation<AuthChallengeResponse, ServiceError, PostCodeForOauthTokenProps>(
     (code: string) => {
       return postLogin(code);
     },
@@ -18,8 +18,10 @@ export const usePostCodeForOauthToken = (
   );
 };
 
-export const usePostLogout = (options?: UseMutationOptions<AuthVerifyResponse, ServiceError>) => {
-  return useMutation<AuthVerifyResponse, ServiceError>(() => {
+export const usePostLogout = (
+  options?: UseMutationOptions<AuthChallengeResponse, ServiceError>,
+) => {
+  return useMutation<AuthChallengeResponse, ServiceError>(() => {
     return postLogout();
   }, options);
 };

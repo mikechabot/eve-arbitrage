@@ -1,18 +1,3 @@
-import { EveCorporationApiV5 } from './corporation-api';
-
-/**
- * https://login.eveonline.com/oauth/verify
- */
-export interface CharacterApi {
-  CharacterID: number;
-  CharacterName: string;
-  ExpiresOn: string;
-  Scopes: string; // Space delimited scopes
-  TokenType: string;
-  CharacterOwnerHash: string;
-  IntellectualProperty: string;
-}
-
 /**
  * https://esi.evetech.net/ui/#/Character/get_characters_character_id
  */
@@ -20,13 +5,11 @@ export interface EveCharacterDetailsApiV5 {
   birthday: string;
   bloodline_id: number;
   corporation_id: number;
-  description?: string;
-  faction_id?: string;
+  description: string;
   gender: string;
   name: string;
   race_id: number;
-  security_status?: number;
-  title?: string;
+  security_status: number;
 }
 
 /**
@@ -43,22 +26,6 @@ export interface EveCharacterPortraitApiV3 {
  * https://esi.evetech.net/ui/#/Wallet/get_characters_character_id_wallet
  */
 export type EveCharacterWalletApiV1 = number;
-
-/**
- * Domain object
- */
-export interface CharacterResponse {
-  verified: boolean;
-  character: {
-    details: EveCharacterDetailsApiV5;
-    portrait: EveCharacterPortraitApiV3;
-    wallet: EveCharacterWalletApiV1;
-    assets: PaginatedCharacterAssets;
-  };
-  corporation: {
-    details: EveCorporationApiV5;
-  };
-}
 
 /**
  * https://esi.evetech.net/ui/#/Assets/get_characters_character_id_assets
@@ -83,9 +50,10 @@ export interface EveInventoryAssetV5 {
 export type EveInventoryAssetsApiV5 = EveInventoryAssetV5[];
 
 /**
- * Domain object
+ * Includes the response from the below call, but is decorated with the "nextPage"
+ * https://esi.evetech.net/ui/#/Assets/get_characters_character_id_assets
  */
 export interface PaginatedCharacterAssets {
-  data?: EveInventoryAssetsApiV5;
-  nextPage?: number;
+  assets: EveInventoryAssetsApiV5;
+  nextPage: number;
 }

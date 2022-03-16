@@ -1,20 +1,20 @@
 import { AuthTokenRepository } from 'src/repositories/AuthTokenRepository';
 
-import { AuthToken } from 'src/entities/AuthToken';
-import { OauthTokenApi } from 'src/services/types/auth-api';
+import { OAuthToken } from 'src/entities/OAuthToken';
+import { OauthTokenApi } from 'src/services/types/oauth-api';
 
 interface AuthTokenServiceOpts {
   authTokenRepository: AuthTokenRepository;
 }
 
-export class AuthTokenService {
+export class OauthTokenService {
   private readonly authTokenRepository: AuthTokenRepository;
 
   constructor({ authTokenRepository }: AuthTokenServiceOpts) {
     this.authTokenRepository = authTokenRepository;
   }
 
-  findJwtByCookie(cookies: Record<any, any> = {}): Promise<AuthToken | undefined> {
+  findJwtByCookie(cookies: Record<any, any> = {}): Promise<OAuthToken | undefined> {
     return this.authTokenRepository.findByJwt(cookies.jwt);
   }
 
@@ -22,7 +22,7 @@ export class AuthTokenService {
     return this.authTokenRepository.insert({ ...token, isValid: true, characterId });
   }
 
-  invalidateToken(oauthToken: AuthToken) {
+  invalidateToken(oauthToken: OAuthToken) {
     return this.authTokenRepository.invalidateToken(oauthToken);
   }
 }

@@ -1,19 +1,19 @@
 import { EntityRepository, Repository } from 'typeorm';
 
-import { AuthToken } from 'src/entities/AuthToken';
-import { OauthTokenApi } from 'src/services/types/auth-api';
+import { OAuthToken } from 'src/entities/OAuthToken';
+import { OauthTokenApi } from 'src/services/types/oauth-api';
 
-@EntityRepository(AuthToken)
-export class AuthTokenRepository extends Repository<AuthToken> {
+@EntityRepository(OAuthToken)
+export class AuthTokenRepository extends Repository<OAuthToken> {
   insertToken(token: OauthTokenApi, characterId: number) {
     return this.insert({ ...token, isValid: true, characterId });
   }
 
-  invalidateToken(token: AuthToken) {
+  invalidateToken(token: OAuthToken) {
     return this.update(token.id, { ...token, isValid: false });
   }
 
-  findByJwt(jwt: string): Promise<AuthToken | undefined> {
+  findByJwt(jwt: string): Promise<OAuthToken | undefined> {
     return this.findOne({ access_token: jwt });
   }
 }

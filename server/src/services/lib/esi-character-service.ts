@@ -1,6 +1,5 @@
 import { EsiService } from 'src/services/lib/esi-service';
 import { EsiStructureService } from 'src/services/lib/esi-structure-api';
-
 import { LocationFlag } from 'src/services/types/location-api';
 
 import {
@@ -89,8 +88,6 @@ export class EsiCharacterService {
     const stationByStationId = await this.stationRepository.getStationByStationIdMap();
     const structureByLocationId = await this.structureRepository.getStationByLocationIdMap();
 
-    const structureCacheMisses: number[] = [];
-
     /**
      * The ESI endpoint returns 1,000 assets per page. If we have
      * less than 1,000 assets, then return a dead page number (-1),
@@ -98,7 +95,10 @@ export class EsiCharacterService {
      */
     let nextPage = assets.length < ESI_PAGE_SIZE ? -1 : page + 1;
 
-    assets.forEach((asset) => {
+    for (const asset of assets) {
+      /**
+       * Map "typeId" to statically held "typeName"
+       */
       if (itemTypeByTypeId[asset.type_id]) {
         asset.typeName = itemTypeByTypeId[asset.type_id].typeName;
       }
@@ -114,69 +114,80 @@ export class EsiCharacterService {
         asset.stationName = stationByStationId[asset.location_id].stationName;
       }
 
-      /**
-       * Map player-owned stations
-       */
-      if (asset.location_flag === LocationFlag.Hangar && !asset.stationName) {
+      if (!asset.stationName && asset.location_flag === LocationFlag.Hangar) {
         if (structureByLocationId[asset.location_id]) {
           asset.stationName = structureByLocationId[asset.location_id].name;
         } else {
-          structureCacheMisses.push(asset.location_id);
+          const structure = await this.esiStructureService.fetchStructures(
+            accessToken,
+            asset.location_id,
+          );
+          await this.structureRepository.insertStructure(asset.location_id, structure);
+          asset.stationName = structure.name;
         }
       }
-    });
+    }
+
+    // assets.forEach((asset) => {
+    //
+    //
+    //   /**
+    //    * Map player-owned stations
+    //    */
+    //
+    // });
 
     /**
      * Fetch player-owned structures to be inserted
      */
-    const structurePromises = structureCacheMisses.map((structureId) =>
-      this.esiStructureService.fetchStructures(accessToken, structureId),
-    );
-
-    if (structurePromises.length > 0) {
-      try {
-        /**
-         * Wait for the ESI to return player-owned structures
-         */
-        const structures = await Promise.all(structurePromises);
-
-        /**
-         * Insert player-owned structures into database
-         */
-        const insertPromises = structures.map((structure, index) =>
-          this.structureRepository.insertStructure(structureCacheMisses[index], structure),
-        );
-
-        /**
-         * Wait for inserts to complete
-         */
-        await Promise.all(insertPromises);
-
-        /**
-         * Refetch the structure map
-         */
-        const updatedStructureByLocationId =
-          await this.structureRepository.getStationByLocationIdMap();
-
-        /**
-         * Map player-owned stations
-         */
-        assets.forEach((asset) => {
-          if (asset.location_flag === LocationFlag.Hangar && !asset.stationName) {
-            if (updatedStructureByLocationId[asset.location_id]) {
-              asset.stationName = updatedStructureByLocationId[asset.location_id].name;
-            }
-          }
-        });
-      } catch (e) {
-        console.error('Unable to fetch or insert ESI structure(s)');
-        throw e;
-      }
-    }
+    // const structurePromises = structureCacheMisses.map((structureId) =>
+    //   this.esiStructureService.fetchStructures(accessToken, structureId),
+    // );
+    //
+    // if (structurePromises.length > 0) {
+    //   try {
+    //     /**
+    //      * Wait for the ESI to return player-owned structures
+    //      */
+    //     const structures = await Promise.all(structurePromises);
+    //
+    //     /**
+    //      * Insert player-owned structures into database
+    //      */
+    //     const insertPromises = structures.map((structure, index) =>
+    //       this.structureRepository.insertStructure(structureCacheMisses[index], structure),
+    //     );
+    //
+    //     /**
+    //      * Wait for inserts to complete
+    //      */
+    //     await Promise.all(insertPromises);
+    //
+    //     /**
+    //      * Refetch the structure map
+    //      */
+    //     const updatedStructureByLocationId =
+    //       await this.structureRepository.getStationByLocationIdMap();
+    //
+    //     /**
+    //      * Map player-owned stations
+    //      */
+    //     assets.forEach((asset) => {
+    //       if (asset.location_flag === LocationFlag.Hangar && !asset.stationName) {
+    //         if (updatedStructureByLocationId[asset.location_id]) {
+    //           asset.stationName = updatedStructureByLocationId[asset.location_id].name;
+    //         }
+    //       }
+    //     });
+    //   } catch (e) {
+    //     console.error('Unable to fetch or insert ESI structure(s)');
+    //     throw e;
+    //   }
+    // }
 
     return {
+      assets,
       nextPage,
-      data: assets,
     };
   }
 

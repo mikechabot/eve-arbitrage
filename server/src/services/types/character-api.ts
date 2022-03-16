@@ -1,10 +1,7 @@
-import { AuthResponse } from 'src/routers/types/shared-api';
-import { EveCorporationApiV5 } from 'src/services/types/corporation-api';
-
 /**
  * https://login.eveonline.com/oauth/verify
  */
-export interface CharacterApi {
+export interface EveCharacterVerifyApi {
   CharacterID: number;
   CharacterName: string;
   ExpiresOn: string;
@@ -44,21 +41,6 @@ export interface EveCharacterPortraitApiV3 {
 export type EveCharacterWalletApiV1 = number;
 
 /**
- * Domain object
- */
-export interface CharacterResponse extends AuthResponse {
-  character?: {
-    details: EveCharacterDetailsApiV5;
-    portrait: EveCharacterPortraitApiV3;
-    wallet: EveCharacterWalletApiV1;
-    assets: PaginatedCharacterAssets;
-  };
-  corporation?: {
-    details: EveCorporationApiV5;
-  };
-}
-
-/**
  * https://esi.evetech.net/ui/#/Assets/get_characters_character_id_assets
  */
 export interface EveInventoryAssetV5 {
@@ -81,9 +63,10 @@ export interface EveInventoryAssetV5 {
 export type EveInventoryAssetsApiV5 = EveInventoryAssetV5[];
 
 /**
- * Domain object
+ * Includes the response from the below call, but is decorated with the "nextPage"
+ * https://esi.evetech.net/ui/#/Assets/get_characters_character_id_assets
  */
 export interface PaginatedCharacterAssets {
-  data?: EveInventoryAssetsApiV5;
+  assets?: EveInventoryAssetsApiV5;
   nextPage?: number;
 }

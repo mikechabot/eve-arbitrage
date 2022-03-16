@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'AuthToken' })
-export class AuthToken extends BaseEntity {
+export class OAuthToken extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
