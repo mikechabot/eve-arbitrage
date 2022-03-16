@@ -9,7 +9,7 @@ import { FetchPaginatedCharacterAssetsResponse } from 'services/types/response-t
 import { mockCharacterAssetsResponse } from './mocks/character-assets-response';
 
 export const fetchCharacterAssets = (): Promise<FetchPaginatedCharacterAssetsResponse> => {
-  return Promise.resolve(mockCharacterAssetsResponse);
+  // return Promise.resolve(mockCharacterAssetsResponse);
 
   return processServiceCall(async () => {
     const apiResponse = await fetchClient

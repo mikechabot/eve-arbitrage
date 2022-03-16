@@ -95,8 +95,11 @@ export class EsiAssetService {
       /**
        * Map "typeId" to statically held "typeName"
        */
-      if (itemTypeByTypeId[asset.type_id]) {
-        asset.typeName = itemTypeByTypeId[asset.type_id].typeName;
+      const type = itemTypeByTypeId[asset.type_id];
+      if (type) {
+        asset.typeName = type.typeName;
+        asset.groupName = type.group?.groupName || '';
+        asset.categoryName = type.group?.category?.categoryName || '';
       }
 
       /**

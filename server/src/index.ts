@@ -7,8 +7,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
 import { createConnection, getCustomRepository } from 'typeorm';
 
 import { ormConfig } from 'src/orm-config';
@@ -19,10 +17,6 @@ import {
   migrateInvTypes,
   migrateStations,
 } from 'src/utils/data';
-
-import { InvTypeResolver } from 'src/resolvers/InvTypeResolver';
-import { InvGroupResolver } from 'src/resolvers/InvGroupResolver';
-import { InvCategoryResolver } from 'src/resolvers/InvCategoryResolver';
 
 import { EsiService } from 'src/services/lib/esi-service';
 import { EveLoginService } from 'src/services/lib/eve-login-service';
@@ -52,36 +46,17 @@ const startServer = async () => {
   /**
    * Migrate static EVE data
    */
-  await migrateInvTypes();
-  await migrateInvGroups();
+  console.log('Migrating static data, please wait...');
   await migrateInvCategories();
+  await migrateInvGroups();
+  await migrateInvTypes();
   await migrateStations();
+  console.log('Static data successfully migrated...');
 
   /**
    * Create the Express server, which exposes a listening port
    */
   const app = express();
-
-  /**
-   * Create the ApolloServer, which exposes GraphQL endpoints
-   */
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [InvTypeResolver, InvGroupResolver, InvCategoryResolver],
-      validate: false,
-    }),
-    context: ({ req, res }) => ({ req, res }),
-  });
-
-  /**
-   * Start the ApolloServer
-   */
-  await apolloServer.start();
-
-  /**
-   * Attach ApolloServer to Express
-   */
-  apolloServer.applyMiddleware({ app });
 
   const whitelist = ['https://localhost:3000'];
 

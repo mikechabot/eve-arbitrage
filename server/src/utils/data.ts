@@ -9,6 +9,7 @@ import { InvType } from 'src/entities/InvType';
 import { InvGroup } from 'src/entities/InvGroup';
 import { InvCategory } from 'src/entities/InvCategory';
 import { Station } from 'src/entities/Station';
+// import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 /**
  * Load a CSV given a filepath, and invoke a callback when the row is parsed
@@ -16,10 +17,16 @@ import { Station } from 'src/entities/Station';
  * @param insertCb
  */
 export const insertFromCsv = (filepath: string, insertCb: (chunk: any) => void) => {
-  fs.createReadStream(filepath)
-    .pipe(parse({ headers: true }))
-    .on(StreamEvent.Error, (error) => console.error(error))
-    .on(StreamEvent.Data, insertCb);
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(filepath)
+      .pipe(parse({ headers: true }))
+      .on(StreamEvent.Error, (error) => {
+        console.error(error);
+        reject(error);
+      })
+      .on(StreamEvent.Data, insertCb)
+      .on(StreamEvent.Close, resolve);
+  });
 };
 
 /**
@@ -29,11 +36,20 @@ export const migrateInvCategories = async () => {
   const categoriesRepository = getRepository(InvCategory);
   const categoryCount = await categoriesRepository.count();
 
+  // const categories: QueryDeepPartialEntity<InvCategory>[] = [];
+
   if (categoryCount === 0) {
     const categoriesCsv = path.resolve(__dirname, 'csv', CsvFilename.Category);
-    insertFromCsv(categoriesCsv, ({ categoryId, categoryName }) => {
+    await insertFromCsv(categoriesCsv, ({ categoryId, categoryName }) => {
       categoriesRepository.insert({ categoryId, categoryName });
     });
+
+    // try {
+    //   console.log('CATS', categories.length);
+    //   await categoriesRepository.insert(categories);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 };
 
@@ -44,11 +60,21 @@ export const migrateInvGroups = async () => {
   const groupsRepository = getRepository(InvGroup);
   const groupsCount = await groupsRepository.count();
 
+  // const groups: QueryDeepPartialEntity<InvGroup>[] = [];
+
   if (groupsCount === 0) {
     const groupsCsv = path.resolve(__dirname, 'csv', CsvFilename.Group);
-    insertFromCsv(groupsCsv, ({ groupId, categoryId, groupName }) => {
+
+    await insertFromCsv(groupsCsv, ({ groupId, categoryId, groupName }) => {
       groupsRepository.insert({ groupId, categoryId, groupName });
     });
+
+    // try {
+    //   console.log('GROUPS', groups.length);
+    //   await groupsRepository.insert(groups);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 };
 
@@ -59,11 +85,20 @@ export const migrateInvTypes = async () => {
   const typesRepository = getRepository(InvType);
   const typesCount = await typesRepository.count();
 
+  // const types: QueryDeepPartialEntity<InvType>[] = [];
+
   if (typesCount === 0) {
     const typesCsv = path.resolve(__dirname, 'csv', CsvFilename.Type);
-    insertFromCsv(typesCsv, ({ typeId, groupId, typeName }) => {
+    await insertFromCsv(typesCsv, ({ typeId, groupId, typeName }) => {
       typesRepository.insert({ typeId, groupId, typeName });
     });
+
+    // try {
+    //   console.log('TYPES', types.length);
+    //   await typesRepository.insert(types);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 };
 
@@ -74,10 +109,19 @@ export const migrateStations = async () => {
   const stationRepository = getRepository(Station);
   const stationsCount = await stationRepository.count();
 
+  // let stations: QueryDeepPartialEntity<Station>[] = [];
+
   if (stationsCount === 0) {
     const stationsCsv = path.resolve(__dirname, 'csv', CsvFilename.Station);
-    insertFromCsv(stationsCsv, ({ stationId, security, stationName }) => {
-      stationRepository.insert({ stationId, security, stationName, isNpc: true });
+    await insertFromCsv(stationsCsv, ({ stationId, security, stationName }) => {
+      stationRepository.insert({ stationId, security, stationName });
     });
+
+    // try {
+    //   console.log('STATIONS', stations.length);
+    //   await stationRepository.insert(stations);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 };

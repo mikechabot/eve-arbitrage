@@ -42,6 +42,8 @@ export interface EveInventoryAssetV5 {
   // These are mapped! Move to another interface that's a domain object
   typeName?: string;
   stationName?: string;
+  groupName?: string;
+  categoryName?: string;
 }
 
 /**

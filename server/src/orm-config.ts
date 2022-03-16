@@ -14,7 +14,7 @@ export const ormConfig: ConnectionOptions = {
   database: 'eve',
   username: 'postgres',
   password: 'Hax0r123!',
-  logging: !__prod__,
+  logging: false,
   entities: [OAuthToken, InvGroup, InvType, InvCategory, Station, Structure],
   /**
    * Don't use this in production as it recreates the schema

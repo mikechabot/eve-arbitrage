@@ -4,50 +4,42 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
   BaseEntity,
 } from 'typeorm';
 
-/**
- * This allows us to use the entity in GraphQL
- */
-import { Field, ObjectType, Int } from 'type-graphql';
+import { InvCategory } from 'src/entities/InvCategory';
+import { InvType } from 'src/entities/InvType';
 
-@ObjectType()
 @Entity({ name: 'InvGroup' })
 export class InvGroup extends BaseEntity {
-  @Field(() => Int)
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
+  @Column({ unique: true })
   groupId: number;
 
-  @Field()
   @Column()
   categoryId: number;
 
-  @Field()
   @Column()
   groupName: string;
 
-  // @Field(() => InvCategory)
-  // @ManyToOne(() => InvCategory)
-  // @JoinColumn({
-  //   name: 'categoryId',
-  //   referencedColumnName: 'categoryId',
-  // })
-  // category: InvCategory;
-  //
-  // @Field(() => [InvType])
-  // @OneToMany(() => InvType, (type) => type.group)
-  // types: InvType[];
+  @ManyToOne(() => InvCategory)
+  @JoinColumn({
+    name: 'categoryId',
+    referencedColumnName: 'categoryId',
+  })
+  category: InvCategory;
 
-  @Field(() => String)
+  @OneToMany(() => InvType, (type) => type.group, { cascade: ['insert'] })
+  types: InvType[];
+
   @CreateDateColumn()
   createdAt: Date;
 
-  @Field(() => String)
   @UpdateDateColumn()
   updatedAt: Date;
 }

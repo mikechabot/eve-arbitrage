@@ -63,7 +63,7 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
               headerHeight={36}
               onColumnSort={onColumnSort}
             >
-              <Column sortable key="typeName" dataKey="typeName" width={250} title="Type Name" />
+              <Column sortable key="typeName" dataKey="typeName" width={250} title="Type" />
               <Column sortable key="quantity" dataKey="quantity" width={100} title="Quantity" />
               <Column
                 sortable
@@ -76,23 +76,11 @@ export const CharacterAssets: React.FC<CharacterAssetsProps> = ({ assets }) => {
                 sortable
                 key="stationName"
                 dataKey="stationName"
-                width={300}
+                width={400}
                 title="Station Name"
               />
-              <Column
-                sortable
-                key="location_id"
-                dataKey="location_id"
-                width={200}
-                title="Location Id"
-              />
-              <Column
-                sortable
-                key="location_type"
-                dataKey="location_type"
-                width={150}
-                title="Location Type"
-              />
+              <Column sortable key="categoryName" dataKey="categoryName" width={150} title="Category" />
+              <Column sortable key="groupName" dataKey="groupName" width={150} title="Group" />
             </BaseTable>
           )}
         </AutoResizer>
