@@ -17,7 +17,7 @@ export const AppHeader = () => {
 
   const content: ReactNode[] = [
     <Heading key="heading" as="h2" size="xl" color="secondary">
-      [EveX]
+      EveX
     </Heading>,
   ];
 

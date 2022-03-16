@@ -8,9 +8,13 @@ export const Spinner: React.FC<SpinnerProps> = ({ label }) => (
   <Flex flexDirection="column" justifyContent="center">
     <Stack spacing={2}>
       <Flex justifyContent="center">
-        <UiSpinner color="secondary" size="lg" speed="0.75s" />
+        <UiSpinner color="secondary" size="lg" speed="0.5s" />
       </Flex>
-      {label && <Text fontSize="md">{label}</Text>}
+      {label && (
+        <Text fontSize="md" fontWeight="bold" color="secondary">
+          {label}
+        </Text>
+      )}
     </Stack>
   </Flex>
 );

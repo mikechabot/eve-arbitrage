@@ -29,7 +29,7 @@ export const Assets = () => {
   if (isError) {
     return (
       <Fullscreen>
-        <ErrorMessage>Error fetching assets</ErrorMessage>
+        <ErrorMessage message="Error fetching assets" />
       </Fullscreen>
     );
   }

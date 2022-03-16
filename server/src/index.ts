@@ -41,6 +41,7 @@ import { AssetsRouter } from 'src/routers/AssetsRouter';
 import { StructureRepository } from 'src/repositories/StructureRepository';
 import { EsiStructureService } from 'src/services/lib/esi-structure-api';
 import { CharacterRouter } from 'src/routers/CharacterRouter';
+import { EsiAssetService } from 'src/services/lib/esi-asset-service';
 
 const startServer = async () => {
   /**
@@ -146,8 +147,9 @@ const startServer = async () => {
   const eveAuthService = new EveAuthService({ eveLoginService });
   const eveCharacterService = new EveCharacterService({ eveLoginService });
   const esiStructureService = new EsiStructureService({ esiService });
+  const esiCharacterService = new EsiCharacterService({ esiService });
   const esiCorporationService = new EsiCorporationService({ esiService });
-  const esiCharacterService = new EsiCharacterService({
+  const esiAssetService = new EsiAssetService({
     esiService,
     esiStructureService,
     itemTypeRepository,
@@ -158,7 +160,7 @@ const startServer = async () => {
   /**
    * Initialize express API routers
    */
-  const { router: assetsRouter } = new AssetsRouter({ oauthTokenService, esiCharacterService });
+  const { router: assetsRouter } = new AssetsRouter({ oauthTokenService, esiAssetService });
   const { router: authRouter } = new AuthRouter({
     oauthTokenService,
     eveAuthService,

@@ -3,23 +3,23 @@ import { NextFunction, Request, Response } from 'express';
 import { BaseRouter } from 'src/routers/BaseRouter';
 
 import { OauthTokenService } from 'src/services/lib/oauth-token-service';
-import { EsiCharacterService } from 'src/services/lib/esi-character-service';
+import { EsiAssetService } from 'src/services/lib/esi-asset-service';
 
 import { FetchPaginatedCharacterAssetsResponse } from 'src/services/types/response-type-api';
 
 interface AssetsRouterOpts {
   oauthTokenService: OauthTokenService;
-  esiCharacterService: EsiCharacterService;
+  esiAssetService: EsiAssetService;
 }
 
 export class AssetsRouter extends BaseRouter {
   private readonly oauthTokenService: OauthTokenService;
-  private readonly esiCharacterService: EsiCharacterService;
+  private readonly esiAssetService: EsiAssetService;
 
-  constructor({ oauthTokenService, esiCharacterService }: AssetsRouterOpts) {
+  constructor({ oauthTokenService, esiAssetService }: AssetsRouterOpts) {
     super();
     this.oauthTokenService = oauthTokenService;
-    this.esiCharacterService = esiCharacterService;
+    this.esiAssetService = esiAssetService;
   }
 
   initializeRoutes(): void {
@@ -49,7 +49,7 @@ export class AssetsRouter extends BaseRouter {
     const { access_token, characterId } = jwt;
 
     try {
-      const assets = await this.esiCharacterService.fetchAssets(access_token, characterId, page);
+      const assets = await this.esiAssetService.fetchAssets(access_token, characterId, page);
 
       const response = {
         ...assets,

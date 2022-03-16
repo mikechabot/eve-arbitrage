@@ -33,7 +33,7 @@ export const Home = () => {
   if (isErrorVerify) {
     return (
       <Fullscreen>
-        <ErrorMessage>Error during verification</ErrorMessage>
+        <ErrorMessage message="Error during verification" />
       </Fullscreen>
     );
   }

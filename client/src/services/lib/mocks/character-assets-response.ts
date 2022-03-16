@@ -1,8 +1,6 @@
 import { FetchPaginatedCharacterAssetsResponse } from 'services/types/response-type-api';
 
 export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse = {
-  verified: true,
-  nextPage: -1,
   assets: [
     {
       is_singleton: true,
@@ -13,6 +11,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 601,
       typeName: 'Ibis',
+      stationName: 'Iidoken III - Caldari Constructions Warehouse',
     },
     {
       is_singleton: false,
@@ -23,6 +22,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 3838,
       typeName: 'Clearance Documents',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -33,6 +33,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 562,
       typeName: 'Light Electron Blaster I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -43,6 +44,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 399,
       typeName: 'Small Shield Booster I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_blueprint_copy: true,
@@ -54,6 +56,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 683,
       typeName: 'Bantam Blueprint',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -64,6 +67,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 648,
       typeName: 'Badger',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -84,6 +88,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 1317,
       typeName: 'Expanded Cargohold I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_blueprint_copy: true,
@@ -95,6 +100,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 1220,
       typeName: 'Scourge Rocket Blueprint',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -105,6 +111,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 582,
       typeName: 'Bantam',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -115,6 +122,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 370,
       type_id: 37,
       typeName: 'Isogen',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -125,6 +133,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 17938,
       typeName: 'Core Probe Launcher I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -135,6 +144,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 605,
       typeName: 'Heron',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -145,6 +155,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 12,
       type_id: 40,
       typeName: 'Megacyte',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -165,6 +176,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 603,
       typeName: 'Merlin',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -175,6 +187,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 30424,
       typeName: 'Civilian Kinetic Shield Hardener',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -185,6 +198,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 523,
       typeName: 'Small Armor Repairer I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -205,6 +219,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 22175,
       typeName: 'Data Analyzer I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -215,6 +230,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 22177,
       typeName: 'Relic Analyzer I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -225,6 +241,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 2,
       type_id: 17460,
       typeName: 'Viscous Pyroxeres',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -255,6 +272,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 32459,
       typeName: 'Civilian Warp Disruptor',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -265,6 +283,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 32467,
       typeName: 'Civilian Small Remote Shield Booster',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -275,6 +294,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 16238,
       typeName: 'Cormorant',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -285,6 +305,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 499,
       typeName: 'Light Missile Launcher I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -295,6 +316,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 2739,
       type_id: 210,
       typeName: 'Scourge Light Missile',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -325,6 +347,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1382,
       type_id: 219,
       typeName: 'Thorium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -335,6 +358,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 18,
       type_id: 30013,
       typeName: 'Core Scanner Probe I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -345,6 +369,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 32880,
       typeName: 'Venture',
+      stationName: 'Kaimon II - Moon 10 - Corporate Police Force Assembly Plant',
     },
     {
       is_singleton: true,
@@ -355,6 +380,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 1244,
       typeName: 'Overdrive Injector System I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -365,6 +391,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 85,
       type_id: 17459,
       typeName: 'Solid Pyroxeres',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -385,6 +412,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 400,
       typeName: 'Small Shield Booster II',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: false,
@@ -405,6 +433,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1000,
       type_id: 27331,
       typeName: 'Guristas Scourge Rocket',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -415,6 +444,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 4471,
       typeName: 'Small Infectious Scoped Energy Neutralizer',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -445,6 +475,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 10692,
       typeName: '125mm Compressed Coil Gun I',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: true,
@@ -455,6 +486,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 22542,
       typeName: 'Mining Laser Upgrade I',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -465,6 +497,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 482,
       typeName: 'Miner II',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -475,6 +508,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 482,
       typeName: 'Miner II',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -485,6 +519,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 439,
       typeName: '1MN Afterburner I',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: false,
@@ -495,6 +530,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 7,
       type_id: 17463,
       typeName: 'Condensed Scordite',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -505,6 +541,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 439,
       typeName: '1MN Afterburner I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -555,6 +592,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 49,
       type_id: 17471,
       typeName: 'Dense Veldspar',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -605,6 +643,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 33517,
       typeName: 'Mobile Depot Blueprint',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -625,6 +664,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 1319,
       typeName: 'Expanded Cargohold II',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: false,
@@ -635,6 +675,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 778,
       type_id: 221,
       typeName: 'Plutonium Charge S',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: true,
@@ -655,6 +696,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 17478,
       typeName: 'Retriever',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: true,
@@ -695,6 +737,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 10246,
       typeName: 'Mining Drone I',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: true,
@@ -715,6 +758,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 10246,
       typeName: 'Mining Drone I',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: false,
@@ -725,6 +769,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 4,
       type_id: 25600,
       typeName: 'Burned Logic Circuit',
+      stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
       is_singleton: false,
@@ -735,6 +780,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 25598,
       typeName: 'Tripped Power Circuit',
+      stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
       is_singleton: false,
@@ -745,6 +791,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 2,
       type_id: 25591,
       typeName: 'Contaminated Lorentz Fluid',
+      stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
       is_singleton: true,
@@ -755,6 +802,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 60276,
       typeName: 'Simple Asteroid Mining Crystal Type A I',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -775,6 +823,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 2,
       type_id: 17482,
       typeName: 'Strip Miner I',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -795,6 +844,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 60276,
       typeName: 'Simple Asteroid Mining Crystal Type A I',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: false,
@@ -805,6 +855,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 33073,
       type_id: 17463,
       typeName: 'Condensed Scordite',
+      stationName: 'Hageken XI - Moon 2 - Nurtura Warehouse',
     },
     {
       is_singleton: true,
@@ -835,6 +886,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 2048,
       typeName: 'Damage Control II',
+      stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
       is_singleton: true,
@@ -855,6 +907,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 100,
       type_id: 215,
       typeName: 'Iron Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -865,6 +918,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 100,
       type_id: 220,
       typeName: 'Uranium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -875,6 +929,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 19923,
       typeName: 'Morpheus Enduring Magnetometric ECM',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -885,6 +940,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 864,
       type_id: 34,
       typeName: 'Tritanium',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -895,6 +951,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 248,
       type_id: 35,
       typeName: 'Pyerite',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -905,6 +962,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 61,
       type_id: 36,
       typeName: 'Mexallon',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -915,6 +973,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 5,
       type_id: 38,
       typeName: 'Nocxium',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -925,6 +984,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 623,
       typeName: 'Moa',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -935,6 +995,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 30,
       type_id: 210,
       typeName: 'Scourge Light Missile',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -945,6 +1006,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 26,
       type_id: 217,
       typeName: 'Iridium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -955,6 +1017,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 33,
       type_id: 217,
       typeName: 'Iridium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -965,6 +1028,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 30,
       type_id: 217,
       typeName: 'Iridium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -975,6 +1039,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 200,
       type_id: 217,
       typeName: 'Iridium Charge S',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -985,6 +1050,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 578,
       typeName: 'Multispectrum Shield Hardener I',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -1025,6 +1091,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 623,
       typeName: 'Moa',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: true,
@@ -1195,6 +1262,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 17597,
       type_id: 20,
       typeName: 'Kernite',
+      stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
       is_singleton: false,
@@ -1246,6 +1314,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 838,
       typeName: 'Small Focused Beam Laser I Blueprint',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
       is_singleton: false,
@@ -1256,6 +1325,20 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 34732,
       typeName: 'Heron Sukuuvestaa SKIN',
+      stationName: 'Jouvulen III - Science and Trade Institute School',
+    },
+    {
+      is_singleton: false,
+      item_id: 0,
+      location_type: 'station',
+      quantity: 0,
+      type_id: 0,
+      location_id: 1035768580719,
+      location_flag: 'Hangar',
+      typeName: '#System',
+      stationName: "Muvolailen - Golden Mom's Shipyard & Factory",
     },
   ],
+  nextPage: -1,
+  verified: true,
 };

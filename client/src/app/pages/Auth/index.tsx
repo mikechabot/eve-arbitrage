@@ -8,6 +8,7 @@ import { useAuthContext } from 'hooks/useAuthContext';
 
 import { Spinner } from 'app/components/Spinner';
 import { Fullscreen } from 'app/layout/Fullscreen';
+import { ErrorMessage } from 'app/components/ErrorMessage';
 
 const EveCodeQueryParam = 'code';
 const EveStateQueryParam = 'state';
@@ -54,7 +55,7 @@ export const Auth = () => {
   if (isErrorMutateOauthToken || isErrorVerify) {
     return (
       <Fullscreen>
-        <span>Error</span>
+        <ErrorMessage message="Error during verification" />
       </Fullscreen>
     );
   }
