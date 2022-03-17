@@ -69,27 +69,30 @@ export class EsiAssetService {
     characterId: number,
     page: number,
   ): Promise<PaginatedCharacterAssets> {
-    const assets = await this.fetchRawAssets(accessToken, characterId, page);
+    const rawAssets = await this.fetchRawAssets(accessToken, characterId, page);
     const itemTypeByTypeId = await this.itemTypeRepository.getItemTypeByTypeIdMap();
     const stationByStationId = await this.stationRepository.getStationByStationIdMap();
     const structureByLocationId = await this.structureRepository.getStationByLocationIdMap();
 
-    assets.push({
+    rawAssets.push({
       is_singleton: false,
       item_id: 0,
       location_type: 'station',
       quantity: 0,
       type_id: 0,
+      stationName: '',
       location_id: 1035768580719,
       location_flag: LocationFlag.Hangar,
     });
+
+    const assets = rawAssets.filter((asset) => asset.location_flag === LocationFlag.Hangar);
 
     /**
      * The ESI endpoint returns 1,000 assets per page. If we have
      * less than 1,000 assets, then return a dead page number (-1),
      * otherwise increment the page.
      */
-    let nextPage = assets.length < ESI_PAGE_SIZE ? -1 : page + 1;
+    let nextPage = rawAssets.length < ESI_PAGE_SIZE ? -1 : page + 1;
 
     for (const asset of assets) {
       /**
@@ -101,6 +104,8 @@ export class EsiAssetService {
         asset.groupName = type.group?.groupName || '';
         asset.categoryName = type.group?.category?.categoryName || '';
       }
+
+      asset.stationName = '';
 
       /**
        * Map NPC stations to the location

@@ -10,7 +10,7 @@ import { Fullscreen } from 'app/layout/Fullscreen';
 import { Spinner } from 'app/components/Spinner';
 import { ErrorMessage } from 'app/components/ErrorMessage';
 
-import { CharacterAssets } from 'app/pages/Assets/components/CharacterAssets';
+import { AssetsTable } from 'app/pages/Assets/components/AssetsTable';
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
@@ -42,7 +42,5 @@ export const Assets = () => {
     );
   }
 
-  const { assets } = data;
-
-  return <CharacterAssets assets={assets} />;
+  return <AssetsTable assets={data.assets} />;
 };

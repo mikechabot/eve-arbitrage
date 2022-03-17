@@ -8,6 +8,8 @@ interface ErrorMessageProps {
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message = 'Error' }) => (
   <Flex alignItems="center" color="secondary">
     <Icon as={FaExclamationTriangle} />
-    <Text pl={2} pt={0.5} fontWeight="bold">{message}</Text>
+    <Text pl={2} pt={0.5} fontWeight="bold">
+      {message}
+    </Text>
   </Flex>
 );

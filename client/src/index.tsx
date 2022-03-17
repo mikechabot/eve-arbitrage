@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { App } from 'app';
 
-import 'styles/react-base-table.scss'
+import 'styles/styles.scss';
 
 ReactDOM.render(
   <React.StrictMode>

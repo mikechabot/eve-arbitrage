@@ -1,4 +1,4 @@
-import { Box, Spinner as UiSpinner, Flex, Stack, Text } from '@chakra-ui/react';
+import { Spinner as UiSpinner, Flex, Stack, Text } from '@chakra-ui/react';
 
 interface SpinnerProps {
   label?: string | React.ReactNode;
