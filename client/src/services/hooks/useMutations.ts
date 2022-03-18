@@ -1,9 +1,10 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 
+import { fetchOrders } from 'services/lib/assets';
 import { postLogin, postLogout } from 'services/lib/auth';
 
 import { ServiceError } from 'services/utils/ServiceError';
-import { AuthChallengeResponse } from 'services/types/response-type-api';
+import { AuthChallengeResponse, FetchMarketOrderResponse } from 'services/types/response-type-api';
 
 export type PostCodeForOauthTokenProps = string;
 
@@ -23,5 +24,20 @@ export const usePostLogout = (
 ) => {
   return useMutation<AuthChallengeResponse, ServiceError>(() => {
     return postLogout();
+  }, options);
+};
+
+export type PostOrderProps = string;
+
+/**
+ * Verify and/or refresh the JWT cookie
+ * @param typeId
+ * @param options
+ */
+export const usePostOrder = (
+  options?: UseMutationOptions<FetchMarketOrderResponse, ServiceError, PostOrderProps>,
+) => {
+  return useMutation<FetchMarketOrderResponse, ServiceError, PostOrderProps>((typeId) => {
+    return fetchOrders(typeId);
   }, options);
 };

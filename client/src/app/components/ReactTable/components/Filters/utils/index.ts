@@ -45,8 +45,9 @@ export const roundedMedian = (leafValues) => {
  * @param id
  * @param filterValue
  */
-export const fuzzyTextFilterFn = (rows, id, filterValue) =>
-  matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
+export const fuzzyTextFilterFn = (rows, id, filterValue) => {
+  return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]?.typeName] });
+};
 
 /**
  * Let the table remove the filter if the string is empty

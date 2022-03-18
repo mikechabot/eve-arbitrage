@@ -44,7 +44,7 @@ export class AuthRouter extends BaseRouter {
      * probably a bad actor, so send back the SSO challenge.
      */
     const oauthToken = await this.oauthTokenService.findJwtByCookie(cookies);
-    if (!oauthToken) {
+    if (!oauthToken || !oauthToken.isValid) {
       res.json({ verified: false, challenge: ChallengeType.SSO });
       return;
     }
@@ -58,14 +58,19 @@ export class AuthRouter extends BaseRouter {
       return;
     } catch (e) {
       try {
-        // console.log(`Invalidating token..."${oauthToken}"`);
+        console.log(`Invalidating token..."${JSON.stringify(oauthToken)}"`);
         await this.oauthTokenService.invalidateToken(oauthToken);
-        // console.log(`Refreshing token..."${oauthToken.refresh_token}`);
+        console.log(`Refreshing token..."${oauthToken.refresh_token}`);
         const newOauthToken = await this.eveAuthService.refreshAuthToken(oauthToken.refresh_token);
-        // console.log(`Got refreshed token "${newOauthToken}"`);
+        console.log(`Got refreshed token, now validating"${JSON.stringify(newOauthToken)}"`);
         await this.eveAuthService.validateJwtAccessToken(newOauthToken);
+        console.log(
+          `Successfully validated token, now getting Character: "${JSON.stringify(newOauthToken)}"`,
+        );
         const character = await this.eveCharacterService.fetchCharacter(newOauthToken.access_token);
+        console.log(`Got character with new token "${JSON.stringify(character)}"`);
         await this.oauthTokenService.addToken(newOauthToken, character.CharacterID);
+        console.log('Successuly added token to DB');
 
         res.cookie('jwt', newOauthToken.access_token, {
           secure: true,

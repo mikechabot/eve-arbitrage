@@ -1,5 +1,7 @@
 import { EveCorporationApiV5 } from 'services/types/corporation-api';
 
+import { EveMarketOrderApiV1 } from 'services/types/assets-api';
+
 import {
   EveCharacterDetailsApiV5,
   EveCharacterPortraitApiV3,
@@ -34,3 +36,7 @@ export interface FetchCharacterDetailsResponse extends AuthResponse {
 export interface FetchPaginatedCharacterAssetsResponse
   extends PaginatedCharacterAssets,
     AuthResponse {}
+
+export interface FetchMarketOrderResponse extends AuthResponse {
+  order?: EveMarketOrderApiV1;
+}

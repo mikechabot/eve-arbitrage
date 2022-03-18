@@ -25,10 +25,7 @@ import { fuzzyTextFilterFn } from 'app/components/ReactTable/components/Filters/
 export const ReactTable = ({ columns, data }) => {
   const filterTypes = React.useMemo(
     () => ({
-      // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      // Or, override the default text filter to use
-      // "startWith"
       text: (rows, id, filterValue) => {
         return rows.filter((row) => {
           const rowValue = row.values[id];
@@ -65,7 +62,7 @@ export const ReactTable = ({ columns, data }) => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
+    state: { pageIndex, pageSize, selectedRowIds },
   } = useTable(
     {
       columns,
@@ -109,6 +106,13 @@ export const ReactTable = ({ columns, data }) => {
     },
   );
 
+  const typeIds: number[] = [];
+
+  const indices = Object.keys(selectedRowIds || []);
+  indices.forEach((index) => {
+    typeIds.push(data[index].type_id);
+  });
+
   return (
     <Flex flexDirection="column" width="100%" pt={4}>
       <Flex justifyContent="center">
@@ -123,6 +127,7 @@ export const ReactTable = ({ columns, data }) => {
           pageOptions={pageOptions}
           canPreviousPage={canPreviousPage}
           canNextPage={canNextPage}
+          selectedTypeIds={typeIds}
         />
       </Flex>
       <Flex width="100%" flex={1} overflowX="auto" overflowY="auto" pt={4}>

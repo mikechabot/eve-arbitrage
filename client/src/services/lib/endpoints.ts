@@ -7,6 +7,7 @@ export const Endpoints = {
   Character: urlJoin(AppEnv.BaseApiUrl, '/me'),
   AssetsCharacter: urlJoin(AppEnv.BaseApiUrl, '/assets/character'),
   AssetsCorporation: urlJoin(AppEnv.BaseApiUrl, '/assets/corporation'),
+  AssetsOrders: urlJoin(AppEnv.BaseApiUrl, '/assets/orders'),
   OauthTokenLogin: urlJoin(AppEnv.BaseApiUrl, '/auth/login'),
   OauthTokenLogout: urlJoin(AppEnv.BaseApiUrl, '/auth/logout'),
   OauthVerify: urlJoin(AppEnv.BaseApiUrl, '/auth/verify'),

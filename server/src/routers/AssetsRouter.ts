@@ -5,7 +5,10 @@ import { BaseRouter } from 'src/routers/BaseRouter';
 import { OauthTokenService } from 'src/services/lib/oauth-token-service';
 import { EsiAssetService } from 'src/services/lib/esi-asset-service';
 
-import { FetchPaginatedCharacterAssetsResponse } from 'src/services/types/response-type-api';
+import {
+  FetchMarketOrderResponse,
+  FetchPaginatedCharacterAssetsResponse,
+} from 'src/services/types/response-type-api';
 
 interface AssetsRouterOpts {
   oauthTokenService: OauthTokenService;
@@ -24,6 +27,7 @@ export class AssetsRouter extends BaseRouter {
 
   initializeRoutes(): void {
     this.registerGetHandler('/character', this.fetchPaginatedCharacterAssets.bind(this));
+    this.registerPostHandler('/orders', this.fetchOrder.bind(this));
   }
 
   /**
@@ -61,5 +65,24 @@ export class AssetsRouter extends BaseRouter {
       res.status(500);
       next(e);
     }
+  }
+
+  async fetchOrder({ cookies, body }: Request, res: Response<FetchMarketOrderResponse>) {
+    const jwt = await this.oauthTokenService.findJwtByCookie(cookies);
+    if (!jwt) {
+      res.status(401);
+      res.json({ verified: false });
+      return;
+    }
+
+    const { typeId } = body;
+    const { access_token } = jwt;
+
+    const order = await this.esiAssetService.fetchRawOrder(access_token, typeId);
+
+    res.json({
+      order,
+      verified: true,
+    });
   }
 }

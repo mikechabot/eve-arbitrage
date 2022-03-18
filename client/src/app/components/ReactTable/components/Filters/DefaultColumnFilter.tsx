@@ -8,8 +8,8 @@ export const DefaultColumnFilter = ({ column: { filterValue, preFilteredRows, se
       size="xs"
       mt={2}
       value={filterValue || ''}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+      onChange={({ target }) => {
+        setFilter(target.value || undefined);
       }}
       placeholder={`Search ${count} records...`}
     />

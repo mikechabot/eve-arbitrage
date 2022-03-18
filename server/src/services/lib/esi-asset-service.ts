@@ -3,7 +3,6 @@ import { EsiStructureService } from 'src/services/lib/esi-structure-api';
 import { LocationFlag } from 'src/services/types/location-api';
 
 import {
-  EveCharacterPortraitApiV3,
   EveInventoryAssetsApiV5,
   PaginatedCharacterAssets,
 } from 'src/services/types/character-api';
@@ -11,6 +10,7 @@ import {
 import { StationRepository } from 'src/repositories/StationRepository';
 import { ItemTypeRepository } from 'src/repositories/ItemTypeRepository';
 import { StructureRepository } from 'src/repositories/StructureRepository';
+import { EveMarketOrderApiV1 } from 'src/services/types/assets-api';
 
 interface EsiAssetServiceOpts {
   esiService: EsiService;
@@ -43,18 +43,6 @@ export class EsiAssetService {
     this.itemTypeRepository = itemTypeRepository;
     this.stationRepository = stationRepository;
     this.structureRepository = structureRepository;
-  }
-
-  /**
-   * https://esi.evetech.net/ui/#/Character/get_characters_character_id_portrait
-   * @param accessToken
-   * @param characterId
-   */
-  fetchPortrait(accessToken: string, characterId: number): Promise<EveCharacterPortraitApiV3> {
-    return this.esiService.fetch<EveCharacterPortraitApiV3>(
-      accessToken,
-      `v3/characters/${characterId}/portrait`,
-    );
   }
 
   /**
@@ -136,6 +124,22 @@ export class EsiAssetService {
       assets,
       nextPage,
     };
+  }
+
+  async fetchRawOrder(accessToken: string, typeId: number): Promise<EveMarketOrderApiV1> {
+    const orders = await this.esiService.fetch<EveMarketOrderApiV1[]>(
+      accessToken,
+      `v1/markets/10000002/orders?order_type=buy&page=1&type_id=${typeId}`,
+    );
+
+    let maxOrder: EveMarketOrderApiV1 = orders[0];
+    (orders || []).forEach((order) => {
+      if (order.price > maxOrder.price) {
+        maxOrder = order;
+      }
+    });
+
+    return maxOrder;
   }
 
   /**

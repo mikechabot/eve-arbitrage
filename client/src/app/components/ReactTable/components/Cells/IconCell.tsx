@@ -21,7 +21,7 @@ export const IconCell: React.FC<IconCellProps> = ({ value }) => {
   return (
     <Flex alignItems="center">
       <Image boxSize={10} borderRadius={6} src={src} fallbackSrc="https://via.placeholder.com/40" />
-      <Box pl={4} fontWeight="bold">
+      <Box pl={4} fontWeight="bold" overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
         {value.typeName}
       </Box>
     </Flex>

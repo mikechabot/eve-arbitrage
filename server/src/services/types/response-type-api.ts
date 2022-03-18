@@ -6,6 +6,7 @@ import {
   EveCharacterWalletApiV1,
   PaginatedCharacterAssets,
 } from 'src/services/types/character-api';
+import {EveMarketOrderApiV1} from "src/services/types/assets-api";
 
 export interface AuthResponse {
   verified: boolean;
@@ -33,3 +34,7 @@ export interface FetchCharacterDetailsResponse extends AuthResponse {
 export interface FetchPaginatedCharacterAssetsResponse
   extends PaginatedCharacterAssets,
     AuthResponse {}
+
+export interface FetchMarketOrderResponse extends AuthResponse {
+  order?: EveMarketOrderApiV1;
+}
