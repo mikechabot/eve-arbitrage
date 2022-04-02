@@ -6,7 +6,6 @@ import {
   useSortBy,
   useFilters,
   useGroupBy,
-  useExpanded,
   useRowSelect,
 } from 'react-table';
 
@@ -22,7 +21,12 @@ import { IndeterminateCheckbox } from 'app/components/ReactTable/components/Inde
 
 import { fuzzyTextFilterFn } from 'app/components/ReactTable/components/Filters/utils';
 
-export const ReactTable = ({ columns, data }) => {
+interface ReactTableProps {
+  columns: any[];
+  data: any[];
+}
+
+export const ReactTable: React.FC<ReactTableProps> = ({ columns, data }) => {
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -47,7 +51,6 @@ export const ReactTable = ({ columns, data }) => {
     [],
   );
 
-  // Use the state and functions returned from useTable to build your UI
   const {
     page,
     getTableProps,
@@ -74,7 +77,6 @@ export const ReactTable = ({ columns, data }) => {
     useFilters,
     useGroupBy,
     useSortBy,
-    useExpanded,
     usePagination,
     useRowSelect,
     (hooks) => {
@@ -107,7 +109,6 @@ export const ReactTable = ({ columns, data }) => {
   );
 
   const typeIds: number[] = [];
-
   const indices = Object.keys(selectedRowIds || []);
   indices.forEach((index) => {
     typeIds.push(data[index].type_id);
@@ -131,7 +132,7 @@ export const ReactTable = ({ columns, data }) => {
         />
       </Flex>
       <Flex width="100%" flex={1} overflowX="auto" overflowY="auto" pt={4}>
-        <Table {...getTableProps()} width="100%" size="sm" colorScheme="pink">
+        <Table {...getTableProps()} width="100%" size="sm" colorScheme="gray">
           <TableHeaders headerGroups={headerGroups} />
           <TableBody page={page} prepareRow={prepareRow} getTableBodyProps={getTableBodyProps} />
         </Table>

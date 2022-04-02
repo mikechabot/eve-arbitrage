@@ -13,6 +13,7 @@ export const EveOrderRangeApiV1 = {
   '40': 2,
 } as const;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EveOrderRangeApiV1 = typeof EveOrderRangeApiV1[keyof typeof EveOrderRangeApiV1];
 
 export interface EveMarketOrderApiV1 {

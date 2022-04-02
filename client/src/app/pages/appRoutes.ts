@@ -4,6 +4,7 @@ export const AppRoutes = {
   Home: '/',
   AuthSso: '/auth/sso/',
   Assets: '/assets',
+  Orders: '/orders'
 } as const;
 
 export type AppRoute = typeof AppRoutes[keyof typeof AppRoutes];

@@ -38,5 +38,5 @@ export interface FetchPaginatedCharacterAssetsResponse
     AuthResponse {}
 
 export interface FetchMarketOrderResponse extends AuthResponse {
-  order?: EveMarketOrderApiV1;
+  orderByTypeId?: Record<number, EveMarketOrderApiV1>;
 }

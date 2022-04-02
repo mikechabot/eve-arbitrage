@@ -114,7 +114,7 @@ export const migrateStations = async () => {
   if (stationsCount === 0) {
     const stationsCsv = path.resolve(__dirname, 'csv', CsvFilename.Station);
     await insertFromCsv(stationsCsv, ({ stationId, security, stationName }) => {
-      stationRepository.insert({ stationId, security, stationName });
+      stationRepository.insert({ stationId, security, stationName, isNpc: true });
     });
 
     // try {

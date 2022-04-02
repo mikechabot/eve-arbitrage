@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import { Flex, Box } from '@chakra-ui/react';
 import { Redirect } from 'react-router';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
 import { useAuthContext } from 'hooks/useAuthContext';
+import { usePostOrder } from 'services/hooks/useMutations';
 import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
 
 import { Fullscreen } from 'app/layout/Fullscreen';
@@ -14,19 +16,27 @@ import { AssetsTable } from 'app/pages/Assets/components/AssetsTable';
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
-  const { data, isFetching, isError, refetch } = useAssetsPage();
+
+  const {
+    data: dataAssets,
+    isFetching: isFetchingAssets,
+    isError: isErrorAssets,
+    refetch: fetchAssets,
+  } = useAssetsPage();
+
+  const { data: dataOrders, isLoading: isFetchingOrders, isError: isErrorOrders } = usePostOrder();
 
   useEffect(() => {
     if (isVerified) {
-      refetch();
+      fetchAssets();
     }
-  }, [isVerified, refetch]);
+  }, [isVerified, fetchAssets]);
 
   if (!isVerified) {
     return <Redirect to={AppRoutes.Home} />;
   }
 
-  if (isError) {
+  if (isErrorAssets) {
     return (
       <Fullscreen>
         <ErrorMessage message="Error fetching assets" />
@@ -34,7 +44,7 @@ export const Assets = () => {
     );
   }
 
-  if (!data || isFetching) {
+  if (!dataAssets || isFetchingAssets) {
     return (
       <Fullscreen>
         <Spinner label="Loading Assets..." />
@@ -42,5 +52,10 @@ export const Assets = () => {
     );
   }
 
-  return <AssetsTable assets={data.assets} />;
+  return (
+    <Flex flexDirection="column">
+      <Box mt={2}>{isFetchingOrders ? <Spinner label="Fetching Orders..." /> : null}</Box>
+      <AssetsTable assets={dataAssets.assets} />
+    </Flex>
+  );
 };

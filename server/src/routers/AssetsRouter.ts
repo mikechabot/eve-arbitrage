@@ -75,13 +75,13 @@ export class AssetsRouter extends BaseRouter {
       return;
     }
 
-    const { typeId } = body;
+    const { typeIds } = body;
     const { access_token } = jwt;
 
-    const order = await this.esiAssetService.fetchRawOrder(access_token, typeId);
+    const orderByTypeId = await this.esiAssetService.fetchMaxOrdersByTypeId(access_token, typeIds);
 
     res.json({
-      order,
+      orderByTypeId,
       verified: true,
     });
   }

@@ -11,7 +11,7 @@ import { Structure } from 'src/entities/Structure';
 
 export const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  database: 'eve',
+  database: 'eve3',
   username: 'postgres',
   password: 'Hax0r123!',
   logging: false,

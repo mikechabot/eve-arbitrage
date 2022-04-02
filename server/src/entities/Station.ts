@@ -24,7 +24,7 @@ export class Station extends BaseEntity {
   @Column()
   stationName: string;
 
-  @Column()
+  @Column({nullable: true})
   isNpc: boolean;
 
   @CreateDateColumn()

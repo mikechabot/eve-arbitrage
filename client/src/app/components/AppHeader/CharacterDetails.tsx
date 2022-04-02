@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 import { EveCorporationApiV5 } from 'services/types/corporation-api';
 import { EveCharacterDetailsApiV5, EveCharacterWalletApiV1 } from 'services/types/character-api';
@@ -13,10 +13,12 @@ interface CharacterDetailsProps {
 
 export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ character, corporation }) => (
   <Box textAlign="right">
-    <Box fontWeight="semibold">{character.details.name}</Box>
-    <Box>{corporation.name}</Box>
-    <Box fontWeight="semibold" color="secondary">
+    <Text fontSize={['sm', 'md', 'lg']} fontWeight="semibold">
+      {character.details.name}
+    </Text>
+    <Text fontSize={['sm', 'md']}>{corporation.name}</Text>
+    <Text fontSize={['xs', 'sm', 'md']} fontWeight="semibold" color="secondary">
       ${Number(character.wallet).toLocaleString()} ISK
-    </Box>
+    </Text>
   </Box>
 );

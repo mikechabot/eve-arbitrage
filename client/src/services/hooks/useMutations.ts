@@ -27,7 +27,7 @@ export const usePostLogout = (
   }, options);
 };
 
-export type PostOrderProps = string;
+export type PostOrderProps = number[];
 
 /**
  * Verify and/or refresh the JWT cookie
@@ -37,7 +37,7 @@ export type PostOrderProps = string;
 export const usePostOrder = (
   options?: UseMutationOptions<FetchMarketOrderResponse, ServiceError, PostOrderProps>,
 ) => {
-  return useMutation<FetchMarketOrderResponse, ServiceError, PostOrderProps>((typeId) => {
-    return fetchOrders(typeId);
+  return useMutation<FetchMarketOrderResponse, ServiceError, PostOrderProps>((typeIds) => {
+    return fetchOrders(typeIds);
   }, options);
 };

@@ -55,7 +55,7 @@ export const Home = () => {
       <VStack justifyContent="center" alignItems="center" spacing={5}>
         <Avatar bg="secondary" showBorder border="red" />
         <Heading as="h3" size="lg">
-          Welcome to Eve Arbitrage
+          Welcome to EveX
         </Heading>
         <a className="App-link" href={buildEveAuthBaseUrl(localStateKey)} rel="noopener noreferrer">
           <img src={buttonImage} className="App-logo" alt="logo" />

@@ -62,17 +62,6 @@ export class EsiAssetService {
     const stationByStationId = await this.stationRepository.getStationByStationIdMap();
     const structureByLocationId = await this.structureRepository.getStationByLocationIdMap();
 
-    rawAssets.push({
-      is_singleton: false,
-      item_id: 0,
-      location_type: 'station',
-      quantity: 0,
-      type_id: 0,
-      stationName: '',
-      location_id: 1035768580719,
-      location_flag: LocationFlag.Hangar,
-    });
-
     const assets = rawAssets.filter((asset) => asset.location_flag === LocationFlag.Hangar);
 
     /**
@@ -126,20 +115,38 @@ export class EsiAssetService {
     };
   }
 
-  async fetchRawOrder(accessToken: string, typeId: number): Promise<EveMarketOrderApiV1> {
-    const orders = await this.esiService.fetch<EveMarketOrderApiV1[]>(
+  async fetchMaxOrdersByTypeId(
+    accessToken: string,
+    typeIds: number[],
+  ): Promise<Record<number, EveMarketOrderApiV1>> {
+    const orderByTypeId: Record<number, EveMarketOrderApiV1> = {};
+
+    for (const typeId of typeIds) {
+      const orders = await this.fetchRawOrder(accessToken, typeId);
+      if (!orders) {
+        continue;
+      }
+
+      /**
+       * Find the max order price
+       */
+      let maxOrder: EveMarketOrderApiV1 = orders[0];
+      (orders || []).forEach((order) => {
+        if (order.price > maxOrder.price) {
+          maxOrder = order;
+        }
+      });
+
+      orderByTypeId[typeId] = maxOrder;
+    }
+    return orderByTypeId;
+  }
+
+  private fetchRawOrder(accessToken: string, typeId: number): Promise<EveMarketOrderApiV1[]> {
+    return this.esiService.fetch<EveMarketOrderApiV1[]>(
       accessToken,
       `v1/markets/10000002/orders?order_type=buy&page=1&type_id=${typeId}`,
     );
-
-    let maxOrder: EveMarketOrderApiV1 = orders[0];
-    (orders || []).forEach((order) => {
-      if (order.price > maxOrder.price) {
-        maxOrder = order;
-      }
-    });
-
-    return maxOrder;
   }
 
   /**

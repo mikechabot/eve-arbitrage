@@ -6,7 +6,7 @@ interface SpinnerProps {
 
 export const Spinner: React.FC<SpinnerProps> = ({ label }) => (
   <Flex flexDirection="column" justifyContent="center">
-    <Stack spacing={2}>
+    <Stack spacing={2} alignItems="center">
       <Flex justifyContent="center">
         <UiSpinner color="secondary" size="lg" speed="0.5s" />
       </Flex>

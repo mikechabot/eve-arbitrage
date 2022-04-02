@@ -11,6 +11,9 @@ import {
 
 import { mockCharacterAssetsResponse } from './mocks/character-assets-response';
 
+/**
+ * Fetch character assets
+ */
 export const fetchCharacterAssets = (): Promise<FetchPaginatedCharacterAssetsResponse> => {
   return Promise.resolve(mockCharacterAssetsResponse);
 
@@ -26,11 +29,15 @@ export const fetchCharacterAssets = (): Promise<FetchPaginatedCharacterAssetsRes
   });
 };
 
-export const fetchOrders = (typeId): Promise<FetchMarketOrderResponse> => {
+/**
+ * Fetch orders based on typeIds
+ * @param typeIds
+ */
+export const fetchOrders = (typeIds: number[]): Promise<FetchMarketOrderResponse> => {
   return processServiceCall(async () => {
     const apiResponse = await fetchClient
       .post(Endpoints.AssetsOrders, {
-        json: { typeId },
+        json: { typeIds },
       })
       .json<FetchMarketOrderResponse>();
 
