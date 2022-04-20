@@ -11,8 +11,8 @@ export const TableHeaders = ({ headerGroups }) => (
       <Tr {...headerGroup.getHeaderGroupProps()}>
         {headerGroup.headers.map((column) => (
           <Th {...column.getHeaderProps()}>
-            <Flex alignItems="center">
-              <Text as="span" fontSize="sm" {...column.getSortByToggleProps()}>
+            <Flex alignItems="center" {...column.getSortByToggleProps()}>
+              <Text as="span" fontSize="sm">
                 {column.render('Header')}
               </Text>
               <Flex alignContent="center">

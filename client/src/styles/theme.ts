@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 
 const fonts = {
   body: 'Abel, sans-serif',
@@ -51,4 +52,18 @@ const colors = {
   },
 };
 
-export const theme = extendTheme({ styles, colors, fonts });
+const sizes = {
+  container: {
+    xxl: '1440px',
+  },
+};
+
+export const theme = extendTheme({
+  styles,
+  colors,
+  fonts,
+  sizes,
+  components: {
+    Steps,
+  },
+});

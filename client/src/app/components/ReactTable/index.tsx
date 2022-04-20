@@ -1,17 +1,9 @@
 import React from 'react';
-import { Flex, Table } from '@chakra-ui/react';
-import {
-  useTable,
-  usePagination,
-  useSortBy,
-  useFilters,
-  useGroupBy,
-  useRowSelect,
-} from 'react-table';
+import { Flex, Table, Box, useBreakpointValue } from '@chakra-ui/react';
+import { useFilters, useGroupBy, useRowSelect, useSortBy, useTable } from 'react-table';
 
 import { TableBody } from 'app/components/ReactTable/TableBody';
 import { TableHeaders } from 'app/components/ReactTable/TableHeaders';
-import { Pagination } from 'app/components/ReactTable/Pagination';
 
 import { BasicCell } from 'app/components/ReactTable/components/Cells/BasicCell';
 import { IconCell } from 'app/components/ReactTable/components/Cells/IconCell';
@@ -27,6 +19,8 @@ interface ReactTableProps {
 }
 
 export const ReactTable: React.FC<ReactTableProps> = ({ columns, data }) => {
+  const tableHeight = useBreakpointValue({ base: '80vh', sm: '500px', md: '80vh' });
+
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -52,20 +46,12 @@ export const ReactTable: React.FC<ReactTableProps> = ({ columns, data }) => {
   );
 
   const {
-    page,
+    rows,
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize, selectedRowIds },
+    state: { selectedRowIds },
   } = useTable(
     {
       columns,
@@ -77,25 +63,18 @@ export const ReactTable: React.FC<ReactTableProps> = ({ columns, data }) => {
     useFilters,
     useGroupBy,
     useSortBy,
-    usePagination,
     useRowSelect,
     (hooks) => {
       hooks.visibleColumns.push((cols) => {
         return [
           {
             id: 'selection',
-            // Make this column a groupByBoundary. This ensures that groupBy columns
-            // are placed after it
             groupByBoundary: true,
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox
             Header: ({ getToggleAllRowsSelectedProps }) => (
               <div>
                 <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
               </div>
             ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
             Cell: ({ row }) => (
               <div>
                 <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
@@ -115,28 +94,11 @@ export const ReactTable: React.FC<ReactTableProps> = ({ columns, data }) => {
   });
 
   return (
-    <Flex flexDirection="column" width="100%" pt={4}>
-      <Flex justifyContent="center">
-        <Pagination
-          goToPage={gotoPage}
-          nextPage={nextPage}
-          previousPage={previousPage}
-          setPageSize={setPageSize}
-          pageSize={pageSize}
-          pageCount={pageCount}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          selectedTypeIds={typeIds}
-        />
-      </Flex>
-      <Flex width="100%" flex={1} overflowX="auto" overflowY="auto" pt={4}>
-        <Table {...getTableProps()} width="100%" size="sm" colorScheme="gray">
-          <TableHeaders headerGroups={headerGroups} />
-          <TableBody page={page} prepareRow={prepareRow} getTableBodyProps={getTableBodyProps} />
-        </Table>
-      </Flex>
-    </Flex>
+    <Box border="1px solid red" height={tableHeight} overflow="auto">
+      <Table {...getTableProps()} width="100%" size="sm" colorScheme="gray">
+        <TableHeaders headerGroups={headerGroups} />
+        <TableBody rows={rows} prepareRow={prepareRow} getTableBodyProps={getTableBodyProps} />
+      </Table>
+    </Box>
   );
 };

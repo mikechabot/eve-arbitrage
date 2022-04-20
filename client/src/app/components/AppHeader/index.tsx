@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Heading, Flex } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { useAuthContext } from 'hooks/useAuthContext';
 import { useCharacterQuery } from 'services/hooks/useQueries';
@@ -10,14 +11,15 @@ import { Spinner } from 'app/components/Spinner';
 import { LogoutButton } from 'app/components/AppHeader/LogoutButton';
 import { CharacterAvatar } from 'app/components/AppHeader/CharacterAvatar';
 import { CharacterDetails } from 'app/components/AppHeader/CharacterDetails';
+import { AppRoutes } from 'app/pages/appRoutes';
 
 export const AppHeader = () => {
   const { isVerified } = useAuthContext();
   const { data, isFetching, isError } = useCharacterQuery();
 
   const content: ReactNode[] = [
-    <Heading key="heading" as="h2" size="xl" color="secondary">
-      EveX
+    <Heading key="heading" as="h2" size="xl" color="secondary" userSelect="none">
+      <Link to={AppRoutes.Home}>EveX</Link>
     </Heading>,
   ];
 

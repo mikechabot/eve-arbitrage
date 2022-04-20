@@ -6,6 +6,7 @@ import {
 } from 'app/components/ReactTable/components/Filters';
 
 import { IconCell } from 'app/components/ReactTable/components/Cells/IconCell';
+import { EditableCell } from 'app/components/ReactTable/components/Cells/EditableCell';
 
 export const useCharacterAssetsSchema = () => {
   return useMemo(

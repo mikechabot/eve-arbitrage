@@ -30,6 +30,8 @@ export const NumberRangeColumnFilter = ({
       <NumberInput
         size="xs"
         width={32}
+        min={1}
+        max={max}
         value={filterValue[0] || ''}
         onChange={(valueString) => {
           setFilter((old = []) => [valueString ? parseInt(valueString, 10) : undefined, old[1]]);
@@ -45,6 +47,8 @@ export const NumberRangeColumnFilter = ({
       <NumberInput
         size="xs"
         width={32}
+        min={1}
+        max={max}
         value={filterValue[1] || ''}
         onChange={(valueString) => {
           setFilter((old = []) => [old[0], valueString ? parseInt(valueString, 10) : undefined]);

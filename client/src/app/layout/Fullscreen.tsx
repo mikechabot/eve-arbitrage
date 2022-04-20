@@ -6,8 +6,9 @@ export const Fullscreen = ({ children }) => (
     width="100%"
     height="100%"
     backgroundColor="base"
-    justifyContent="center"
+    justifyContent={['flex-start', 'center']}
     alignItems="center"
+    mt={[8, 0]}
   >
     {children}
   </Flex>

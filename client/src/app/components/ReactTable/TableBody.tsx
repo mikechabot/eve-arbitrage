@@ -1,9 +1,9 @@
 import React from 'react';
 import { Tbody, Tr, Td } from '@chakra-ui/react';
 
-export const TableBody = ({ page, prepareRow, getTableBodyProps }) => (
+export const TableBody = ({ rows, prepareRow, getTableBodyProps }) => (
   <Tbody {...getTableBodyProps()}>
-    {page.map((row) => {
+    {rows.map((row) => {
       prepareRow(row);
       return (
         <Tr {...row.getRowProps()}>
