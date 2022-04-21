@@ -1,21 +1,24 @@
 import { useMemo } from 'react';
-import { Checkbox, CheckboxGroup as ChakraCheckboxGroup, VStack } from '@chakra-ui/react';
+import { CheckboxGroup as ChakraCheckboxGroup, VStack } from '@chakra-ui/react';
 
-interface CheckboxGroupProps {
-  options: Set<string>;
-  onClickOption: (val: string) => void;
-}
+import { CheckboxGroupProps } from './types';
+import { MemoizedCheckboxes } from './Checkboxes';
 
-export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, onClickOption }) => {
+export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
+  options,
+  selectedOptions,
+  onClickOption,
+}) => {
   const sorted = useMemo<string[]>(() => Array.from(options).sort(), [options]);
+
   return (
     <ChakraCheckboxGroup>
       <VStack direction="column" alignItems="flex-start">
-        {sorted.map((option) => (
-          <Checkbox key={option} onChange={() => onClickOption(option)}>
-            {option}
-          </Checkbox>
-        ))}
+        <MemoizedCheckboxes
+          options={sorted}
+          selectedOptions={selectedOptions}
+          onClickOption={onClickOption}
+        />
       </VStack>
     </ChakraCheckboxGroup>
   );

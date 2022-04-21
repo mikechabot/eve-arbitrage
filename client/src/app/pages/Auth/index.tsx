@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Redirect } from 'react-router';
+import { Button, Flex } from '@chakra-ui/react';
+import { Redirect, useHistory } from 'react-router';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -8,13 +9,15 @@ import { useAuthContext } from 'hooks/useAuthContext';
 
 import { Spinner } from 'app/components/Spinner';
 import { Fullscreen } from 'app/layout/Fullscreen';
-import { ErrorMessage } from 'app/components/ErrorMessage';
+import { Banner } from 'app/components/Banner';
 
 const EveCodeQueryParam = 'code';
 const EveStateQueryParam = 'state';
 
 export const Auth = () => {
   const query = useQuery();
+  const history = useHistory();
+
   const {
     isVerified,
     isErrorVerify,
@@ -54,9 +57,19 @@ export const Auth = () => {
    */
   if (isErrorMutateOauthToken || isErrorVerify) {
     return (
-      <Fullscreen>
-        <ErrorMessage message="Error during verification" />
-      </Fullscreen>
+      <>
+        <Banner type="error" message="Unable to authenticate against EVE Online" />
+        <Flex justifyContent="center" py={4}>
+          <Button
+            backgroundColor="base"
+            color="primary"
+            variant="outline"
+            onClick={() => history.push(AppRoutes.Home)}
+          >
+            Try Again
+          </Button>
+        </Flex>
+      </>
     );
   }
 

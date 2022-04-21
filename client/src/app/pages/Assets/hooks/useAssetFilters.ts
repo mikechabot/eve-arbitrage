@@ -1,27 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { FilterState } from 'app/pages/Assets/components/AssetsFilter/types';
+import {
+  FilterFunc,
+  FilterState,
+  FilterOptions,
+} from 'app/pages/Assets/components/FilterSlider/types';
 
-import { EveInventoryAssetsApiV5 } from 'services/types/character-api';
 import { FetchPaginatedCharacterAssetsResponse } from 'services/types/response-type-api';
-
-export interface FilterOptions {
-  groups: Set<string>;
-  stations: Set<string>;
-  categories: Set<string>;
-  quantityRange: {
-    min: number;
-    max: number;
-  };
-}
 
 export interface AssetFilters {
   filterOptions: FilterOptions;
-  filteredData: EveInventoryAssetsApiV5;
+  selectedFilters: FilterState;
   onClickFilterOption: (key: keyof FilterState, value: string) => void;
+  onFilterGroup: FilterFunc;
+  onFilterStation: FilterFunc;
+  onFilterCategory: FilterFunc;
 }
 
 export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): AssetFilters => {
+  const assets = useMemo(() => data?.assets || [], [data]);
+
   /**
    * Build the list of filter options
    */
@@ -34,7 +32,7 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
       max: Number.MIN_VALUE,
     };
 
-    data?.assets.forEach((asset) => {
+    assets.forEach((asset) => {
       if (asset.groupName) {
         groups.add(asset.groupName);
       }
@@ -55,7 +53,7 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
       categories,
       quantityRange,
     };
-  }, [data]);
+  }, [assets]);
 
   /**
    * Track the selected filters
@@ -66,23 +64,16 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
     categories: new Set(),
   });
 
-  const [filteredData, setFilteredData] = useState<EveInventoryAssetsApiV5>([]);
-
-  useEffect(() => {
-    if (data?.assets) {
-      setFilteredData((prev) => {
-        return prev || data.assets;
-      });
-    }
-  }, [data]);
-
   /**
    * Whenever a filter option is selected, update the "selectedFilters" state
    */
   const onClickFilterOption = useCallback(
     (key: keyof FilterState, value: string) => {
       setSelectedFilters((prev) => {
-        const newState = { ...prev };
+        const newState = {
+          ...prev,
+          [key]: new Set(prev[key]),
+        };
         if (newState[key].has(value)) {
           newState[key].delete(value);
         } else {
@@ -94,28 +85,42 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
     [setSelectedFilters],
   );
 
-  useEffect(() => {
-    const { groups, categories, stations } = selectedFilters;
+  /**
+   * Wrap category setter
+   */
+  const onFilterCategory = useCallback(
+    (val: string) => {
+      onClickFilterOption('categories', val);
+    },
+    [onClickFilterOption],
+  );
 
-    if (data?.assets) {
-      if (groups.size === 0 && categories.size === 0 && stations.size === 0) {
-        setFilteredData(data?.assets);
-      } else {
-        setFilteredData(
-          data.assets.filter(
-            (datum) =>
-              groups.has(datum.groupName || '') ||
-              categories.has(datum.categoryName || '') ||
-              stations.has(datum.stationName || ''),
-          ),
-        );
-      }
-    }
-  }, [data, selectedFilters, setFilteredData]);
+  /**
+   * Wrap station setter
+   */
+  const onFilterStation = useCallback(
+    (val: string) => {
+      onClickFilterOption('stations', val);
+    },
+    [onClickFilterOption],
+  );
+
+  /**
+   * Wrap group setter
+   */
+  const onFilterGroup = useCallback(
+    (val: string) => {
+      onClickFilterOption('groups', val);
+    },
+    [onClickFilterOption],
+  );
 
   return {
-    filteredData,
     filterOptions,
+    selectedFilters,
+    onFilterGroup,
+    onFilterStation,
+    onFilterCategory,
     onClickFilterOption,
   };
 };

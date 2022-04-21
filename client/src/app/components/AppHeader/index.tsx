@@ -53,6 +53,8 @@ export const AppHeader = () => {
       paddingX={4}
       borderBottom="1px solid"
       borderColor="secondary"
+      position="fixed"
+      zIndex={1}
     >
       {content}
     </Flex>

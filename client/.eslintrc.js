@@ -10,11 +10,7 @@ module.exports = {
     jest: true,
   },
   plugins: ['prettier'],
-  extends: [
-    'airbnb-typescript',
-    'airbnb/hooks',
-    'prettier',
-  ],
+  extends: ['airbnb-typescript', 'airbnb/hooks', 'prettier'],
   rules: {
     // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
     'import/prefer-default-export': 'off',

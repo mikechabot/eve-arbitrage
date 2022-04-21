@@ -6,9 +6,9 @@ import { useAuthContext } from 'hooks/useAuthContext';
 import { buildEveAuthBaseUrl } from 'app/utils/constants';
 
 import { Spinner } from 'app/components/Spinner';
-import { ErrorMessage } from 'app/components/ErrorMessage';
 import { Fullscreen } from 'app/layout/Fullscreen';
 import { Stepper } from 'app/components/Steppers/Home';
+import { Banner } from 'app/components/Banner';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -30,14 +30,6 @@ export const Home = () => {
     );
   }
 
-  if (isErrorVerify) {
-    return (
-      <Fullscreen>
-        <ErrorMessage message="Error during verification" />
-      </Fullscreen>
-    );
-  }
-
   if (isLoadingVerify) {
     return (
       <Fullscreen>
@@ -51,21 +43,25 @@ export const Home = () => {
   }
 
   return (
-    <VStack spacing={[6, 12]} mt={[6, 12]}>
-      <Box>
-        <Heading as="h1">Eve Exchange</Heading>
-        <Heading as="h2" size="md" color="secondary">
-          Sell your space junk!
-        </Heading>
-      </Box>
-      <Divider />
-      <Box width="50vw">
-        <Stepper />
-      </Box>
-      <Divider />
-      <a href={buildEveAuthBaseUrl(localStateKey)} rel="noopener noreferrer">
-        <img src={buttonImage} className="App-logo" alt="logo" />
-      </a>
-    </VStack>
+    <>
+      {isErrorVerify && <Banner type="info" message="Unable to authenticate against EVE Online" />}
+
+      <VStack spacing={[6, 12]} mt={[6, 12]}>
+        <Box>
+          <Heading as="h1">Eve Exchange</Heading>
+          <Heading as="h2" size="md" color="secondary">
+            Sell your space junk!
+          </Heading>
+        </Box>
+        <Divider />
+        <Box width="50vw">
+          <Stepper />
+        </Box>
+        <Divider />
+        <a href={buildEveAuthBaseUrl(localStateKey)} rel="noopener noreferrer">
+          <img src={buttonImage} className="App-logo" alt="logo" />
+        </a>
+      </VStack>
+    </>
   );
 };

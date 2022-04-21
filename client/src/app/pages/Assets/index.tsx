@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Flex, Button, SimpleGrid } from '@chakra-ui/react';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { Flex, SimpleGrid, InputGroup, InputLeftElement, Input, VStack } from '@chakra-ui/react';
+import { MdOutlineSearch } from 'react-icons/md';
 import { Redirect } from 'react-router';
 
 import { AppRoutes } from 'app/pages/appRoutes';
@@ -7,14 +8,18 @@ import { AppRoutes } from 'app/pages/appRoutes';
 import { useAuthContext } from 'hooks/useAuthContext';
 import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
 import { useAssetFilters } from 'app/pages/Assets/hooks/useAssetFilters';
+import { useFilteredAssets } from 'app/pages/Assets/hooks/useFilteredAssets';
 
 import { Fullscreen } from 'app/layout/Fullscreen';
 import { Spinner } from 'app/components/Spinner';
-import { ErrorMessage } from 'app/components/ErrorMessage';
+import { Message } from 'app/components/Message';
 
 import { AssetsTable } from 'app/pages/Assets/components/AssetsTable';
-import { AssetsFilter } from 'app/pages/Assets/components/AssetsFilter';
+import { FilterSlider } from 'app/pages/Assets/components/FilterSlider';
 import { AssetCard } from 'app/pages/Assets/components/AssetCard';
+import { FilterPills } from 'app/pages/Assets/components/FilterPills';
+
+const MemoizedAssetCard = memo(AssetCard);
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
@@ -28,13 +33,25 @@ export const Assets = () => {
     refetch: fetchAssets,
   } = useAssetsPage();
 
-  const { filterOptions, onClickFilterOption, filteredData } = useAssetFilters(dataAssets);
+  const { filterOptions, selectedFilters, onFilterGroup, onFilterStation, onFilterCategory } =
+    useAssetFilters(dataAssets);
+
+  const [searchValue, setSearchValue] = useState<string | undefined>('');
+
+  const { filteredData } = useFilteredAssets(dataAssets, selectedFilters, searchValue);
 
   useEffect(() => {
     if (isVerified) {
       fetchAssets();
     }
   }, [isVerified, fetchAssets]);
+
+  const onChangeSearch = useCallback(
+    (e) => {
+      setSearchValue(e.target.value);
+    },
+    [setSearchValue],
+  );
 
   if (!isVerified) {
     return <Redirect to={AppRoutes.Home} />;
@@ -43,7 +60,7 @@ export const Assets = () => {
   if (isErrorAssets) {
     return (
       <Fullscreen>
-        <ErrorMessage message="Error fetching assets" />
+        <Message message="Error fetching assets" />
       </Fullscreen>
     );
   }
@@ -57,24 +74,39 @@ export const Assets = () => {
   }
 
   return (
-    <>
-      <Button onClick={() => toggleOpen((prev) => !prev)}>Open Drawer</Button>
-      <Flex>
-        <AssetsFilter isOpen={isOpen} filters={filterOptions} onClickFilter={onClickFilterOption} />
-        <Flex flex={1} height="100%">
-          <SimpleGrid width="100%" minChildWidth={200} spacing={10} pl={isOpen ? 6 : 0}>
-            {filteredData?.map((asset) => (
-              <AssetCard key={asset.item_id} asset={asset} />
-            ))}
-          </SimpleGrid>
+    <Flex>
+      <FilterSlider
+        isOpen={isOpen}
+        toggleOpen={toggleOpen}
+        filters={filterOptions}
+        selectedFilters={selectedFilters}
+        onFilterGroup={onFilterGroup}
+        onFilterStation={onFilterStation}
+        onFilterCategory={onFilterCategory}
+      />
+      <VStack spacing={2} py={2} px={4} width="100%" alignItems="flex-start">
+        <Flex width="100%">
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <MdOutlineSearch color="gray.300" />
+            </InputLeftElement>
+            <Input type="text" value={searchValue} placeholder="Search" onChange={onChangeSearch} />
+          </InputGroup>
         </Flex>
-      </Flex>
-    </>
+        <FilterPills
+          searchValue={searchValue}
+          selectedFilters={selectedFilters}
+          onChangeSearch={onChangeSearch}
+          onFilterGroup={onFilterGroup}
+          onFilterStation={onFilterStation}
+          onFilterCategory={onFilterCategory}
+        />
+        <SimpleGrid width="100%" minChildWidth={200} spacing={2}>
+          {filteredData?.map((asset) => (
+            <MemoizedAssetCard key={asset.item_id} asset={asset} />
+          ))}
+        </SimpleGrid>
+      </VStack>
+    </Flex>
   );
 };
-
-// <Box bg="tomato" height="80px"></Box>
-// <Box bg="tomato" height="80px"></Box>
-// <Box bg="tomato" height="80px"></Box>
-// <Box bg="tomato" height="80px"></Box>
-// <Box bg="tomato" height="80px"></Box>
