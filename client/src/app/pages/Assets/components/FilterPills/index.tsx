@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
 
 import { FilterFunc, FilterState } from 'app/pages/Assets/components/FilterSlider/types';
@@ -42,7 +42,7 @@ export const FilterPills: FC<FilterPillsProps> = ({
       <Button
         mt={2}
         mr={2}
-        maxWidth={200}
+        maxWidth={250}
         rightIcon={<MdClose />}
         onClick={() =>
           onChangeSearch({

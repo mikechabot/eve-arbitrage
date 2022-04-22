@@ -17,7 +17,7 @@ const FilterPillSet: FC<FilterPillSetProps> = ({ set, onClick }) => {
         key={item}
         rightIcon={<MdClose />}
         onClick={() => onClick(item)}
-        maxWidth={200}
+        maxWidth={250}
         mt={2}
         mr={2}
       >

@@ -101,7 +101,7 @@ export const Assets = () => {
           onFilterStation={onFilterStation}
           onFilterCategory={onFilterCategory}
         />
-        <SimpleGrid width="100%" minChildWidth={200} spacing={2}>
+        <SimpleGrid width="100%" minChildWidth={275} spacing={2}>
           {filteredData?.map((asset) => (
             <MemoizedAssetCard key={asset.item_id} asset={asset} />
           ))}
