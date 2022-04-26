@@ -33,7 +33,7 @@ export const fetchCharacterAssets = (): Promise<FetchPaginatedCharacterAssetsRes
  * Fetch orders based on typeIds
  * @param typeIds
  */
-export const fetchOrders = (typeIds: number[]): Promise<FetchMarketOrderResponse> => {
+export const fetchAssetOrdersByTypeIds = (typeIds: number[]): Promise<FetchMarketOrderResponse> => {
   return processServiceCall(async () => {
     const apiResponse = await fetchClient
       .post(Endpoints.AssetsOrders, {

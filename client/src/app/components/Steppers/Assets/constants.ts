@@ -1,4 +1,4 @@
-import { StepFourIcon, StepOneIcon, StepThreeIcon, StepTwoIcon } from 'app/components/Steppers/StepperIcons';
+import { StepOneIcon, StepThreeIcon, StepTwoIcon } from 'app/components/Steppers/StepperIcons';
 
 export const steps = [
   {
@@ -12,9 +12,5 @@ export const steps = [
   {
     label: 'Share',
     icon: StepThreeIcon,
-  },
-  {
-    label: 'Profit',
-    icon: StepFourIcon,
   },
 ];

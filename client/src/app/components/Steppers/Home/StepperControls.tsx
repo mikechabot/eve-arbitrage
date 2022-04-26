@@ -1,11 +1,23 @@
-import React from 'react';
+import { FC } from 'react';
 import { Box, Button, Flex, Icon } from '@chakra-ui/react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
 import { StepperContent } from './StepperContent';
 import { steps } from './constants';
 
-export const StepperControls = ({ activeStep, prevStep, nextStep, reset }) => {
+interface StepperControlsProps {
+  activeStep: number;
+  prevStep: () => void;
+  nextStep: () => void;
+  reset: () => void;
+}
+
+export const StepperControls: FC<StepperControlsProps> = ({
+  activeStep,
+  prevStep,
+  nextStep,
+  reset,
+}) => {
   if (activeStep === steps.length) {
     return (
       <Flex width="100%" flexDirection="column" justify="center">

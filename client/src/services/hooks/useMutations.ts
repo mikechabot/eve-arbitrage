@@ -1,6 +1,6 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 
-import { fetchOrders } from 'services/lib/assets';
+import { fetchAssetOrdersByTypeIds } from 'services/lib/assets';
 import { postLogin, postLogout } from 'services/lib/auth';
 
 import { ServiceError } from 'services/utils/ServiceError';
@@ -31,13 +31,12 @@ export type PostOrderProps = number[];
 
 /**
  * Verify and/or refresh the JWT cookie
- * @param typeId
  * @param options
  */
 export const usePostOrder = (
   options?: UseMutationOptions<FetchMarketOrderResponse, ServiceError, PostOrderProps>,
 ) => {
   return useMutation<FetchMarketOrderResponse, ServiceError, PostOrderProps>((typeIds) => {
-    return fetchOrders(typeIds);
+    return fetchAssetOrdersByTypeIds(typeIds);
   }, options);
 };
