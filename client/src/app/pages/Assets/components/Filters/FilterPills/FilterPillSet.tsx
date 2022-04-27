@@ -2,7 +2,7 @@ import { FC, memo, ReactNode } from 'react';
 import { Button, Text } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
 
-import { FilterFunc } from 'app/pages/Assets/components/FilterSlider/types';
+import { FilterFunc } from 'app/pages/Assets/components/Filters/types';
 
 interface FilterPillSetProps {
   set: Set<string>;

@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import {
   Box,
   Text,
@@ -6,16 +7,17 @@ import {
   AccordionPanel,
   AccordionItem as ChakraAccordionItem,
 } from '@chakra-ui/react';
+
 import { CheckboxGroup } from 'app/components/CheckboxGroup';
 
-interface AccordionItemProps {
+interface FilterAccordionProps {
   label: string;
   options: Set<string>;
   selectedOptions: Set<string>;
   onChange: (val: string) => void;
 }
 
-export const AccordionFilter: React.FC<AccordionItemProps> = ({
+export const FilterAccordion: FC<FilterAccordionProps> = ({
   label,
   options,
   selectedOptions,

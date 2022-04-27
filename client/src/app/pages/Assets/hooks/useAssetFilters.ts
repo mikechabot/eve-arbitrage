@@ -1,10 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import {
-  FilterFunc,
-  FilterState,
-  FilterOptions,
-} from 'app/pages/Assets/components/FilterSlider/types';
+import { FilterFunc, FilterState, FilterOptions } from 'app/pages/Assets/components/Filters/types';
 
 import { FetchPaginatedCharacterAssetsResponse } from 'services/types/response-type-api';
 
@@ -15,7 +11,14 @@ export interface AssetFilters {
   onFilterGroup: FilterFunc;
   onFilterStation: FilterFunc;
   onFilterCategory: FilterFunc;
+  onClearAll: () => void;
 }
+
+const INITIAL_STATE: FilterState = {
+  groups: new Set(),
+  stations: new Set(),
+  categories: new Set(),
+};
 
 export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): AssetFilters => {
   const assets = useMemo(() => data?.assets || [], [data]);
@@ -58,11 +61,7 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
   /**
    * Track the selected filters
    */
-  const [selectedFilters, setSelectedFilters] = useState<FilterState>({
-    groups: new Set(),
-    stations: new Set(),
-    categories: new Set(),
-  });
+  const [selectedFilters, setSelectedFilters] = useState<FilterState>(INITIAL_STATE);
 
   /**
    * Whenever a filter option is selected, update the "selectedFilters" state
@@ -115,6 +114,10 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
     [onClickFilterOption],
   );
 
+  const onClearAll = useCallback(() => {
+    setSelectedFilters(INITIAL_STATE);
+  }, [setSelectedFilters]);
+
   return {
     filterOptions,
     selectedFilters,
@@ -122,5 +125,6 @@ export const useAssetFilters = (data?: FetchPaginatedCharacterAssetsResponse): A
     onFilterStation,
     onFilterCategory,
     onClickFilterOption,
+    onClearAll,
   };
 };

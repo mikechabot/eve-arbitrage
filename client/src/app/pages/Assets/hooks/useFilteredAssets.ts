@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { FilterState } from 'app/pages/Assets/components/FilterSlider/types';
+import { FilterState } from 'app/pages/Assets/components/Filters/types';
 import { EveInventoryAssetsApiV5 } from 'services/types/character-api';
 import { FetchPaginatedCharacterAssetsResponse } from 'services/types/response-type-api';
 

@@ -1,18 +1,15 @@
 import { FC, Dispatch, SetStateAction } from 'react';
-import { Box, Accordion } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
-import { AccordionFilter } from 'app/pages/Assets/components/FilterSlider/AccordionFilter';
-import { FilterSlideTitle } from 'app/pages/Assets/components/FilterSlider/FilterSlideTitle';
+import { FilterAccordions } from 'app/pages/Assets/components/Filters/FilterAccordions';
+import { FilterSliderTitle } from 'app/pages/Assets/components/Filters/FilterSlider/FilterSliderTitle';
 
-import {
-  FilterOptions,
-  FilterFunc,
-  FilterState,
-} from 'app/pages/Assets/components/FilterSlider/types';
+import { FilterOptions, FilterFunc, FilterState } from 'app/pages/Assets/components/Filters/types';
 
 interface FilterSliderProps {
   isOpen: boolean;
+  isLargerThan768: boolean;
   filters: FilterOptions;
   selectedFilters: FilterState;
   toggleOpen: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +29,7 @@ const item = {
 
 export const FilterSlider: FC<FilterSliderProps> = ({
   isOpen,
+  isLargerThan768,
   filters,
   selectedFilters,
   toggleOpen,
@@ -53,6 +51,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
         height: 'calc(100vh - 98px)',
         // This offset is required since we're setting the header as sticky
         top: 98,
+        display: isLargerThan768 ? 'block' : 'none',
       }}
     >
       <Box
@@ -61,28 +60,15 @@ export const FilterSlider: FC<FilterSliderProps> = ({
         borderRightStyle="solid"
         height={heightCalc}
       >
-        <FilterSlideTitle isOpen={isOpen} toggleOpen={toggleOpen} />
+        <FilterSliderTitle isOpen={isOpen} toggleOpen={toggleOpen} />
         <motion.div variants={item} style={{ overflowY: 'auto', height: 'calc(100vh - 145px)' }}>
-          <Accordion allowToggle allowMultiple defaultIndex={[0, 1, 2]}>
-            <AccordionFilter
-              label="Categories"
-              options={filters.categories}
-              selectedOptions={selectedFilters.categories}
-              onChange={onFilterCategory}
-            />
-            <AccordionFilter
-              label="Groups"
-              options={filters.groups}
-              selectedOptions={selectedFilters.groups}
-              onChange={onFilterGroup}
-            />
-            <AccordionFilter
-              label="Stations"
-              options={filters.stations}
-              selectedOptions={selectedFilters.stations}
-              onChange={onFilterStation}
-            />
-          </Accordion>
+          <FilterAccordions
+            filters={filters}
+            selectedFilters={selectedFilters}
+            onFilterGroup={onFilterGroup}
+            onFilterStation={onFilterStation}
+            onFilterCategory={onFilterCategory}
+          />
         </motion.div>
       </Box>
     </motion.aside>

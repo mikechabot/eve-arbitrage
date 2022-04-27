@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction } from 'react';
 import { Box, Divider, Flex, Icon, Text } from '@chakra-ui/react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
 
-interface FilterSlideTitleProps {
+interface FilterSliderTitleProps {
   isOpen: boolean;
   toggleOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const FilterSlideTitle: React.FC<FilterSlideTitleProps> = ({ isOpen, toggleOpen }) => {
+export const FilterSliderTitle: React.FC<FilterSliderTitleProps> = ({ isOpen, toggleOpen }) => {
   if (isOpen) {
     return (
       <Box onClick={() => toggleOpen(!isOpen)} cursor="pointer" role="button">
