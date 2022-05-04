@@ -13,6 +13,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Ibis',
       groupName: 'Corvette',
       categoryName: 'Ship',
+      volume: 15000,
       stationName: 'Iidoken III - Caldari Constructions Warehouse',
     },
     {
@@ -26,6 +27,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Clearance Documents',
       groupName: 'Miscellaneous',
       categoryName: 'Commodity',
+      volume: 0.1,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -39,6 +41,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Light Electron Blaster I',
       groupName: 'Hybrid Weapon',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -52,6 +55,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Small Shield Booster I',
       groupName: 'Shield Booster',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -66,6 +70,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Bantam Blueprint',
       groupName: 'Frigate Blueprint',
       categoryName: 'Blueprint',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -77,8 +82,9 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       quantity: 1,
       type_id: 648,
       typeName: 'Badger',
-      groupName: 'Industrial',
+      groupName: 'Hauler',
       categoryName: 'Ship',
+      volume: 250000,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -92,6 +98,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Expanded Cargohold I',
       groupName: 'Expanded Cargohold',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -106,6 +113,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Scourge Rocket Blueprint',
       groupName: 'Missile Blueprint',
       categoryName: 'Blueprint',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -119,6 +127,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Bantam',
       groupName: 'Frigate',
       categoryName: 'Ship',
+      volume: 20000,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -132,6 +141,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Isogen',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -145,6 +155,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Core Probe Launcher I',
       groupName: 'Scan Probe Launcher',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -158,6 +169,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Heron',
       groupName: 'Frigate',
       categoryName: 'Ship',
+      volume: 18900,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -171,6 +183,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Megacyte',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -184,6 +197,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Merlin',
       groupName: 'Frigate',
       categoryName: 'Ship',
+      volume: 16500,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -197,6 +211,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Civilian Kinetic Shield Hardener',
       groupName: 'Shield Hardener',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -210,6 +225,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Small Armor Repairer I',
       groupName: 'Armor Repair Unit',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -223,6 +239,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Data Analyzer I',
       groupName: 'Data Miners',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -236,6 +253,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Relic Analyzer I',
       groupName: 'Data Miners',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -249,6 +267,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Viscous Pyroxeres',
       groupName: 'Pyroxeres',
       categoryName: 'Asteroid',
+      volume: 0.3,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -262,6 +281,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Civilian Warp Disruptor',
       groupName: 'Warp Scrambler',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -275,6 +295,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Civilian Small Remote Shield Booster',
       groupName: 'Remote Shield Booster',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -288,6 +309,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Cormorant',
       groupName: 'Destroyer',
       categoryName: 'Ship',
+      volume: 52000,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -301,6 +323,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Light Missile Launcher I',
       groupName: 'Missile Launcher Light',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -314,6 +337,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Scourge Light Missile',
       groupName: 'Light Missile',
       categoryName: 'Charge',
+      volume: 0.015,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -327,6 +351,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Thorium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -340,6 +365,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Core Scanner Probe I',
       groupName: 'Scanner Probe',
       categoryName: 'Charge',
+      volume: 0.1,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -353,6 +379,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Venture',
       groupName: 'Frigate',
       categoryName: 'Ship',
+      volume: 29500,
       stationName: 'Kaimon II - Moon 10 - Corporate Police Force Assembly Plant',
     },
     {
@@ -366,6 +393,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Overdrive Injector System I',
       groupName: 'Overdrive Injector System',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -379,6 +407,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Solid Pyroxeres',
       groupName: 'Pyroxeres',
       categoryName: 'Asteroid',
+      volume: 0.3,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -392,6 +421,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Small Shield Booster II',
       groupName: 'Shield Booster',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -405,6 +435,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Guristas Scourge Rocket',
       groupName: 'Rocket',
       categoryName: 'Charge',
+      volume: 0.005,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -418,6 +449,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Small Infectious Scoped Energy Neutralizer',
       groupName: 'Energy Neutralizer',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -431,6 +463,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: '125mm Compressed Coil Gun I',
       groupName: 'Hybrid Weapon',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -444,6 +477,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Mining Laser Upgrade I',
       groupName: 'Mining Upgrade',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -457,6 +491,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Miner II',
       groupName: 'Mining Laser',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -470,6 +505,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Miner II',
       groupName: 'Mining Laser',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -483,6 +519,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: '1MN Afterburner I',
       groupName: 'Propulsion Module',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -496,6 +533,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Condensed Scordite',
       groupName: 'Scordite',
       categoryName: 'Asteroid',
+      volume: 0.15,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -509,6 +547,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: '1MN Afterburner I',
       groupName: 'Propulsion Module',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -522,6 +561,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Dense Veldspar',
       groupName: 'Veldspar',
       categoryName: 'Asteroid',
+      volume: 0.1,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -535,6 +575,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Mobile Depot Blueprint',
       groupName: 'Mobile Depot Blueprint',
       categoryName: 'Blueprint',
+      volume: 0.01,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -548,6 +589,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Expanded Cargohold II',
       groupName: 'Expanded Cargohold',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -561,6 +603,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Plutonium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -574,6 +617,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Retriever',
       groupName: 'Mining Barge',
       categoryName: 'Ship',
+      volume: 150000,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -587,6 +631,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Mining Drone I',
       groupName: 'Mining Drone',
       categoryName: 'Drone',
+      volume: 5,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -600,6 +645,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Mining Drone I',
       groupName: 'Mining Drone',
       categoryName: 'Drone',
+      volume: 5,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -613,6 +659,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Burned Logic Circuit',
       groupName: 'Salvaged Materials',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
@@ -626,6 +673,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Tripped Power Circuit',
       groupName: 'Salvaged Materials',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
@@ -639,6 +687,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Contaminated Lorentz Fluid',
       groupName: 'Salvaged Materials',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Sobaseki VII - Caldari Navy Logistic Support',
     },
     {
@@ -652,6 +701,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Simple Asteroid Mining Crystal Type A I',
       groupName: 'Mining Crystal',
       categoryName: 'Charge',
+      volume: 6,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -665,6 +715,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Strip Miner I',
       groupName: 'Strip Miner',
       categoryName: 'Module',
+      volume: 25,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -678,6 +729,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Simple Asteroid Mining Crystal Type A I',
       groupName: 'Mining Crystal',
       categoryName: 'Charge',
+      volume: 6,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -691,6 +743,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Condensed Scordite',
       groupName: 'Scordite',
       categoryName: 'Asteroid',
+      volume: 0.15,
       stationName: 'Hageken XI - Moon 2 - Nurtura Warehouse',
     },
     {
@@ -704,6 +757,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Damage Control II',
       groupName: 'Damage Control',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Hageken V - Moon 2 - Caldari Navy Assembly Plant',
     },
     {
@@ -717,6 +771,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Iron Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -730,6 +785,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Uranium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -743,6 +799,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Morpheus Enduring Magnetometric ECM',
       groupName: 'ECM',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -756,6 +813,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Tritanium',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -769,6 +827,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Pyerite',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -782,6 +841,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Mexallon',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -795,6 +855,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Nocxium',
       groupName: 'Mineral',
       categoryName: 'Material',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -808,6 +869,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Moa',
       groupName: 'Cruiser',
       categoryName: 'Ship',
+      volume: 101000,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -821,6 +883,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Scourge Light Missile',
       groupName: 'Light Missile',
       categoryName: 'Charge',
+      volume: 0.015,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -834,6 +897,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Iridium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -847,6 +911,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Iridium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -860,6 +925,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Iridium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -873,6 +939,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Iridium Charge S',
       groupName: 'Hybrid Charge',
       categoryName: 'Charge',
+      volume: 0.0025,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -886,6 +953,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Multispectrum Shield Hardener I',
       groupName: 'Shield Hardener',
       categoryName: 'Module',
+      volume: 5,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -899,6 +967,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Moa',
       groupName: 'Cruiser',
       categoryName: 'Ship',
+      volume: 101000,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -912,6 +981,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Kernite',
       groupName: 'Kernite',
       categoryName: 'Asteroid',
+      volume: 1.2,
       stationName: 'Tarta IX - Moon 14 - DED Assembly Plant',
     },
     {
@@ -926,6 +996,7 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Small Focused Beam Laser I Blueprint',
       groupName: 'Energy Weapon Blueprint',
       categoryName: 'Blueprint',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
     },
     {
@@ -939,20 +1010,8 @@ export const mockCharacterAssetsResponse: FetchPaginatedCharacterAssetsResponse 
       typeName: 'Heron Sukuuvestaa SKIN',
       groupName: 'Permanent SKIN',
       categoryName: 'SKINs',
+      volume: 0.01,
       stationName: 'Jouvulen III - Science and Trade Institute School',
-    },
-    {
-      is_singleton: false,
-      item_id: 0,
-      location_type: 'station',
-      quantity: 0,
-      type_id: 0,
-      stationName: "Muvolailen - Golden Mom's Shipyard & Factory",
-      location_id: 1035768580719,
-      location_flag: 'Hangar',
-      typeName: '#System',
-      groupName: '#System',
-      categoryName: '#System',
     },
   ],
   nextPage: -1,

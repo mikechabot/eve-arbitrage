@@ -1,5 +1,14 @@
 import { FC, memo } from 'react';
-import { Box, Flex, Input, InputGroup, InputLeftElement, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import { MdOutlineSearch } from 'react-icons/md';
 
 import { AssetCard } from 'app/pages/Assets/components/AssetCard';
@@ -22,6 +31,7 @@ interface AssetSelectorProps {
   onFilterCategory: FilterFunc;
   onSelectAsset: (itemId: number) => void;
   onClearAll: () => void;
+  onRemoveAll: () => void;
 }
 
 export const AssetSelector: FC<AssetSelectorProps> = ({
@@ -36,6 +46,7 @@ export const AssetSelector: FC<AssetSelectorProps> = ({
   onFilterCategory,
   onSelectAsset,
   onClearAll,
+  onRemoveAll,
 }) => (
   <>
     <Flex width="100%">
@@ -46,11 +57,20 @@ export const AssetSelector: FC<AssetSelectorProps> = ({
         <Input type="text" value={searchValue} placeholder="Search" onChange={onChangeSearch} />
       </InputGroup>
     </Flex>
-    <Box py={2}>
+    <Flex py={2} alignItems="center" justifyContent="space-between" width="100%">
       <Text fontSize="sm" fontWeight={600}>
         Showing {resultsCount} results
       </Text>
-    </Box>
+      <Button
+        disabled={selectedItemIds.size === 0}
+        backgroundColor="red.100"
+        color="white"
+        onClick={onRemoveAll}
+        size="xs"
+      >
+        Remove All
+      </Button>
+    </Flex>
     <FilterPills
       searchValue={searchValue}
       selectedFilters={selectedFilters}

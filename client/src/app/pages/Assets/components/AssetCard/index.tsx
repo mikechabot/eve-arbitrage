@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { Box, Divider, Text, VStack, Flex } from '@chakra-ui/react';
 
-import { AssetIcon } from 'app/pages/Assets/components/AssetCard/AssetIcon';
+import { AssetIcon } from 'app/components/AssetIcon';
 
 import { EveInventoryAssetV5 } from 'services/types/character-api';
 

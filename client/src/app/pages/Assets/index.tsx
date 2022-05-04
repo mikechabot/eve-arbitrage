@@ -1,7 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { Flex, VStack, Divider, useMediaQuery, Box } from '@chakra-ui/react';
-import { useSteps } from 'chakra-ui-steps';
-import { Redirect } from 'react-router';
+import { Flex, VStack, useMediaQuery, Box } from '@chakra-ui/react';
+import { Redirect, useHistory } from 'react-router';
+
+import { useSelectedAssets } from 'hooks/useSelectedAssetsContext';
 
 import { AppRoutes } from 'app/pages/appRoutes';
 
@@ -9,7 +10,6 @@ import { useAuthContext } from 'hooks/useAuthContext';
 import { useAssetsPage } from 'app/pages/Assets/hooks/useAssetsPage';
 import { useAssetFilters } from 'app/pages/Assets/hooks/useAssetFilters';
 import { useFilteredAssets } from 'app/pages/Assets/hooks/useFilteredAssets';
-import { useSelectedAssets } from 'app/pages/Assets/hooks/useSelectedAssets';
 
 import {
   FilterDrawer,
@@ -24,12 +24,11 @@ import { Stepper } from 'app/components/Steppers/Assets';
 
 import { AssetSelector } from 'app/pages/Assets/AssetSelector';
 
-import { AssetOrderTable } from './AssetOrderTable';
-
 const MemoizedAssetSelector = memo(AssetSelector);
 
 export const Assets = () => {
   const { isVerified } = useAuthContext();
+  const history = useHistory();
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
 
   const [isSliderOpen, setIsSliderOpen] = useState<boolean>(true);
@@ -42,7 +41,8 @@ export const Assets = () => {
     refetch: fetchAssets,
   } = useAssetsPage();
 
-  const { selectedItemIds, onSelectAsset } = useSelectedAssets();
+  const { selectedItemIds, onSelectAsset, onRemoveAll} = useSelectedAssets();
+
   const {
     filterOptions,
     selectedFilters,
@@ -66,10 +66,6 @@ export const Assets = () => {
     }),
     [filterOptions, selectedFilters, onFilterGroup, onFilterStation, onFilterCategory],
   );
-
-  const { activeStep, nextStep, prevStep, setStep } = useSteps({
-    initialStep: 0,
-  });
 
   useEffect(() => {
     if (isVerified) {
@@ -116,9 +112,9 @@ export const Assets = () => {
     <VStack width="100%" spacing={0}>
       <Box py={2} px={4} width="100%">
         <Stepper
-          activeStep={activeStep}
-          nextStep={nextStep}
-          prevStep={prevStep}
+          activeStep={0}
+          nextStep={() => history.push(AppRoutes.Orders)}
+          prevStep={() => ({})}
           selectedAssetCount={selectedItemIds.size}
           isLargerThan768={isLargerThan768}
         />
@@ -140,21 +136,17 @@ export const Assets = () => {
         <FiltersButtonMobile toggleOpen={toggleDrawerOpen} isLargerThan768={isLargerThan768} />
 
         <VStack spacing={2} py={2} px={4} width="100%" alignItems="flex-start">
-          {activeStep === 0 && (
-            <MemoizedAssetSelector
-              searchValue={searchValue}
-              filteredData={filteredData}
-              resultsCount={filteredData.length}
-              selectedItemIds={selectedItemIds}
-              onChangeSearch={onChangeSearch}
-              onSelectAsset={onSelectAsset}
-              onClearAll={onClearAll}
-              {...filterProps}
-            />
-          )}
-          {activeStep === 1 && (
-            <AssetOrderTable assets={dataAssets.assets} selectedItemIds={selectedItemIds} />
-          )}
+          <MemoizedAssetSelector
+            searchValue={searchValue}
+            filteredData={filteredData}
+            resultsCount={filteredData.length}
+            selectedItemIds={selectedItemIds}
+            onChangeSearch={onChangeSearch}
+            onSelectAsset={onSelectAsset}
+            onClearAll={onClearAll}
+            onRemoveAll={onRemoveAll}
+            {...filterProps}
+          />
         </VStack>
       </Flex>
     </VStack>

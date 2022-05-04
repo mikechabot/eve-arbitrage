@@ -1,4 +1,9 @@
-import { StepFourIcon, StepOneIcon, StepThreeIcon, StepTwoIcon } from 'app/components/Steppers/StepperIcons';
+import {
+  StepFourIcon,
+  StepOneIcon,
+  StepThreeIcon,
+  StepTwoIcon,
+} from 'app/components/Steppers/StepperIcons';
 
 export const steps = [
   {

@@ -18,9 +18,6 @@ interface AuthContextValue {
   isLoadingVerify: boolean;
   isErrorMutateOauthToken: boolean;
   isLoadingMutateOAuthToken: boolean;
-  // isInvalidAuthResponse: boolean;
-  // isErrorMutateOauthToken: boolean;
-
   setAuthResponse: (remoteCode: string, remoteStateKey: string) => void;
 }
 
@@ -33,9 +30,6 @@ const AuthContext = createContext<AuthContextValue>({
   isErrorMutateOauthToken: false,
   isLoadingVerify: false,
   isLoadingMutateOAuthToken: false,
-  // isInvalidAuthResponse: false,
-  // isErrorMutateOauthToken: false,
-
   setAuthResponse: () => ({}),
 });
 

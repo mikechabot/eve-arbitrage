@@ -11,6 +11,15 @@ import {
 
 import { InvGroup } from './InvGroup';
 
+class ColumnNumericTransformer {
+  to(data: number): number {
+    return data;
+  }
+  from(data: string): number {
+    return parseFloat(data);
+  }
+}
+
 @Entity({ name: 'InvType' })
 export class InvType extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -24,6 +33,9 @@ export class InvType extends BaseEntity {
 
   @Column()
   typeName: string;
+
+  @Column({type: 'numeric', nullable: false,  transformer: new ColumnNumericTransformer()})
+  volume: number;
 
   @ManyToOne(() => InvGroup)
   @JoinColumn({

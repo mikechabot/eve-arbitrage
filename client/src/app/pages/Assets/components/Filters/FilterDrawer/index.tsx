@@ -41,7 +41,9 @@ export const FilterDrawer: FC<FilterDrawerProps> = ({
         <DrawerCloseButton />
         <DrawerHeader>
           Filters
-          <Text fontSize="sm" fontWeight={600}>Showing {resultsCount} results</Text>
+          <Text fontSize="sm" fontWeight={600}>
+            Showing {resultsCount} results
+          </Text>
         </DrawerHeader>
         <DrawerBody>
           <FilterAccordions

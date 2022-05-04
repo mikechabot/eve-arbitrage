@@ -80,6 +80,7 @@ export class EsiAssetService {
         asset.typeName = type.typeName;
         asset.groupName = type.group?.groupName || '';
         asset.categoryName = type.group?.category?.categoryName || '';
+        asset.volume = type?.volume || 0;
       }
 
       asset.stationName = '';

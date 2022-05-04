@@ -10,7 +10,6 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 @EntityRepository(Structure)
 export class StructureRepository extends Repository<Structure> {
   insertStructure(locationId: number, structure: EveStructureApiV2) {
-    console.log('Inserting', locationId);
     const partial: QueryDeepPartialEntity<Structure> = {
       locationId,
       name: structure.name,

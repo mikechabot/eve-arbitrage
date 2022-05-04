@@ -1,6 +1,6 @@
 groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNonSingleton,published
 0,0,#System,None,0,0,0,0,0
-1,1,CharacterApi,None,0,0,0,0,0
+1,1,Character,None,0,0,0,0,0
 2,1,Corporation,None,0,0,0,0,0
 3,2,Region,None,0,0,0,0,0
 4,2,Constellation,None,0,0,0,0,0
@@ -25,7 +25,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 25,6,Frigate,None,0,0,0,0,1
 26,6,Cruiser,None,0,0,0,0,1
 27,6,Battleship,None,0,0,0,0,1
-28,6,Industrial,None,0,0,0,0,1
+28,6,Hauler,None,0,0,0,0,1
 29,6,Capsule,73,0,0,0,0,0
 30,6,Titan,None,0,0,0,0,1
 31,6,Shuttle,0,0,0,0,0,1
@@ -81,7 +81,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 105,9,Frigate Blueprint,None,1,0,0,0,1
 106,9,Cruiser Blueprint,None,1,0,0,0,1
 107,9,Battleship Blueprint,None,1,0,0,0,1
-108,9,Industrial Blueprint,None,1,0,0,0,1
+108,9,Hauler Blueprint,None,1,0,0,0,1
 109,9,Capsule Blueprint,73,1,0,0,0,1
 110,9,Titan Blueprint,None,1,0,0,0,1
 111,9,Shuttle Blueprint,0,1,0,0,0,1
@@ -367,7 +367,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 500,8,Festival Charges,0,0,0,0,1,1
 501,7,Festival Launcher,0,0,0,0,0,1
 502,2,Cosmic Signature,0,0,1,0,0,0
-503,9,Elite Industrial Blueprint,0,0,0,0,0,1
+503,9,Elite Hauler Blueprint,0,0,0,0,0,1
 504,9,Target Painter Blueprint,0,1,0,0,0,1
 505,16,Fake Skills,0,0,0,0,0,0
 506,7,Missile Launcher Cruise,2530,0,0,0,0,1
@@ -745,7 +745,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 922,11,Capture Point,None,0,1,0,0,0
 924,11,Mission Faction Battleship,None,0,0,0,0,0
 925,11,FW Infrastructure Hub,None,0,0,0,0,0
-927,11,Mission Faction Industrials,None,0,0,0,0,0
+927,11,Mission Faction Haulers,None,0,0,0,0,0
 934,11,Zombie Entities,None,0,0,0,0,0
 935,26,WorldSpace,None,0,0,0,0,0
 937,29,Decorations,None,0,0,0,0,0
@@ -1324,7 +1324,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 1966,66,Structure Capacitor Battery,None,0,0,0,0,1
 1967,66,Structure Capacitor Power Relay,None,0,0,0,0,1
 1968,66,Structure Armor Reinforcer,None,0,0,0,0,1
-1969,7,[no messageID: 532741],None,0,0,0,0,0
+1969,7,Abyssal Modules,None,0,0,0,0,0
 1971,2,Abyssal Hazards,None,0,0,0,0,0
 1972,6,Flag Cruiser,None,0,0,0,0,1
 1973,2,Locators,None,0,0,0,0,0
@@ -1368,7 +1368,7 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 2018,7,Mutadaptive Remote Armor Repairer,0,0,0,0,0,1
 2019,9,Mutadaptive Remote Armor Repairer Blueprint,0,1,0,0,0,1
 2020,2,Cynosural Fields,None,0,0,0,0,0
-2022,25,Temporal Resources,None,0,0,0,0,0
+2022,25,Temporal Resources,None,1,1,0,0,0
 2023,9,Cyber Electronics Implant Blueprints,0,0,0,0,0,1
 2024,25,Fluorite,None,0,0,0,0,0
 2026,17,Triglavian Artifacts,None,0,0,0,0,0
@@ -1430,7 +1430,14 @@ groupId,categoryId,groupName,iconId,useBasePrice,anchored,anchorable,fittableNon
 4141,9,Mobile Analysis Beacon Blueprint,None,1,0,0,0,1
 4142,17,Rogue Drone Analysis Data,None,1,0,0,0,1
 4145,17,Warp Matrix Filaments,None,1,0,0,0,1
+4161,25,AIR Ore Asteroid Resources,None,1,1,0,0,0
 4165,17,Peculiar Materials,None,1,0,0,0,1
+4168,2,Compressed Gas,25169,0,0,0,0,1
+4174,7,Compressors,25152,1,0,0,0,1
+4175,9,Compressors Blueprints,None,1,0,0,0,1
+4184,7,Industrial Jump Portal Generator,0,0,0,0,0,1
+4186,8,Structure Area Denial Ammunition,1304,0,0,0,1,1
+4188,9,Structure Area Denial Ammo Blueprint,None,1,0,0,0,1
 350858,350001,Infantry Weapons,None,1,0,0,0,0
 351064,350001,Infantry Dropsuits,None,1,0,0,0,0
 351121,350001,Infantry Modules,None,1,0,0,0,0

@@ -4,23 +4,27 @@ import { QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import { AppRouter } from 'app/pages/AppRouter';
-import { AuthContextProvider } from 'hooks/useAuthContext';
 
-import { queryClient } from 'utils/queryClient';
 import { AppHeader } from 'app/components/AppHeader';
 
+import { AuthContextProvider } from 'hooks/useAuthContext';
+import { SelectedAssetProvider } from 'hooks/useSelectedAssetsContext';
+
+import { queryClient } from 'utils/queryClient';
 import { theme } from 'styles/theme';
 
 export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <ChakraProvider theme={theme}>
-          <BrowserRouter>
-            <AppHeader />
-            <AppRouter />
-          </BrowserRouter>
-        </ChakraProvider>
+        <SelectedAssetProvider>
+          <ChakraProvider theme={theme}>
+            <BrowserRouter>
+              <AppHeader />
+              <AppRouter />
+            </BrowserRouter>
+          </ChakraProvider>
+        </SelectedAssetProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );

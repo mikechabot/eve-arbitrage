@@ -46,12 +46,12 @@ const startServer = async () => {
   /**
    * Migrate static EVE data
    */
-  console.log('Migrating static data, please wait...');
+  console.log('*** Migrating static data, please wait... ***');
+  await migrateStations();
   await migrateInvCategories();
   await migrateInvGroups();
   await migrateInvTypes();
-  await migrateStations();
-  console.log('Static data successfully migrated...');
+  console.log('*** Static data successfully migrated ***');
 
   /**
    * Create the Express server, which exposes a listening port

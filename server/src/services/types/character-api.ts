@@ -57,6 +57,7 @@ export interface EveInventoryAssetV5 {
   stationName?: string;
   groupName?: string;
   categoryName?: string;
+  volume?: number;
 }
 
 /**

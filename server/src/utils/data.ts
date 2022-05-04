@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from '@fast-csv/parse';
-import { getRepository } from 'typeorm';
+import {DeepPartial, EntityTarget, getRepository} from 'typeorm';
 
 import { CsvFilename, StreamEvent } from 'src/constants';
 
@@ -9,7 +9,6 @@ import { InvType } from 'src/entities/InvType';
 import { InvGroup } from 'src/entities/InvGroup';
 import { InvCategory } from 'src/entities/InvCategory';
 import { Station } from 'src/entities/Station';
-// import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 /**
  * Load a CSV given a filepath, and invoke a callback when the row is parsed
@@ -30,98 +29,58 @@ export const insertFromCsv = (filepath: string, insertCb: (chunk: any) => void) 
 };
 
 /**
- * Migrate inventory categories
+ * Generic migration function that reads data from a CSV and inserts it into a repository
+ * @param model
+ * @param filename
  */
-export const migrateInvCategories = async () => {
-  const categoriesRepository = getRepository(InvCategory);
-  const categoryCount = await categoriesRepository.count();
+const migrateData = async <T>(model: EntityTarget<T>, filename: string) => {
+  const repository = getRepository(model);
+  const count = await repository.count();
 
-  // const categories: QueryDeepPartialEntity<InvCategory>[] = [];
+  const data: DeepPartial<T>[] = [];
 
-  if (categoryCount === 0) {
-    const categoriesCsv = path.resolve(__dirname, 'csv', CsvFilename.Category);
-    await insertFromCsv(categoriesCsv, ({ categoryId, categoryName }) => {
-      categoriesRepository.insert({ categoryId, categoryName });
+  if (count === 0) {
+    console.log(`Reading ${filename}...`);
+
+    const categoriesCsv = path.resolve(__dirname, 'csv', filename);
+    await insertFromCsv(categoriesCsv, (vals) => {
+      data.push(vals)
     });
 
-    // try {
-    //   console.log('CATS', categories.length);
-    //   await categoriesRepository.insert(categories);
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    console.log(`   > Found ${data.length}`);
+    await repository.save(data, {chunk: 200});
+    const cnt = await repository.count();
+    console.log(`   > Inserted ${cnt}`);
+  } else {
+    console.log(`   > No migration required for ${filename}`);
   }
+}
+
+/**
+ * Migrate inventory categories
+ */
+
+export const migrateInvCategories = async () => {
+  await migrateData<InvCategory>(InvCategory, CsvFilename.Category)
 };
 
 /**
  * Migrate inventory groups
  */
 export const migrateInvGroups = async () => {
-  const groupsRepository = getRepository(InvGroup);
-  const groupsCount = await groupsRepository.count();
-
-  // const groups: QueryDeepPartialEntity<InvGroup>[] = [];
-
-  if (groupsCount === 0) {
-    const groupsCsv = path.resolve(__dirname, 'csv', CsvFilename.Group);
-
-    await insertFromCsv(groupsCsv, ({ groupId, categoryId, groupName }) => {
-      groupsRepository.insert({ groupId, categoryId, groupName });
-    });
-
-    // try {
-    //   console.log('GROUPS', groups.length);
-    //   await groupsRepository.insert(groups);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-  }
+  await migrateData<InvGroup>(InvGroup, CsvFilename.Group)
 };
 
 /**
  * Migrate inventory types
  */
 export const migrateInvTypes = async () => {
-  const typesRepository = getRepository(InvType);
-  const typesCount = await typesRepository.count();
-
-  // const types: QueryDeepPartialEntity<InvType>[] = [];
-
-  if (typesCount === 0) {
-    const typesCsv = path.resolve(__dirname, 'csv', CsvFilename.Type);
-    await insertFromCsv(typesCsv, ({ typeId, groupId, typeName }) => {
-      typesRepository.insert({ typeId, groupId, typeName });
-    });
-
-    // try {
-    //   console.log('TYPES', types.length);
-    //   await typesRepository.insert(types);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-  }
+  await migrateData<InvType>(InvType, CsvFilename.Type)
 };
 
 /**
  * Migrate inventory types
  */
 export const migrateStations = async () => {
-  const stationRepository = getRepository(Station);
-  const stationsCount = await stationRepository.count();
-
-  // let stations: QueryDeepPartialEntity<Station>[] = [];
-
-  if (stationsCount === 0) {
-    const stationsCsv = path.resolve(__dirname, 'csv', CsvFilename.Station);
-    await insertFromCsv(stationsCsv, ({ stationId, security, stationName }) => {
-      stationRepository.insert({ stationId, security, stationName, isNpc: true });
-    });
-
-    // try {
-    //   console.log('STATIONS', stations.length);
-    //   await stationRepository.insert(stations);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-  }
+  await migrateData<Station>(Station, CsvFilename.Station)
 };

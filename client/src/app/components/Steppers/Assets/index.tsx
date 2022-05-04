@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import { Button, Icon, Heading, Text, Flex, VStack, HStack, Divider } from '@chakra-ui/react';
+import { Icon, Text, Flex, VStack, HStack } from '@chakra-ui/react';
 import { Step, Steps } from 'chakra-ui-steps';
-import { MdNavigateNext } from 'react-icons/md';
 
 import { StepperControls } from './StepperControls';
 

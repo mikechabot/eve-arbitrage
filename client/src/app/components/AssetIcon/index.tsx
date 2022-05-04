@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Box, Button, Flex, Image } from '@chakra-ui/react';
 
 interface AssetIconProps {
@@ -12,7 +12,7 @@ interface AssetIconProps {
 const isBlueprint = (categoryName: string) => categoryName === 'Blueprint';
 const deriveCategoryPath = (categoryName: string) => (isBlueprint(categoryName) ? 'bp' : 'icon');
 
-export const AssetIcon: React.FC<AssetIconProps> = ({
+export const AssetIcon: FC<AssetIconProps> = ({
   typeId,
   categoryName,
   typeName,

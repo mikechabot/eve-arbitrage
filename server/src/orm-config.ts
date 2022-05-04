@@ -11,7 +11,7 @@ import { Structure } from 'src/entities/Structure';
 
 export const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  database: 'eve3',
+  database: 'eve-arbitrage',
   username: 'postgres',
   password: 'Hax0r123!',
   logging: false,
@@ -21,5 +21,5 @@ export const ormConfig: ConnectionOptions = {
    * on every application launch, meaning in prod we would
    * lose data.
    */
-  synchronize: true,
+  synchronize: false,
 };

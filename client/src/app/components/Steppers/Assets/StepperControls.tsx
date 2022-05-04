@@ -19,12 +19,24 @@ export const StepperControls: FC<StepperControlsProps> = ({
       <Text>Back</Text>
     </Button>
     {activeStep === 0 && (
-      <Button onClick={nextStep} disabled={selectedAssetCount === 0} size="sm">
+      <Button
+        onClick={nextStep}
+        disabled={selectedAssetCount === 0}
+        size="sm"
+        bg="secondary"
+        color="white"
+      >
         <Text>Create Order ({selectedAssetCount})</Text>
       </Button>
     )}
     {activeStep === 1 && (
-      <Button onClick={nextStep} disabled={selectedAssetCount === 0} size="sm">
+      <Button
+        onClick={nextStep}
+        disabled={selectedAssetCount === 0}
+        size="sm"
+        bg="secondary"
+        color="white"
+      >
         <Text>Share</Text>
       </Button>
     )}
