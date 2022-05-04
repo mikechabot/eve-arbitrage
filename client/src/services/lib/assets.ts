@@ -15,18 +15,18 @@ import { mockCharacterAssetsResponse } from './mocks/character-assets-response';
  * Fetch character assets
  */
 export const fetchCharacterAssets = (): Promise<FetchPaginatedCharacterAssetsResponse> => {
-  return Promise.resolve(mockCharacterAssetsResponse);
+  // return Promise.resolve(mockCharacterAssetsResponse);
 
-  // return processServiceCall(async () => {
-  //   const apiResponse = await fetchClient
-  //     .get(Endpoints.AssetsCharacter)
-  //     .json<FetchPaginatedCharacterAssetsResponse>();
-  //
-  //   return deepCloneMapper<
-  //     FetchPaginatedCharacterAssetsResponse,
-  //     FetchPaginatedCharacterAssetsResponse
-  //   >(apiResponse, (from) => from);
-  // });
+  return processServiceCall(async () => {
+    const apiResponse = await fetchClient
+      .get(Endpoints.AssetsCharacter)
+      .json<FetchPaginatedCharacterAssetsResponse>();
+
+    return deepCloneMapper<
+      FetchPaginatedCharacterAssetsResponse,
+      FetchPaginatedCharacterAssetsResponse
+    >(apiResponse, (from) => from);
+  });
 };
 
 /**
